@@ -6,7 +6,7 @@
 | Webpack turns all the clientside HTML, CSS, Javascript into one bundle.js file.
 | This is done for performance reasons, as well as for compatability reasons.
 |
-| You do not have to worry about this file, except for proxy section below.
+| You do not have to worry about this file, except for proxy section below. 
 | All proxies does is route traffic from the hotloader to the backend.
 | You must define explicity all routes here, as we do for the /api/* routes.
 |
@@ -23,7 +23,8 @@ const outputDir = path.resolve(__dirname, "client", "dist");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: ["@babel/polyfill", entryFile],
+  entry: ["babel-polyfill", entryFile],
+  // entry: ["@babel/polyfill", entryFile],
   output: {
     path: outputDir,
     publicPath: "/",
@@ -68,10 +69,6 @@ module.exports = {
     hot: true,
     proxy: {
       "/api": "http://localhost:3000",
-      "/socket.io/*": {
-        target: "http://localhost:3000",
-        ws: true,
-      },
     },
   },
 };

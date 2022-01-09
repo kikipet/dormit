@@ -1,0 +1,19 @@
+.color-picker-controls {
+    display: inline-flex;
+}
+
+.color-square,
+.color-eyedrop {
+    width: 24px;
+    height: 24px;
+    border-radius: 0px;
+    border-style: none;
+}
+
+.color-eyedrop {
+    background-color: white;
+}
+
+.color-eyedrop:hover {
+    color: var(--primary);
+}

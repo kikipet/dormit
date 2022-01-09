@@ -15,76 +15,96 @@
 */
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap");
 
 :root {
-  --primary: #396dff;
-  --primary--dim: #6987db;
-  --darkgrey: #d4d4d4;
-  --medgrey: #e0e0e0;
-  --grey: #f7f7f7;
-  --white: #fff;
+    --primary: #849cff;
+    --primary-dim: #99adff;
+    --primary-emph: #4c6ae2;
 
-  --xs: 4px;
-  --s: 8px;
-  --m: 16px;
-  --l: 24px;
+    --primary-hc: #9eb1ff;
+
+    --turquoise: #00bbff;
+    --pink: #ff88dc;
+    --scarlet: #ff5154;
+    --canary: #fff9a1;
+    --gray-light2: #e4e4eb;
+    --gray-light: #bfbcca;
+    --gray-dark: #3e394e;
+    --white: #fff;
+    --white-dim: #e0e5fd;
+    --shadow: rgba(0, 0, 0, 0.2);
+
+    --xs: 4px;
+    --s: 8px;
+    --ms: 12px;
+    --m: 16px;
+    --ml: 20px;
+    --l: 24px;
+    --xl: 32px;
+    --xxl: 48px;
+
+    --rad: 12px;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
+    margin: 0;
+    margin-top: 64.5px;
+    padding: 0;
+    height: 100%;
+    font-family: "Mulish", sans-serif;
+    font-weight: 300;
+    background-color: var(--primary);
+    color: var(--gray-dark);
 }
 
 form {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .u-flex {
-  display: flex;
+    display: flex;
 }
 
 .u-flexColumn {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .u-flex-justifyCenter {
-  justify-content: center;
+    justify-content: center;
 }
 
 .u-flex-alignCenter {
-  align-items: center;
+    align-items: center;
 }
 
 .u-inlineBlock {
-  display: inline-block;
+    display: inline-block;
 }
 
 .u-bold {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .u-textCenter {
-  text-align: center;
+    text-align: center;
 }
 
 .u-relative {
-  position: relative;
+    position: relative;
 }
 
 .u-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .u-link {
-  color: var(--primary);
-  text-decoration: none;
-  cursor: pointer;
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .u-link:hover {
-  color: var(--primary--dim);
+    color: var(--primary-dim);
 }

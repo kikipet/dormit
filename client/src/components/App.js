@@ -1,51 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { Router } from "@reach/router";
-import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
+import React from "react";
+import { BrowserRouter as Router, Routes, Switch, Route } from "react-router-dom";
 
 import "../utilities.css";
+import "./App.css";
 
-import { socket } from "../client-socket.js";
+import NavbarSelect from "./modules/NavbarSelect";
+import Footer from "./modules/Footer";
+import LandingPage from "./pages/LandingPage";
+import FinditPage from "./pages/FinditPage";
+import DormspamFocusPage from "./pages/DormspamFocusPage";
+import SenditPage from "./pages/SenditPage";
+import SignupLoginPage from "./pages/SignupLoginPage";
+import ProfilePage from "./pages/ProfilePage";
 
-import { get, post } from "../utilities";
+// redirect from sendit to login if not currently signed in
 
-/**
- * Define the "App" component
- */
 const App = () => {
-  const [userId, setUserId] = useState(undefined);
-
-  useEffect(() => {
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        // they are registed in the database, and currently logged in.
-        setUserId(user._id);
-      }
-    });
-  }, []);
-
-  const handleLogin = (res) => {
-    console.log(`Logged in as ${res.profileObj.name}`);
-    const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken }).then((user) => {
-      setUserId(user._id);
-      post("/api/initsocket", { socketid: socket.id });
-    });
-  };
-
-  const handleLogout = () => {
-    setUserId(undefined);
-    post("/api/logout");
-  };
-
-  return (
-    <>
-      <Router>
-        <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <NotFound default />
-      </Router>
-    </>
-  );
+    return (
+        <div>
+            <Router class="root-page-container">
+                <NavbarSelect />
+                <Routes>
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/login" element={<SignupLoginPage type="login" />} />
+                    <Route path="/signup" element={<SignupLoginPage type="signup" />} />
+                    <Route path="/sendit" element={<SenditPage />} />
+                    <Route path="/findit/dormspam/:id" element={<DormspamFocusPage />} />
+                    <Route path="/findit" element={<FinditPage />} />
+                    <Route path="/" element={<LandingPage />} />
+                </Routes>
+                <Footer />
+            </Router>
+        </div>
+    );
 };
 
 export default App;

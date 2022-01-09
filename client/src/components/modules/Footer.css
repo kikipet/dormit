@@ -1,0 +1,17 @@
+.footer-container {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding: 8px;
+    clear: both;
+    position: relative;
+}
+
+.footer-link {
+    color: var(--white-dim);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    color: white;
+}

@@ -1,0 +1,68 @@
+.sendit-body-container {
+    margin: var(--s);
+    /* position: relative;
+  z-index: 1; */
+}
+
+/* .form-column-container {
+  position: relative;
+  z-index: 2;
+} */
+
+.sendit-column-container-desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.sendit-col-separator hr {
+    color: var(--gray-light2);
+    border-width: 0.8px;
+}
+
+.sendit-body-editor {
+    color: var(--gray-dark);
+}
+
+.sendit-action-buttons {
+    display: flex;
+    width: auto;
+    justify-content: center;
+    gap: var(--m);
+}
+
+.sendit-discard {
+    color: var(--primary);
+    background-color: white;
+    border-style: none;
+    box-shadow: 0px 0px 0px;
+}
+
+.sendit-discard:hover {
+    color: var(--primary-dim);
+}
+
+.sendit-savedraft {
+    padding: 8px;
+    color: var(--primary);
+    background-color: white;
+    border-width: 2px;
+    border-color: var(--primary);
+    box-shadow: 0px 0px 0px;
+}
+
+.sendit-savedraft:hover {
+    color: var(--primary-dim);
+    border-color: var(--primary-dim);
+}
+
+.sendit-submit {
+    color: white;
+    background-color: var(--primary-emph);
+    border-style: none;
+}
+
+.sendit-submit:hover {
+    color: white;
+    background-color: var(--primary-dim);
+}

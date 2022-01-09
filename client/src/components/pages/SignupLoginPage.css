@@ -1,0 +1,47 @@
+.signup-login {
+    /* get different bkg images for different sizes of screen 
+        i.e. wide screens, medium screens, mobile */
+    background-image: url("../../assets/dormit-plane-signup.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.signup-login-redirect {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    color: var(--gray-dark);
+}
+
+.signup-login-redirect p {
+    margin: 0;
+}
+
+.signup-login-redirect a {
+    color: var(--primary-emph);
+    text-decoration: none;
+}
+
+.signup-login-form-container .form-column {
+    margin: var(--s) var(--xxl);
+}
+
+.signup-login-action-button {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.signup-login-submit,
+.signup-to-login-button {
+    background-color: var(--primary-emph);
+    color: white;
+    border-style: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-login-submit:hover,
+.signup-to-login-button:hover {
+    background-color: var(--primary);
+}

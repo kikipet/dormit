@@ -1,0 +1,32 @@
+.findit-container {
+  display: flex;
+  flex-direction: column;
+  width: min(1000px, 90vw);
+  margin: auto;
+  gap: var(--m);
+  align-items: center;
+}
+
+.dormspams-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--m);
+  justify-content: center;
+}
+
+.dormspam-single-container {
+  display: flex;
+  flex-direction: column;
+  width: min(1000px, 90vw);
+  margin: auto;
+  gap: var(--m);
+  align-items: center;
+}
+
+.finditbar-container {
+  width: min(1000px, 90vw);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

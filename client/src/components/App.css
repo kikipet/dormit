@@ -1,0 +1,109 @@
+::-moz-selection {
+    color: var(--gray-dark);
+    background: var(--canary);
+}
+
+::selection {
+    color: var(--gray-dark);
+    background: var(--canary);
+}
+
+.page-title {
+    color: white;
+    text-align: center;
+}
+
+.action-button {
+    padding: 10px;
+    font-weight: bold;
+    font-size: var(--m);
+    border-radius: var(--rad);
+    border-style: solid;
+    box-shadow: 2px 2px 2px var(--shadow);
+}
+
+.root-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* FORMS */
+
+.form-container {
+    background-color: white;
+    color: var(--primary);
+    border-radius: var(--rad);
+    margin: auto;
+    max-width: 540px;
+    padding: var(--l);
+}
+
+.form-column {
+    margin: var(--s);
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: var(--xs);
+    font-size: var(--m);
+    color: var(--primary-emph);
+}
+
+.form-field-error {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    padding: var(--xs);
+    font-size: var(--m);
+    color: var(--scarlet);
+}
+
+.form-field-error .form-input {
+    border-color: var(--scarlet);
+}
+
+.form-input {
+    border-radius: 2px;
+    border-width: 1px;
+    border-color: var(--gray-light);
+    border-style: solid;
+    padding: 4px;
+    font-size: 14px;
+}
+
+.form-radio {
+    color: var(--primary);
+}
+
+.form-radio input {
+    border-color: var(--primary);
+}
+
+.form-radio input:checked {
+    color: var(--turquoise);
+}
+
+.multiple-value-text-input p {
+    margin: 0 !important;
+}
+
+.multiple-value-text-input-item {
+    color: var(--primary);
+    background-color: white !important;
+    border-color: var(--gray-light) !important;
+    padding: 0 5px 0 0 !important;
+    font-weight: normal;
+    display: inline-flex;
+    gap: 5px;
+}
+
+.multiple-value-text-input input {
+    margin-top: 5px;
+}
+
+.ql-editor {
+    font-weight: normal;
+    color: var(--gray-dark);
+}

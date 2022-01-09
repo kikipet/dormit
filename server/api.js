@@ -8,44 +8,56 @@
 */
 
 const express = require("express");
+const mongoose = require("mongoose");
 
 // import models so we can interact with the database
-const User = require("./models/user");
-
-// import authentication library
-const auth = require("./auth");
+const Dormspam = require("./models/dormspam");
 
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
-//initialize socket
-const socketManager = require("./server-socket");
-
-router.post("/login", auth.login);
-router.post("/logout", auth.logout);
-router.get("/whoami", (req, res) => {
-  if (!req.user) {
-    // not logged in
-    return res.send({});
-  }
-
-  res.send(req.user);
+router.get("/dormspams", (req, res) => {
+    const skip = req.query.skip;
+    Dormspam.find({}, undefined, { skip, limit: 24 }).then((dormspams) => {
+        res.send(dormspams);
+    });
 });
 
-router.post("/initsocket", (req, res) => {
-  // do nothing if user not logged in
-  if (req.user) socketManager.addUser(req.user, socketManager.getSocketFromSocketID(req.body.socketid));
-  res.send({});
+router.get("/dormspam", (req, res) => {
+    const objectID = mongoose.Types.ObjectId(req.query.id);
+    console.log(objectID);
+    Dormspam.find({ _id: objectID }).then((dormspam) => {
+        res.send(dormspam);
+    });
 });
 
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
+// router.post("/story", (req, res) => {
+//   const newStory = new Story({
+//       creator_name: 'songk',
+//       content: req.body.content,
+//   });
+//   newStory.save().then((story) => res.send(story));
+// });
+
+// router.get("/comment", (req, res) => {
+//   Comment.find({ parent: req.query.parent }).then((comments) => {
+//     res.send(comments);
+//   });
+// });
+
+// router.post("/comment", (req, res) => {
+//     const newComment = new Comment({
+//         creator_name: 'songk',
+//         parent: req.body.parent,
+//         content: req.body.content,
+//     });
+//     newComment.save().then((comment) => res.send(comment));
+// });
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
-  console.log(`API route not found: ${req.method} ${req.url}`);
-  res.status(404).send({ msg: "API route not found" });
+    console.log(`API route not found: ${req.method} ${req.url}`);
+    res.status(404).send({ msg: "API route not found" });
 });
 
 module.exports = router;
