@@ -25,7 +25,6 @@ router.get("/dormspams", (req, res) => {
 
 router.get("/dormspam", (req, res) => {
     const objectID = mongoose.Types.ObjectId(req.query.id);
-    console.log(objectID);
     Dormspam.find({ _id: objectID }).then((dormspam) => {
         res.send(dormspam);
     });

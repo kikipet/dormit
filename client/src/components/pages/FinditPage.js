@@ -1,4 +1,7 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
+import { IoCaretBack, IoCaretDown, IoCaretForward, IoCaretUp } from "react-icons/io5";
+import { useParams } from "react-router-dom";
+
 import { get } from "../../utilities";
 
 import FinditBar from "../modules/FinditBar";
@@ -8,19 +11,21 @@ import "./FinditPage.css";
 
 function FinditPage(props) {
     const [dormspams, setDormspams] = useState([]);
-    const [seen, setSeen] = useState(0); // how many dormspams to skip when pulling dormspams
+    var defaultPage = useParams()["pnum"];
+    if (typeof defaultPage !== typeof 3) {
+        defaultPage = 1;
+    }
+    const [pageNum, setPageNum] = useState(defaultPage);
 
     useEffect(() => {
-        get("/api/dormspams", { skip: 0 }).then((dormspamObjs) => {
+        get("/api/dormspams", { skip: (pageNum - 1) * 24 }).then((dormspamObjs) => {
             setDormspams(dormspamObjs);
         });
-    }, []);
+    }, [pageNum]);
 
-    // // this gets called when the user pushes "Submit", so their
-    // // post gets added to the screen right away
-    // const addNewStory = (storyObj) => {
-    //     setStories([storyObj].concat(stories));
-    // };
+    function pageControl(newPageNum) {
+        setPageNum(newPageNum);
+    }
 
     let dormspamsList = null;
     const hasDormspams = dormspams.length !== 0;
@@ -38,7 +43,7 @@ function FinditPage(props) {
             />
         ));
     } else {
-        dormspamsList = <div style={{ color: "#fff" }}>no dormspams!</div>;
+        dormspamsList = <div style={{ color: "#fff" }}>loading...</div>;
     }
 
     return (
@@ -51,6 +56,22 @@ function FinditPage(props) {
                     <FinditBar />
                 </div>
                 <div className="dormspams-container">{dormspamsList}</div>
+                <div className="findit-page-controls">
+                    <button
+                        className={`findit-page-arrow-${pageNum == 1 ? "disabled" : ""}`}
+                        name="previousPage"
+                        onClick={(e) => pageControl(pageNum - 1)}
+                    >
+                        <IoCaretBack />
+                    </button>
+                    <button
+                        className="findit-page-arrow"
+                        name="nextPage"
+                        onClick={(e) => pageControl(pageNum + 1)}
+                    >
+                        <IoCaretForward />
+                    </button>
+                </div>
             </div>
         </div>
     );

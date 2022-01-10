@@ -17,7 +17,10 @@ function Dormspam(props) {
                     </Link>
                 </div>
                 <h2 className="dormspam-title dormspam-title-focus">{props.title}</h2>
-                <div className="dormspam-body-focus">{props.body}</div>
+                <div
+                    className="dormspam-body-focus"
+                    dangerouslySetInnerHTML={{ __html: props.body }}
+                />
                 <div className="dormspam-bottomrow-focus">
                     <Link
                         className="dormspam-author"

@@ -1,18 +1,13 @@
 .sendit-body-container {
     margin: var(--s);
-    /* position: relative;
-  z-index: 1; */
 }
 
-/* .form-column-container {
-  position: relative;
-  z-index: 2;
-} */
-
-.sendit-column-container-desktop {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
+@media (min-width: 513px) {
+    .sendit-column-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+    }
 }
 
 .sendit-col-separator hr {

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "../utilities.css";
 import "./App.css";
@@ -26,6 +26,7 @@ const App = () => {
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
                     <Route path="/sendit" element={<SenditPage />} />
                     <Route path="/findit/dormspam/:id" element={<DormspamFocusPage />} />
+                    <Route path="/findit#:pnum" element={<FinditPage />} />
                     <Route path="/findit" element={<FinditPage />} />
                     <Route path="/" element={<LandingPage />} />
                 </Routes>
