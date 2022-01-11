@@ -17,8 +17,8 @@ import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
     return (
-        <div>
-            <Router class="root-page-container">
+        <div class="root-page-container">
+            <Router>
                 <NavbarSelect />
                 <Routes>
                     <Route path="/profile" element={<ProfilePage />} />

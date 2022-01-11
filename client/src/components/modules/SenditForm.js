@@ -59,11 +59,18 @@ function SenditForm() {
         console.log(button);
         // submit
         if (button === "send") {
+            // title should exist
+            if (title === "") {
+                alert("title missing");
+            }
+            // color name for bc-talk should exist
+            else if (bctalk === "") {
+                alert("bc-talk color missing");
+            }
             // default subject
             if (subject === "") {
                 setSubject(title);
             }
-            // default recepients
 
             // placeholder until I figure out how to send emails
             // also I think the time it takes to change subject is more than the time it takes to do all these console.logs
@@ -138,7 +145,7 @@ function SenditForm() {
                             type of dormspam
                             {tagOptions.map((tag) => {
                                 return (
-                                    <div id={`sendit-tag-${tag}`} className="form-radio">
+                                    <div id={`sendit-tag-${tag}`} className="form-radio sendit-tag">
                                         <input
                                             className="form-input"
                                             key={tag}

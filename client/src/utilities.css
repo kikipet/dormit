@@ -18,16 +18,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap");
 
 :root {
+    /* --primary: #8ea4ff; */
     --primary: #849cff;
+    --primary-text: #7a94fc;
     --primary-dim: #99adff;
+    --primary-dim2: #aebeff;
+    --primary-dim3: #bfcbff;
     --primary-emph: #4c6ae2;
 
     --primary-hc: #9eb1ff;
 
     --turquoise: #00bbff;
+    --royal: #0076e4;
     --pink: #ff88dc;
     --scarlet: #ff5154;
     --canary: #fff9a1;
+    --butter: #ffeb73;
+    --peach: #ffba73;
     --gray-light2: #e4e4eb;
     --gray-light: #bfbcca;
     --gray-dark: #3e394e;

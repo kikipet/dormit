@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { IoCaretBack, IoCaretDown, IoCaretForward, IoCaretUp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 
 import { get } from "../../utilities";
 
 import FinditBar from "../modules/FinditBar";
 import Dormspam from "../modules/Dormspam";
+import PageControl from "../modules/PageControl";
 
 import "./FinditPage.css";
 
 function FinditPage(props) {
     const [dormspams, setDormspams] = useState([]);
-    var defaultPage = useParams()["pnum"];
+    let defaultPage = useParams()["pnum"];
     if (typeof defaultPage !== typeof 3) {
         defaultPage = 1;
     }
     const [pageNum, setPageNum] = useState(defaultPage);
+    let numDormspams = 100;
+    // get("/api/dormspam-count").then((count) => {
+    //     numDormspams = count;
+    // });
+    const totalPages = Math.ceil(numDormspams / 24);
 
     useEffect(() => {
         get("/api/dormspams", { skip: (pageNum - 1) * 24 }).then((dormspamObjs) => {
@@ -52,26 +57,12 @@ function FinditPage(props) {
                 findit
             </h1>
             <div className="findit-container">
-                <div class="finditbar-container">
+                <div className="finditbar-container">
                     <FinditBar />
                 </div>
+                <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={pageControl} />
                 <div className="dormspams-container">{dormspamsList}</div>
-                <div className="findit-page-controls">
-                    <button
-                        className={`findit-page-arrow-${pageNum == 1 ? "disabled" : ""}`}
-                        name="previousPage"
-                        onClick={(e) => pageControl(pageNum - 1)}
-                    >
-                        <IoCaretBack />
-                    </button>
-                    <button
-                        className="findit-page-arrow"
-                        name="nextPage"
-                        onClick={(e) => pageControl(pageNum + 1)}
-                    >
-                        <IoCaretForward />
-                    </button>
-                </div>
+                <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={pageControl} />
             </div>
         </div>
     );

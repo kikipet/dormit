@@ -1,0 +1,35 @@
+.page-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.page-arrow {
+    font-size: 32px;
+    background-color: var(--primary);
+    color: var(--butter);
+    border-style: none;
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    padding: 0;
+    border-radius: 18px;
+}
+
+.page-arrow:disabled {
+    color: var(--primary-dim3);
+}
+
+.page-arrow:hover {
+    cursor: pointer;
+    color: var(--canary);
+}
+
+.page-arrow:disabled:hover {
+    color: var(--primary-dim3);
+}
+
+.page-counter {
+    margin: 0;
+    padding-top: 8px;
+    color: white;
+}

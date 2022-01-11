@@ -1,10 +1,14 @@
 .footer-container {
     display: flex;
-    gap: 16px;
+    padding: 16px 0px;
+    margin: 0px;
+    column-gap: 16px;
     justify-content: center;
-    padding: 8px;
     clear: both;
-    position: relative;
+    position: absolute;
+    width: 100vw;
+    bottom: 0px;
+    background-color: var(--primary);
 }
 
 .footer-link {

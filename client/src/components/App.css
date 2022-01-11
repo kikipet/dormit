@@ -22,16 +22,23 @@
     box-shadow: 2px 2px 2px var(--shadow);
 }
 
-.root-container {
+.root-page-container {
     display: grid;
     grid-template-rows: auto 1fr auto;
+    min-height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.page-container {
+    padding-bottom: 52px;
 }
 
 /* FORMS */
 
 .form-container {
     background-color: white;
-    color: var(--primary);
+    color: var(--primary-text);
     border-radius: var(--rad);
     margin: auto;
     max-width: 540px;
@@ -78,7 +85,7 @@
 }
 
 .form-radio input {
-    border-color: var(--primary);
+    border-color: var(--primary-text);
 }
 
 .form-radio input:checked {
@@ -90,7 +97,7 @@
 }
 
 .multiple-value-text-input-item {
-    color: var(--primary);
+    color: var(--primary-text);
     background-color: white !important;
     border-color: var(--gray-light) !important;
     padding: 0 5px 0 0 !important;

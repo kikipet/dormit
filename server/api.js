@@ -12,6 +12,8 @@ const mongoose = require("mongoose");
 
 // import models so we can interact with the database
 const Dormspam = require("./models/dormspam");
+const User = require("./models/user");
+// const auth = require("./auth");
 
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
@@ -23,6 +25,12 @@ router.get("/dormspams", (req, res) => {
     });
 });
 
+router.get("/dormspam-count", (req, res) => {
+    Dormspam.countDocuments().then((count) => {
+        res.send(count);
+    });
+});
+
 router.get("/dormspam", (req, res) => {
     const objectID = mongoose.Types.ObjectId(req.query.id);
     Dormspam.find({ _id: objectID }).then((dormspam) => {
@@ -30,12 +38,31 @@ router.get("/dormspam", (req, res) => {
     });
 });
 
-// router.post("/story", (req, res) => {
-//   const newStory = new Story({
-//       creator_name: 'songk',
-//       content: req.body.content,
-//   });
-//   newStory.save().then((story) => res.send(story));
+router.get("/user", (req, res) => {
+    User.findById(req.query.userid).then((user) => {
+        res.send(user);
+    });
+});
+
+router.get("/whoami", (req, res) => {
+    if (req.user) {
+        res.send(req.user);
+    } else {
+        // user is not logged in
+        res.send({});
+    }
+});
+
+// router.post("/login", auth.login);
+// router.post("/logout", auth.logout);
+
+// router.post("/createuser", (req, res) => {
+//     const newUser = new User({
+//         name: req.body.name,
+//         email: req.body.email,
+//         password: req.body.password
+//     });
+//     newStory.save().then((user) => res.send(user));
 // });
 
 // router.get("/comment", (req, res) => {

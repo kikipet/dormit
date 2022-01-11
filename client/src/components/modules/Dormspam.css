@@ -10,11 +10,29 @@
     margin: 0px;
 }
 
+.dormspam-author {
+    color: var(--primary-emph);
+    text-decoration: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    align-self: center;
+}
+
+.dormspam-author:hover {
+    text-decoration: underline;
+}
+
 .dormspam-date {
     text-transform: lowercase;
     color: var(--primary-emph);
     font-weight: bold;
     margin: 0px;
+}
+
+.dormspam-tags {
+    background-color: var(--butter);
+    padding: 2px 4px;
+    align-self: center;
 }
 
 /* NOT FOCUSED */
@@ -27,8 +45,8 @@
     max-width: 320px;
     height: 180px;
     flex: 1 0 21%;
-    border-radius: var(--rad);
     padding: 12px 16px;
+    border-radius: var(--rad);
     box-shadow: 2px 2px 2px var(--shadow);
 }
 

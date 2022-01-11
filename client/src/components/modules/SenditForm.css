@@ -19,6 +19,11 @@
     color: var(--gray-dark);
 }
 
+.sendit-tag {
+    font-weight: normal;
+    color: var(--gray-dark);
+}
+
 .sendit-action-buttons {
     display: flex;
     width: auto;

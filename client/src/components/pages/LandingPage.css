@@ -1,115 +1,116 @@
 .landing-page-container {
-  background-color: var(--primary);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 480px;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 480px;
+    margin-top: -3px;
 }
 
 .landing-splash-content {
-  display: block;
+    display: block;
 }
 
 .landing-splash-title {
-  font-size: 84px;
-  font-weight: bold;
-  text-align: center;
-  margin: auto;
-  letter-spacing: -2px;
+    font-size: 84px;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+    letter-spacing: -2px;
 }
 
 .landing-splash-blurb {
-  font-size: var(--xl);
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: var(--xxl);
+    font-size: var(--xl);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: var(--xxl);
 }
 
 .landing-splash-button-container {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  gap: var(--l);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: var(--l);
 }
 
 .landing-splash-button {
-  padding: var(--s) var(--l);
-  text-decoration: none;
-  font-size: var(--l);
-  font-weight: bold;
-  border-radius: var(--rad);
-  box-shadow: 2px 2px 2px var(--shadow);
+    padding: var(--s) var(--l);
+    text-decoration: none;
+    font-size: var(--l);
+    font-weight: bold;
+    border-radius: var(--rad);
+    box-shadow: 2px 2px 2px var(--shadow);
 }
 
 .landing-signup-button {
-  color: var(--primary-emph);
-  background-color: white;
+    color: var(--primary-emph);
+    background-color: white;
 }
 
 .landing-signup-button:hover {
-  color: var(--primary);
+    color: var(--primary);
 }
 
 .landing-login-button {
-  color: white;
-  background-color: var(--primary);
-  font-weight: bold;
-  border-radius: var(--rad);
-  border-width: 2px;
-  border-style: solid;
-  border-color: white;
+    color: white;
+    background-color: var(--primary);
+    font-weight: bold;
+    border-radius: var(--rad);
+    border-width: 2px;
+    border-style: solid;
+    border-color: white;
 }
 
 .landing-login-button:hover {
-  background-color: var(--primary-dim);
+    background-color: var(--primary-dim);
 }
 
 @media (max-width: 540px) {
-  .landing-page-container {
-    height: 480px;
-  }
+    .landing-page-container {
+        height: 480px;
+    }
 
-  .landing-splash-title {
-    font-size: 72px;
-  }
+    .landing-splash-title {
+        font-size: 72px;
+    }
 
-  .landing-splash-blurb {
-    font-size: var(--ml);
-  }
+    .landing-splash-blurb {
+        font-size: var(--ml);
+    }
 }
 
 @media (min-width: 541px) and (max-width: 768px) {
-  .landing-page-container {
-    height: min(100vw * 9/16, 480px);
-    background-image: url("../../assets/dormit-plane-landing-small.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+    .landing-page-container {
+        height: min(100vw * 9/16, 480px);
+        background-image: url("../../assets/dormit-plane-landing-small.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
-  .landing-splash-title {
-    font-size: 72px;
-  }
+    .landing-splash-title {
+        font-size: 72px;
+    }
 
-  .landing-splash-blurb {
-    font-size: var(--l);
-  }
+    .landing-splash-blurb {
+        font-size: var(--l);
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1200px) {
-  .landing-page-container {
-    height: min(100vw * 9/16, 480px);
-    background-image: url("../../assets/dormit-plane-landing-med.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+    .landing-page-container {
+        height: min(100vw * 9/16, 480px);
+        background-image: url("../../assets/dormit-plane-landing-med.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 }
 
 @media (min-width: 1201px) {
-  .landing-page-container {
-    height: 480px;
-    background-image: url("../../assets/dormit-plane-landing-large.svg");
-    background-repeat: no-repeat;
-    background-size: 100vw;
-  }
+    .landing-page-container {
+        height: 480px;
+        background-image: url("../../assets/dormit-plane-landing-large.svg");
+        background-repeat: no-repeat;
+        background-size: 100vw;
+    }
 }
