@@ -1,12 +1,18 @@
-import React from 'react';
+import React from "react";
 import Navbar from "./Navbar";
 import NavbarMobile from "./NavbarMobile";
 
-function NavbarSelect() {
+function NavbarSelect(props) {
     if (window.innerWidth <= 540) {
-        return <NavbarMobile showDropDown={false} />;
+        return (
+            <NavbarMobile
+                userId={props.userId}
+                handleLogout={props.handleLogout}
+                showDropDown={false}
+            />
+        );
     }
-    return <Navbar />;
+    return <Navbar userId={props.userId} handleLogout={props.handleLogout} />;
 }
 
 export default NavbarSelect;

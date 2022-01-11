@@ -15,12 +15,20 @@ function LoginForm(props) {
     }
 
     function handleSubmit(event) {
-        // submit
-        console.log(email);
-        console.log(password);
-
+        const result = props.handleLogin(email, password);
+        if (result === 1) {
+            alert("User doesn't exist");
+        } else {
+            result.then((status) => {
+                if (status === 2) {
+                    alert("Incorrect login");
+                    navigate(`/login`);
+                } else {
+                    navigate(`/profile/${status}`);
+                }
+            });
+        }
         event.preventDefault();
-        navigate("/");
     }
 
     return (

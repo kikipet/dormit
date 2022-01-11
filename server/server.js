@@ -20,16 +20,17 @@ validator.checkSetup();
 
 // import libraries needed for the webserver to work!
 const express = require("express"); // backend framework for our node server.
+const session = require("express-session"); // library that stores info about each connected user.
 const mongoose = require("mongoose");
 const path = require("path"); // provide utilities for working with file and directory paths
 
 const api = require("./api.js");
+const auth = require("./auth");
+
 // Server configuration below
-// TODO change connection URL after setting up your own database
 const mongoConnectionURL =
     "mongodb+srv://songk:tZEa5yUjcd8gqkr@cluster0.z3fwl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-// TODO change database name to the name you chose
 const databaseName = "dormit";
 const options = { useNewUrlParser: true, useUnifiedTopology: true, dbName: databaseName };
 
@@ -45,6 +46,18 @@ app.use(validator.checkRoutes);
 
 // allow us to parse POST request data using middleware
 app.use(express.json());
+
+// set up a session, which will persist login data across requests
+app.use(
+    session({
+        secret: "session-secret",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+
+// this checks if the user is logged in, and populates "req.user"
+app.use(auth.populateCurrentUser);
 
 // connect API routes from api.js
 app.use("/api", api);

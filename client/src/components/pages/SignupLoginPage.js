@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
+import React from "react";
 
-import SignupForm from '../modules/SignupForm'
-import LoginForm from '../modules/LoginForm'
+import SignupForm from "../modules/SignupForm";
+import LoginForm from "../modules/LoginForm";
 
-import './SignupLoginPage.css'
+import "./SignupLoginPage.css";
 
-class SignupLoginPage extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        if (this.props.type === 'signup') {
-            return (
-                <div className='page-container signup-login'>
-                    <h1 id='signup-title' className='page-title'>sign up</h1>
-                    <SignupForm />
-                </div>
-            );
-        }
+function SignupLoginPage(props) {
+    if (props.type === "signup") {
         return (
-            <div id='signup-login' className='page-container'>
-            <h1 id='signup-title' className='page-title'>log in</h1>
-                <LoginForm />
+            <div className="page-container signup-login">
+                <h1 id="signup-title" className="page-title">
+                    sign up
+                </h1>
+                <SignupForm />
             </div>
         );
     }
+    return (
+        <div id="signup-login" className="page-container">
+            <h1 id="signup-title" className="page-title">
+                log in
+            </h1>
+            <LoginForm handleLogin={props.handleLogin} />
+        </div>
+    );
 }
 
 export default SignupLoginPage;
