@@ -25,6 +25,7 @@
 }
 
 .page-arrow:disabled:hover {
+    cursor: default;
     color: var(--primary-dim3);
 }
 

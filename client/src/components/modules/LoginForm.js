@@ -16,18 +16,16 @@ function LoginForm(props) {
 
     function handleSubmit(event) {
         const result = props.handleLogin(email, password);
-        if (result === 1) {
-            alert("User doesn't exist");
-        } else {
-            result.then((status) => {
-                if (status === 2) {
-                    alert("Incorrect login");
-                    navigate(`/login`);
-                } else {
-                    navigate(`/profile/${status}`);
-                }
-            });
-        }
+        result.then((status) => {
+            console.log(status);
+            if (status === 1) {
+                alert("User doesn't exist");
+            } else if (status === 2) {
+                alert("Incorrect login");
+            } else {
+                navigate(`/profile/${status}`);
+            }
+        });
         event.preventDefault();
     }
 

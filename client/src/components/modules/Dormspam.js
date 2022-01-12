@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { format } from "date-fns";
 import { IoExpandOutline, IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+
+import Tag from "./Tag";
 
 import "./Dormspam.css";
 
@@ -33,7 +35,7 @@ function Dormspam(props) {
                         {props.author}
                     </Link>
                     <p className="dormspam-bctalk">{props.bctalk} for bc-talk</p>
-                    <p className="dormspam-tags">{props.tag}</p>
+                    <Tag text={props.tag} updateTags={props.updateTags} />
                 </div>
             </article>
         );
@@ -60,7 +62,7 @@ function Dormspam(props) {
                 >
                     {props.author}
                 </Link>
-                <p className="dormspam-tags">{props.tag}</p>
+                <Tag text={props.tag} updateTags={props.updateTags} />
             </div>
         </article>
     );

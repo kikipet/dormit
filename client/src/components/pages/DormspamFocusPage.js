@@ -13,11 +13,14 @@ function DormspamFocusPage(props) {
 
     useEffect(() => {
         get("/api/dormspam", { id: dormspamID }).then((dormspamObj) => {
-            setDormspam(dormspamObj[0]);
+            setDormspam(dormspamObj);
+            console.log(dormspamObj);
         });
     }, []);
 
-    console.log(dormspam);
+    function searchSingleTag() {
+        pass;
+    }
 
     return (
         <div id="dormspam-focus" className="page-container">
@@ -38,6 +41,7 @@ function DormspamFocusPage(props) {
                         bctalk={dormspam.bctalk}
                         tag={dormspam.tag}
                         focused={true}
+                        updateTags={searchSingleTag}
                     />
                 </div>
             </div>

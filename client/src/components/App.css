@@ -8,6 +8,10 @@
     background: var(--canary);
 }
 
+a {
+    color: var(--primary-emph);
+}
+
 .page-title {
     color: white;
     text-align: center;
