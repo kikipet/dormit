@@ -10,6 +10,14 @@ import PageControl from "../modules/PageControl";
 import "./FinditPage.css";
 
 function FinditPage(props) {
+    // dormspam grabbing
+    const [dormspams, setDormspams] = useState([]);
+    function getDormspams(call, params = {}) {
+        get(call, params).then((dormspamObjs) => {
+            setDormspams(dormspamObjs);
+        });
+    }
+
     // pagination control
     const [totalPages, setTotalPages] = useState(0);
     let defaultPage = useParams()["pnum"];
@@ -17,12 +25,18 @@ function FinditPage(props) {
         defaultPage = 1;
     }
     const [pageNum, setPageNum] = useState(defaultPage);
+    function updateTotPageCount(call, params = {}) {
+        get(call, params).then((res) => {
+            setTotalPages(Math.ceil(res.count / 24));
+        });
+    }
 
     // search bar business
     const [searchText, setSearchText] = useState("");
 
     // tag control
     const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
+    const [searchTagList, setTagList] = useState([]);
     let tagStatus = {
         club: false,
         course: false,
@@ -32,73 +46,71 @@ function FinditPage(props) {
         survey: false,
         other: false,
     };
-    // search - tag
-    function searchTag(tag) {
-        for (var t in tagOptions) {
-            tagStatus[tagOptions[t]] = tag === tagOptions[t];
-        }
+    function createTagList() {
         let searchTags = [];
         for (var t in tagOptions) {
             if (tagStatus[tagOptions[t]]) {
                 searchTags.push(tagOptions[t]);
             }
         }
-        if (searchTags.length > 0) {
-            // update page counts
-            setPageNum(1);
-            get("/api/dormspam-search-tag-count", { tags: searchTags }).then((res) => {
-                console.log(res.count);
-                setTotalPages(Math.ceil(res.count / 24));
-            });
-            // get dormspams
-            get("/api/dormspam-search-tag", { tags: searchTags, skip: 0 }).then((dormspamObjs) => {
-                setDormspams(dormspamObjs);
-            });
-        }
+        return searchTags;
     }
 
     // get initial page count
     if (searchText !== "") {
-        get("/api/dormspam-search-count", { query: searchText }).then((res) => {
-            setTotalPages(Math.ceil(res.count / 24));
-        });
+        updateTotPageCount("/api/dormspam-search-count", { query: searchText });
+    } else if (searchTagList.length > 0) {
+        updateTotPageCount("/api/dormspam-search-tag-count", { tags: searchTagList });
     } else {
-        get("/api/dormspam-count").then((res) => {
-            setTotalPages(Math.ceil(res.count / 24));
-        });
+        updateTotPageCount("/api/dormspam-count");
     }
 
-    // search - general
+    // search - tags
+    function searchTag(tag) {
+        for (var t in tagOptions) {
+            tagStatus[tagOptions[t]] = tag === tagOptions[t];
+        }
+        const searchTags = createTagList();
+        setTagList(searchTags);
+    }
     useEffect(() => {
-        if (searchText !== "") {
+        if (searchTagList.length > 0) {
             // update page counts
             setPageNum(1);
-            get("/api/dormspam-search-count", { query: searchText }).then((res) => {
-                setTotalPages(Math.ceil(res.count / 24));
-            });
+            updateTotPageCount("/api/dormspam-search-tag-count", { tags: searchTagList });
             // get dormspams
-            get("/api/dormspam-search", { query: searchText, skip: 0 }).then((dormspamObjs) => {
-                setDormspams(dormspamObjs);
-            });
-        }
-    }, [searchText]);
-
-    // get dormspams
-    const [dormspams, setDormspams] = useState([]);
-    useEffect(() => {
-        if (searchText !== "") {
-            get("/api/dormspam-search", { query: searchText, skip: (pageNum - 1) * 24 }).then(
+            get("/api/dormspam-search-tag", { tags: searchTagList, skip: 0 }).then(
                 (dormspamObjs) => {
                     setDormspams(dormspamObjs);
                 }
             );
-        } else {
-            get("/api/dormspams", { skip: (pageNum - 1) * 24 }).then((dormspamObjs) => {
-                setDormspams(dormspamObjs);
+        }
+    }, [searchTagList]);
+
+    // search - text
+    useEffect(() => {
+        if (searchText !== "") {
+            setPageNum(1);
+            updateTotPageCount("/api/dormspam-search-count", { query: searchText });
+            getDormspams("/api/dormspam-search", { query: searchText, skip: 0 });
+        }
+    }, [searchText]);
+
+    // get dormspams
+    useEffect(() => {
+        if (searchText !== "") {
+            getDormspams("/api/dormspam-search", { query: searchText, skip: (pageNum - 1) * 24 });
+        } else if (searchTagList.length !== 0) {
+            getDormspams("/api/dormspam-search-tag", {
+                tags: searchTagList,
+                skip: (pageNum - 1) * 24,
             });
+        } else {
+            getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
         }
     }, [pageNum]);
 
+    // generate dormspam cards
     let dormspamsList = null;
     const hasDormspams = dormspams.length !== 0;
     if (hasDormspams) {
@@ -120,6 +132,7 @@ function FinditPage(props) {
         dormspamsList = <div style={{ color: "#fff" }}>loading...</div>;
     }
 
+    // return web content
     return (
         <div id="findit" className="page-container">
             <h1 id="findit-title" className="page-title">

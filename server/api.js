@@ -40,14 +40,16 @@ router.get("/dormspam-search-count", (req, res) => {
 });
 
 router.get("/dormspam-search-tag-count", (req, res) => {
-    Dormspam.countDocuments({ tags: { $in: req.query.tags } }).then((count) => {
+    const tagList = req.query.tags.split(",");
+    Dormspam.countDocuments({ tag: { $in: tagList } }).then((count) => {
         res.send({ count: count });
     });
 });
 
 router.get("/dormspam-search-tag", (req, res) => {
     const skip = req.query.skip;
-    Dormspam.find({ tags: { $in: req.query.tags } }, undefined, { skip, limit: 24 })
+    const tagList = req.query.tags.split(",");
+    Dormspam.find({ tag: { $in: tagList } }, undefined, { skip, limit: 24 })
         .sort({ date: -1 })
         .then((results) => {
             res.send(results);

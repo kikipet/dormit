@@ -30,7 +30,7 @@
     margin: 0px;
 }
 
-.dormspam-tags {
+.dormspam-tag {
     background-color: var(--butter);
     padding: 2px 6px;
     align-self: center;
@@ -39,6 +39,11 @@
     border-style: none;
     font-size: var(--m);
     font-weight: normal;
+}
+
+.dormspam-tag:hover {
+    cursor: pointer;
+    background-color: var(--canary);
 }
 
 /* NOT FOCUSED */

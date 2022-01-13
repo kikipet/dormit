@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Tag(props) {
     return (
         <button
-            className="dormspam-tags"
+            className="dormspam-tag"
             name={props.text}
             onClick={(e) => props.updateTags(props.text)}
         >
