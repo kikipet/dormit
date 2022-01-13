@@ -5,11 +5,14 @@ import { get } from "../../utilities";
 
 import FinditBar from "../modules/FinditBar";
 import Dormspam from "../modules/Dormspam";
+import DormspamFocusPage from "./DormspamFocusPage";
 import PageControl from "../modules/PageControl";
 
 import "./FinditPage.css";
 
 function FinditPage(props) {
+    const [focusMode, setFocusMode] = useState(props.focusMode);
+
     // dormspam grabbing
     const [dormspams, setDormspams] = useState([]);
     function getDormspams(call, params = {}) {
@@ -66,7 +69,8 @@ function FinditPage(props) {
     }
 
     // search - tags
-    function searchTag(tag) {
+    function searchByTag(tag) {
+        setFocusMode(false);
         for (var t in tagOptions) {
             tagStatus[tagOptions[t]] = tag === tagOptions[t];
         }
@@ -125,7 +129,10 @@ function FinditPage(props) {
                 bctalk={dormspamObj.bctalk}
                 tag={dormspamObj.tag}
                 focused={false}
-                updateTags={searchTag}
+                updateTags={searchByTag}
+                toggleFocusMode={() => {
+                    setFocusMode(!focusMode);
+                }}
             />
         ));
     } else {
@@ -133,6 +140,21 @@ function FinditPage(props) {
     }
 
     // return web content
+
+    // focus mode - 1 dormspam
+    if (focusMode) {
+        const dormspamID = useParams()["id"];
+        return (
+            <DormspamFocusPage
+                id={dormspamID}
+                searchByTag={searchByTag}
+                toggleFocusMode={() => {
+                    setFocusMode(!focusMode);
+                }}
+            />
+        );
+    }
+    // browsing mode - many dormspams
     return (
         <div id="findit" className="page-container">
             <h1 id="findit-title" className="page-title">

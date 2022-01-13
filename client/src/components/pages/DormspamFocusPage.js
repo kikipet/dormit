@@ -8,19 +8,14 @@ import "./FinditPage.css";
 import FinditBar from "../modules/FinditBar";
 
 function DormspamFocusPage(props) {
-    const dormspamID = useParams()["id"];
     const [dormspam, setDormspam] = useState({ date: "2022-01-01T00:00:00" });
 
     useEffect(() => {
-        get("/api/dormspam", { id: dormspamID }).then((dormspamObj) => {
+        get("/api/dormspam", { id: props.id }).then((dormspamObj) => {
             setDormspam(dormspamObj);
             console.log(dormspamObj);
         });
     }, []);
-
-    function searchSingleTag() {
-        pass;
-    }
 
     return (
         <div id="dormspam-focus" className="page-container">
@@ -41,7 +36,8 @@ function DormspamFocusPage(props) {
                         bctalk={dormspam.bctalk}
                         tag={dormspam.tag}
                         focused={true}
-                        updateTags={searchSingleTag}
+                        updateTags={props.searchByTag}
+                        toggleFocusMode={props.toggleFocusMode}
                     />
                 </div>
             </div>

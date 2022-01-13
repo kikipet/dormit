@@ -14,7 +14,11 @@ function Dormspam(props) {
             <article id={`dormspam-${props.id}`} className="dormspam-focus">
                 <div className="dormspam-toprow-focus">
                     <p className="dormspam-date">{format(props.date, "MMM dd")}</p>
-                    <Link className="dormspam-close-button" to={`/findit`}>
+                    <Link
+                        className="dormspam-close-button"
+                        onClick={props.toggleFocusMode}
+                        to={`/findit`}
+                    >
                         <IoCloseOutline className="dormspam-icon" />
                     </Link>
                 </div>
@@ -45,7 +49,11 @@ function Dormspam(props) {
         <article id={`dormspam-${props.id}`} className="dormspam-nofocus">
             <div className="dormspam-toprow-nofocus">
                 <p className="dormspam-date">{format(props.date, "MMM dd")}</p>
-                <Link className="dormspam-expand-button" to={`/findit/dormspam/${props.id}`}>
+                <Link
+                    className="dormspam-expand-button"
+                    onClick={props.toggleFocusMode}
+                    to={`/findit/dormspam/${props.id}`}
+                >
                     <IoExpandOutline className="dormspam-icon" />
                 </Link>
             </div>

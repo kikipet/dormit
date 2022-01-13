@@ -8,7 +8,6 @@ import NavbarSelect from "./modules/NavbarSelect";
 import Footer from "./modules/Footer";
 import LandingPage from "./pages/LandingPage";
 import FinditPage from "./pages/FinditPage";
-import DormspamFocusPage from "./pages/DormspamFocusPage";
 import SenditPage from "./pages/SenditPage";
 import SignupLoginPage from "./pages/SignupLoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -64,9 +63,9 @@ function App() {
                     />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
                     <Route path="/sendit" element={<SenditPage />} />
-                    <Route path="/findit/dormspam/:id" element={<DormspamFocusPage />} />
-                    <Route path="/findit#:pnum" element={<FinditPage />} />
-                    <Route path="/findit" element={<FinditPage />} />
+                    <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
+                    <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
+                    <Route path="/findit" element={<FinditPage focusMode={false} />} />
                     <Route path="/profile/:id" element={<ProfilePage />} />
                     <Route path="/" element={<LandingPage />} />
                 </Routes>
