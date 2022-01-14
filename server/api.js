@@ -14,10 +14,12 @@ const mongoose = require("mongoose");
 const Dormspam = require("./models/dormspam");
 const User = require("./models/user");
 const auth = require("./auth");
+const mail = require("./mail");
 
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
+// ***** Dormspam stuff *****
 router.get("/dormspams", (req, res) => {
     const skip = req.query.skip;
     Dormspam.find({}, undefined, { skip, limit: 24 })
@@ -76,6 +78,7 @@ router.get("/dormspam", (req, res) => {
     });
 });
 
+// ***** User stuff *****
 router.get("/userbyemail", (req, res) => {
     User.findOne({ email: req.query.email }).then((user) => {
         if (user === null) {
@@ -109,7 +112,7 @@ router.post("/createuser", (req, res) => {
     // check that email isn't already taken
     User.findOne({ email: req.body.email }).then((user) => {
         if (user !== null) {
-            res.send(1);
+            res.send({});
         }
         auth.hashPass(req.body.password).then((hash) => {
             const newUser = new User({
@@ -122,21 +125,14 @@ router.post("/createuser", (req, res) => {
     });
 });
 
-// router.get("/comment", (req, res) => {
-//   Comment.find({ parent: req.query.parent }).then((comments) => {
-//     res.send(comments);
-//   });
-// });
+// ***** Email stuff *****
+router.post("/sendemail", (req, res) => {
+    mail.sendDormspam(req.body).then((resCode) => {
+        res.send({ status: resCode });
+    });
+});
 
-// router.post("/comment", (req, res) => {
-//     const newComment = new Comment({
-//         creator_name: 'songk',
-//         parent: req.body.parent,
-//         content: req.body.content,
-//     });
-//     newComment.save().then((comment) => res.send(comment));
-// });
-
+// ***** Everything else (i.e. error) *****
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
     console.log(`API route not found: ${req.method} ${req.url}`);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { get } from "../../utilities";
 
@@ -12,6 +12,7 @@ import "./FinditPage.css";
 
 function FinditPage(props) {
     const [focusMode, setFocusMode] = useState(props.focusMode);
+    const navigate = useNavigate();
 
     // dormspam grabbing
     const [dormspams, setDormspams] = useState([]);
@@ -36,6 +37,16 @@ function FinditPage(props) {
 
     // search bar business
     const [searchText, setSearchText] = useState("");
+    function clearSearchItems() {
+        setSearchText("");
+        setTagList([]);
+        for (var t in tagOptions) {
+            tagStatus[tagOptions[t]] = false;
+        }
+        setFocusMode(false);
+        setPageNum(1);
+        getDormspams("/api/dormspams", { skip: 0 });
+    }
 
     // tag control
     const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
@@ -79,21 +90,20 @@ function FinditPage(props) {
     }
     useEffect(() => {
         if (searchTagList.length > 0) {
-            // update page counts
+            navigate("/findit/search", { replace: true });
             setPageNum(1);
             updateTotPageCount("/api/dormspam-search-tag-count", { tags: searchTagList });
-            // get dormspams
-            get("/api/dormspam-search-tag", { tags: searchTagList, skip: 0 }).then(
-                (dormspamObjs) => {
-                    setDormspams(dormspamObjs);
-                }
-            );
+            getDormspams("/api/dormspam-search-tag", {
+                tags: searchTagList,
+                skip: 0,
+            });
         }
     }, [searchTagList]);
 
     // search - text
     useEffect(() => {
         if (searchText !== "") {
+            navigate("/findit/search", { replace: true });
             setPageNum(1);
             updateTotPageCount("/api/dormspam-search-count", { query: searchText });
             getDormspams("/api/dormspam-search", { query: searchText, skip: 0 });
@@ -151,6 +161,8 @@ function FinditPage(props) {
                 toggleFocusMode={() => {
                     setFocusMode(!focusMode);
                 }}
+                updateSearch={setSearchText}
+                clearSearch={clearSearchItems}
             />
         );
     }
@@ -162,7 +174,7 @@ function FinditPage(props) {
             </h1>
             <div className="findit-container">
                 <div className="finditbar-container">
-                    <FinditBar updateSearch={setSearchText} />
+                    <FinditBar updateSearch={setSearchText} clearSearch={clearSearchItems} />
                 </div>
                 <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
                 <div className="dormspams-container">{dormspamsList}</div>

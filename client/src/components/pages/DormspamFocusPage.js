@@ -24,7 +24,7 @@ function DormspamFocusPage(props) {
             </h1>
             <div className="dormspam-focus-container">
                 <div className="finditbar-container">
-                    <FinditBar />
+                    <FinditBar updateSearch={props.updateSearch} clearSearch={props.clearSearch} />
                 </div>
                 <div className="dormspam-single-container">
                     <Dormspam

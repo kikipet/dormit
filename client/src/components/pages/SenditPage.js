@@ -8,7 +8,7 @@ function SenditPage(props) {
             <h1 id="findit-title" className="page-title">
                 sendit
             </h1>
-            <SenditForm />
+            <SenditForm userName={props.userName} />
         </div>
     );
 }

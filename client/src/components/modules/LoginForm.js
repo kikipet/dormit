@@ -7,6 +7,7 @@ function LoginForm(props) {
     const [email, setEmail] = useState("");
     const [emailErr, setEmailErr] = useState(false);
     const [password, setPassword] = useState("");
+
     const navigate = useNavigate();
 
     function handleEmailChange(value) {

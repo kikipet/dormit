@@ -1,22 +1,18 @@
+import { PromiseProvider } from "mongoose";
 import React, { useState } from "react";
 import MultipleValueTextInput from "react-multivalue-text-input";
+import { post } from "../../utilities";
 
 import ColorPicker from "./ColorPicker";
 import EmailEditor from "./EmailEditor";
 
 import "./SenditForm.css";
 
-function SenditForm() {
-    // is this how I want to implement this form?
-    // isn't there some email thingy I can use
-    // button state 'discard' is submitted whenever enter is pressed
-    // either save after refresh or make a warning box before refreshing
-
+function SenditForm(props) {
     const [title, setTitle] = useState("");
-    const [subject, setSubject] = useState("");
-    const [to, setTo] = useState(["songk@mit.edu"]);
+    const [to, setTo] = useState([]);
     const [cc, setCC] = useState([]);
-    const [tag, setTag] = useState("");
+    const [tag, setTag] = useState("other");
     const [bodyText, setBodyText] = useState("");
     const [bodyHTML, setBodyHTML] = useState("");
     const [bctalk, setBCTalk] = useState("");
@@ -59,32 +55,41 @@ function SenditForm() {
         console.log(button);
         // submit
         if (button === "send") {
+            console.log(props.userName);
             // title should exist
             if (title === "") {
-                alert("title missing");
+                alert("subject missing");
             }
             // color name for bc-talk should exist
             else if (bctalk === "") {
                 alert("bc-talk color missing");
+            } else {
+                const emailObj = {
+                    subject: title,
+                    to: to,
+                    senderName: props.userName,
+                    cc: cc,
+                    text: bodyText,
+                    html: bodyHTML,
+                    bctalk: bctalk,
+                    color: color,
+                    tag: tag,
+                };
+                post("/api/sendemail", emailObj).then("Emails successful!");
             }
-            // default subject
-            if (subject === "") {
-                setSubject(title);
-            }
-
-            // placeholder until I figure out how to send emails
-            // also I think the time it takes to change subject is more than the time it takes to do all these console.logs
-            console.log(title);
-            console.log(subject);
-            console.log(cc);
-            console.log(tag);
-            console.log(bodyText);
-            console.log(bodyHTML);
-            console.log(bctalk);
-            console.log(color);
-        } else if (button === "discard") {
-            if (confirm("are you sure you want to discard?")) {
-                console.log("discarded");
+        } else if (button === "clear") {
+            if (confirm("are you sure you want to clear?")) {
+                console.log("cleared");
+                setTitle("");
+                setTo([]);
+                setCC([]);
+                setTag([]);
+                setBodyText("");
+                setBodyHTML("");
+                setBCTalk("");
+                setColor("#000000");
+                setTag("other");
+                setButton("none");
             }
         }
         event.preventDefault();
@@ -96,23 +101,13 @@ function SenditForm() {
                 <div className="form-column-container sendit-column-container">
                     <div id="sendit-col1" className="form-column">
                         <label className="form-field">
-                            title
+                            subject
                             <input
                                 className="form-input"
                                 name="title"
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                            />
-                        </label>
-                        <label className="form-field">
-                            subject (set to title if blank)
-                            <input
-                                className="form-input"
-                                name="subject"
-                                type="text"
-                                value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
                             />
                         </label>
                         <label className="form-field">
@@ -124,7 +119,6 @@ function SenditForm() {
                                 name="to"
                                 charCodes={[32]}
                                 placeholder="separate emails with SPACE"
-                                values={["songk@mit.edu"]}
                             />
                         </label>
 
@@ -207,12 +201,12 @@ function SenditForm() {
                 </div>
                 <div className="sendit-action-buttons">
                     <button
-                        className="action-button sendit-discard"
-                        name="discard"
+                        className="action-button sendit-clear"
+                        name="clear"
                         type="submit"
-                        onClick={() => setButton("discard")}
+                        onClick={() => setButton("clear")}
                     >
-                        discard
+                        clear
                     </button>
                     <button
                         className="action-button sendit-savedraft"

@@ -17,11 +17,13 @@ import { get, post, isEmpty } from "../utilities";
 function App() {
     // where is this stuff supposed to go?
     const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState("");
 
     useEffect(() => {
         get("/api/whoami").then((user) => {
             if (user._id) {
                 setUserId(user._id);
+                setUserName(user.name);
             }
         });
     });
@@ -39,6 +41,7 @@ function App() {
                 }
                 // successful login
                 setUserId(res._id);
+                setUserName(res.name);
                 console.log("Logged in!");
                 return res._id;
             });
@@ -48,6 +51,7 @@ function App() {
     function handleLogout() {
         console.log("Logged out successfully!");
         setUserId(null);
+        setUserName("");
         post("/api/logout");
     }
 
@@ -62,7 +66,7 @@ function App() {
                         element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
                     />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
-                    <Route path="/sendit" element={<SenditPage />} />
+                    <Route path="/sendit" element={<SenditPage userName={userName} />} />
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />
