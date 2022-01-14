@@ -14,7 +14,7 @@
     "formik": "^2.2.9",
     "moment": "^2.29.1",
     "mongoose": "^6.1.5",
-    "node": "^17.2.0",
+    "node": "^16.x",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
     "react": "^17.0.2",
