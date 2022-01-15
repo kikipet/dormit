@@ -51,7 +51,11 @@
     --xl: 32px;
     --xxl: 48px;
 
-    --rad: 0px;
+    --rad: 6px;
+}
+
+h1 {
+    font-size: 36px;
 }
 
 body {

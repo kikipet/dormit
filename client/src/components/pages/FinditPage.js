@@ -185,7 +185,11 @@ function FinditPage(props) {
             </h1>
             <div className="findit-container">
                 <div className="finditbar-container">
-                    <FinditBar updateSearch={setSearchText} clearSearch={clearSearchItems} />
+                    <FinditBar
+                        updateSearch={setSearchText}
+                        clearSearch={clearSearchItems}
+                        updatePage={setPageNum}
+                    />
                 </div>
                 <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
                 <div className="dormspams-container">{dormspamsList}</div>

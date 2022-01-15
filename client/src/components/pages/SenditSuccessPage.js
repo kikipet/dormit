@@ -9,7 +9,7 @@ function SenditSuccessPage(props) {
             <h1 id="findit-title" className="page-title">
                 sendit
             </h1>
-            <div className="page-body sendit-feedback">
+            <div className="formpage-body sendit-feedback">
                 <p className="sendit-feedback-text">Dormspams sent!</p>
                 <div className="button-container">
                     <Link className="action-button sendit-actions" to="/findit">

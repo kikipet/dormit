@@ -72,7 +72,10 @@ function App() {
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />
-                    <Route path="/profile/:id" element={<ProfilePage />} />
+                    <Route
+                        path="/profile/:id"
+                        element={<ProfilePage userId={userId} userName={userName} />}
+                    />
                     <Route path="/" element={<LandingPage />} />
                 </Routes>
                 <Footer />

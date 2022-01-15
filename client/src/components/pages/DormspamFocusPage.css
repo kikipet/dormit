@@ -5,6 +5,10 @@
     gap: var(--m);
 }
 
+.dormspam-focus {
+    width: calc(min(1000px, 90vw) - 48px); /* or whatever the padding is */
+}
+
 .dormspam-single-container img {
     max-width: 100%;
 }
