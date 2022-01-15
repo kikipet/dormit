@@ -53,6 +53,10 @@ a {
     border-radius: var(--rad);
     border-style: solid;
     box-shadow: 1px 1px 2px var(--shadow);
+    transition: all 0.2s ease;
+}
+.action-button:active {
+    transform: scale(0.96);
 }
 
 /* FORMS */

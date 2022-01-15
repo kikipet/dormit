@@ -18,8 +18,13 @@
 }
 
 .signup-login-redirect a {
-    color: var(--primary-emph);
+    color: var(--primary-text);
     text-decoration: none;
+}
+
+.signup-login-redirect a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
 }
 
 .signup-login-form-container .form-column {
@@ -34,7 +39,7 @@
 
 .signup-login-submit,
 .signup-to-login-button {
-    background-color: var(--primary-emph);
+    background-color: var(--primary-text);
     color: white;
     border-style: none;
     text-decoration: none;
@@ -43,5 +48,5 @@
 
 .signup-login-submit:hover,
 .signup-to-login-button:hover {
-    background-color: var(--primary);
+    background-color: var(--primary-dim);
 }

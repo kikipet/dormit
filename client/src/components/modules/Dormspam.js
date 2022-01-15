@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
 import { IoExpandOutline, IoCloseOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Tag from "./Tag";
 
@@ -46,16 +46,21 @@ function Dormspam(props) {
     }
     // normal card, not focused
     return (
-        <article id={`dormspam-${props.id}`} className="dormspam-nofocus">
+        <article
+            id={`dormspam-${props.id}`}
+            className="dormspam-nofocus"
+            onClick={(e) => props.handleCardClick(e, props.id)}
+        >
             <div className="dormspam-toprow-nofocus">
                 <p className="dormspam-date">{format(props.date, "MMM dd")}</p>
-                <Link
+                {/* instead of the expand button, maybe I can add a star/heart button */}
+                {/* <Link
                     className="dormspam-expand-button"
                     onClick={props.toggleFocusMode}
                     to={`/findit/dormspam/${props.id}`}
                 >
                     <IoExpandOutline className="dormspam-icon" />
-                </Link>
+                </Link> */}
             </div>
             <h2 className="dormspam-title">{props.title}</h2>
             <hr />
@@ -65,6 +70,7 @@ function Dormspam(props) {
                     to="#"
                     onClick={(e) => {
                         window.location = `mailto:${props.address}`;
+                        e.stopPropagation();
                         e.preventDefault();
                     }}
                 >

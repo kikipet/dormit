@@ -39,11 +39,16 @@
     border-style: none;
     font-size: var(--m);
     font-weight: normal;
+    transition: all 0.2s ease;
 }
 
 .dormspam-tag:hover {
     cursor: pointer;
     background-color: var(--canary);
+}
+
+.dormspam-tag:active {
+    transform: scale(0.96);
 }
 
 /* NOT FOCUSED */
@@ -57,7 +62,7 @@
     height: 180px;
     flex: 1 0 21%;
     padding: 12px 16px;
-    border-radius: 12px;
+    border-radius: 6px;
     box-shadow: 1px 1px 2px var(--shadow);
 }
 

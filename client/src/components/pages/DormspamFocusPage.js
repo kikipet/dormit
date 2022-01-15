@@ -13,7 +13,6 @@ function DormspamFocusPage(props) {
     useEffect(() => {
         get("/api/dormspam", { id: props.id }).then((dormspamObj) => {
             setDormspam(dormspamObj);
-            console.log(dormspamObj);
         });
     }, []);
 

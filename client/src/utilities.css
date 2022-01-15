@@ -66,6 +66,10 @@ body {
     color: var(--gray-dark);
 }
 
+p {
+    line-height: 24px;
+}
+
 form {
     flex-grow: 1;
 }

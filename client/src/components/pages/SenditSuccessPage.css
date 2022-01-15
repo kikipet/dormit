@@ -14,3 +14,7 @@
     border-style: none;
     vertical-align: auto;
 }
+
+.sendit-actions:hover {
+    background-color: var(--primary-dim);
+}

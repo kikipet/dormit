@@ -1,6 +1,6 @@
 .finditbar {
     margin: auto;
-    background-color: var(--white-dim);
+    background-color: var(--primary-dim3);
     border-radius: var(--rad);
     padding: 12px 16px;
     /* box-shadow: 1px 1px 2px var(--shadow); */
@@ -32,8 +32,9 @@
 }
 
 .finditbar-clear {
-    color: var(--primary-emph);
-    background-color: white;
+    background-color: var(--primary-text);
+    color: white;
+    border-color: var(--primary-text);
     text-decoration: none;
     box-shadow: 0px var(--white-dim);
 }

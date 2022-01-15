@@ -103,6 +103,7 @@ function FinditPage(props) {
     // search - text
     useEffect(() => {
         if (searchText !== "") {
+            setFocusMode(false);
             navigate("/findit/search", { replace: true });
             setPageNum(1);
             updateTotPageCount("/api/dormspam-search-count", { query: searchText });
@@ -124,6 +125,15 @@ function FinditPage(props) {
         }
     }, [pageNum]);
 
+    // dormspam clickability
+    function onCardClick(e, id) {
+        const isTextSelected = window.getSelection().toString();
+        if (!isTextSelected) {
+            setFocusMode(!focusMode);
+            navigate(`/findit/dormspam/${id}`);
+        }
+    }
+
     // generate dormspam cards
     let dormspamsList = null;
     const hasDormspams = dormspams.length !== 0;
@@ -143,6 +153,7 @@ function FinditPage(props) {
                 toggleFocusMode={() => {
                     setFocusMode(!focusMode);
                 }}
+                handleCardClick={onCardClick}
             />
         ));
     } else {
