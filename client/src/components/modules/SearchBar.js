@@ -12,9 +12,9 @@ function SearchBar(props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="findit-searchbar-container">
             <input
-                className="findit-searchbar"
+                className="form-input findit-searchbar"
                 name="search"
                 type="text"
                 value={searchText}

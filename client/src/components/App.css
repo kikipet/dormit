@@ -17,25 +17,42 @@ a {
     text-align: center;
 }
 
+.root-page-container {
+    display: grid;
+    grid-template-rows: auto 1fr 52px;
+    min-height: 100%;
+    width: 100%;
+}
+
+.page-container {
+    min-height: 100%;
+}
+
+.page-body {
+    background-color: white;
+    border-radius: var(--rad);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: var(--l);
+    max-width: 540px;
+}
+
+/* BUTTONS */
+.button-container {
+    display: flex;
+    width: auto;
+    justify-content: center;
+    gap: var(--m);
+}
+
 .action-button {
-    padding: 10px;
+    padding: 10px 12px;
     font-weight: bold;
     font-size: var(--m);
     border-radius: var(--rad);
     border-style: solid;
-    box-shadow: 2px 2px 2px var(--shadow);
-}
-
-.root-page-container {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100%;
-    width: 100%;
-    position: relative;
-}
-
-.page-container {
-    padding-bottom: 52px;
+    box-shadow: 1px 1px 2px var(--shadow);
 }
 
 /* FORMS */
@@ -57,7 +74,7 @@ a {
     display: flex;
     flex-direction: column;
     font-weight: bold;
-    padding: var(--xs);
+    padding: var(--s) var(--s);
     font-size: var(--m);
     color: var(--primary-emph);
 }
@@ -80,8 +97,9 @@ a {
     border-width: 1px;
     border-color: var(--gray-light);
     border-style: solid;
-    padding: 4px;
+    padding: var(--ms);
     font-size: 14px;
+    border-radius: 0px;
 }
 
 .form-radio {
@@ -112,6 +130,8 @@ a {
 
 .multiple-value-text-input input {
     margin-top: 5px;
+    width: calc(100% - 18px) !important;
+    padding-right: -8px !important;
 }
 
 .ql-editor {

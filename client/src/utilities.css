@@ -51,7 +51,7 @@
     --xl: 32px;
     --xxl: 48px;
 
-    --rad: 12px;
+    --rad: 0px;
 }
 
 body {
@@ -62,6 +62,7 @@ body {
     font-family: "Mulish", sans-serif;
     font-weight: 300;
     background-color: var(--primary);
+    /* background-color: var(--white-dim); */
     color: var(--gray-dark);
 }
 

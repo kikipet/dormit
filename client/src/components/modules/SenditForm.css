@@ -24,26 +24,20 @@
     color: var(--gray-dark);
 }
 
-.sendit-action-buttons {
-    display: flex;
-    width: auto;
-    justify-content: center;
-    gap: var(--m);
-}
-
-.sendit-discard {
+.sendit-clear {
+    padding: 8px;
     color: var(--primary);
     background-color: white;
     border-style: none;
     box-shadow: 0px 0px 0px;
 }
 
-.sendit-discard:hover {
+.sendit-clear:hover {
     color: var(--primary-dim);
 }
 
 .sendit-savedraft {
-    padding: 8px;
+    padding: 8px 10px;
     color: var(--primary);
     background-color: white;
     border-width: 2px;
@@ -52,13 +46,14 @@
 }
 
 .sendit-savedraft:hover {
+    /* what color(s) to make this? */
     color: var(--primary-dim);
     border-color: var(--primary-dim);
 }
 
 .sendit-submit {
     color: white;
-    background-color: var(--primary-emph);
+    background-color: var(--primary-text);
     border-style: none;
 }
 

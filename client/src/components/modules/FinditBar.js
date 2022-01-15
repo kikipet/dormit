@@ -8,7 +8,12 @@ function FinditBar(props) {
     return (
         <div className="finditbar">
             <SearchBar updateSearch={props.updateSearch} />
-            <Link to="/findit" onClick={props.clearSearch}>
+            <div className="finditbar-tags"></div>
+            <Link
+                className="action-button finditbar-clear"
+                to="/findit"
+                onClick={props.clearSearch}
+            >
                 clear search
             </Link>
         </div>

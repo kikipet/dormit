@@ -9,6 +9,7 @@ import Footer from "./modules/Footer";
 import LandingPage from "./pages/LandingPage";
 import FinditPage from "./pages/FinditPage";
 import SenditPage from "./pages/SenditPage";
+import SenditSuccessPage from "./pages/SenditSuccessPage";
 import SignupLoginPage from "./pages/SignupLoginPage";
 import ProfilePage from "./pages/ProfilePage";
 
@@ -66,6 +67,7 @@ function App() {
                         element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
                     />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
+                    <Route path="/sendit/success" element={<SenditSuccessPage />} />
                     <Route path="/sendit" element={<SenditPage userName={userName} />} />
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />

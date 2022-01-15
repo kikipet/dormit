@@ -1,0 +1,16 @@
+.sendit-feedback {
+    justify-content: center;
+}
+
+.sendit-feedback-text {
+    text-align: center;
+    margin-top: 0px;
+}
+
+.sendit-actions {
+    background-color: var(--primary-text);
+    color: white;
+    text-decoration: none;
+    border-style: none;
+    vertical-align: auto;
+}

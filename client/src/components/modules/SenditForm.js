@@ -1,5 +1,5 @@
-import { PromiseProvider } from "mongoose";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MultipleValueTextInput from "react-multivalue-text-input";
 import { post } from "../../utilities";
 
@@ -19,6 +19,7 @@ function SenditForm(props) {
     const [color, setColor] = useState("#000000");
     const [button, setButton] = useState("none");
     const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
+    const navigate = useNavigate();
 
     /*
     current dummy mailing lists:
@@ -55,7 +56,6 @@ function SenditForm(props) {
         console.log(button);
         // submit
         if (button === "send") {
-            console.log(props.userName);
             // title should exist
             if (title === "") {
                 alert("subject missing");
@@ -75,7 +75,7 @@ function SenditForm(props) {
                     color: color,
                     tag: tag,
                 };
-                post("/api/sendemail", emailObj).then("Emails successful!");
+                post("/api/sendemail", emailObj).then(navigate("/sendit/success"));
             }
         } else if (button === "clear") {
             if (confirm("are you sure you want to clear?")) {
@@ -199,7 +199,7 @@ function SenditForm(props) {
                         />
                     </label>
                 </div>
-                <div className="sendit-action-buttons">
+                <div className="button-container sendit-action-buttons">
                     <button
                         className="action-button sendit-clear"
                         name="clear"
