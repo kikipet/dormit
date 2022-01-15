@@ -18,7 +18,7 @@
 
 const path = require("path");
 const entryFile = path.resolve(__dirname, "client", "src", "index.js");
-const outputDir = path.resolve(__dirname, "client", "dist");
+const outputDir = path.resolve(__dirname, "client", "public");
 
 const webpack = require("webpack");
 
@@ -65,7 +65,7 @@ module.exports = {
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
         historyApiFallback: true,
-        static: "./client/dist",
+        static: "./client/public",
         hot: true,
         proxy: {
             "/api": "http://localhost:3000",
