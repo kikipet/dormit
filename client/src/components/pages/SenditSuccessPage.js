@@ -6,9 +6,9 @@ import "./SenditSuccessPage.css";
 function SenditSuccessPage(props) {
     return (
         <div id="sendit" className="page-container">
-            <h1 id="findit-title" className="page-title">
+            <Link to="/sendit" id="findit-title" className="page-title">
                 sendit
-            </h1>
+            </Link>
             <div className="formpage-body sendit-feedback">
                 <p className="sendit-feedback-text">Dormspams sent!</p>
                 <div className="button-container">

@@ -2,7 +2,7 @@
     margin: var(--s);
 }
 
-@media (min-width: 513px) {
+@media (min-width: 541px) {
     .sendit-column-container {
         display: grid;
         grid-template-columns: 1fr 1fr;

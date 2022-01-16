@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import SenditForm from "../modules/SenditForm";
 
 function SenditPage(props) {
     return (
         <div id="sendit" className="page-container">
-            <h1 id="findit-title" className="page-title">
+            <Link to="/sendit" id="findit-title" className="page-title">
                 sendit
-            </h1>
+            </Link>
             <SenditForm userName={props.userName} />
         </div>
     );

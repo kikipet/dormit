@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import SignupForm from "../modules/SignupForm";
 import LoginForm from "../modules/LoginForm";
@@ -9,18 +10,18 @@ function SignupLoginPage(props) {
     if (props.type === "signup") {
         return (
             <div className="page-container signup-login">
-                <h1 id="signup-title" className="page-title">
+                <Link to="/signup" id="signup-title" className="page-title">
                     sign up
-                </h1>
+                </Link>
                 <SignupForm />
             </div>
         );
     }
     return (
         <div id="signup-login" className="page-container">
-            <h1 id="signup-title" className="page-title">
+            <Link to="/login" id="signup-title" className="page-title">
                 log in
-            </h1>
+            </Link>
             <LoginForm handleLogin={props.handleLogin} />
         </div>
     );

@@ -15,6 +15,12 @@ a {
 .page-title {
     color: white;
     text-align: center;
+    text-decoration: none;
+    font-size: 36px;
+    font-weight: bold;
+    display: block;
+    margin-block-start: 24px;
+    margin-block-end: 24px;
 }
 
 .root-page-container {

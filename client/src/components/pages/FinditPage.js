@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { get } from "../../utilities";
 
@@ -180,9 +180,9 @@ function FinditPage(props) {
     // browsing mode - many dormspams
     return (
         <div id="findit" className="page-container">
-            <h1 id="findit-title" className="page-title">
+            <Link to="/findit" id="findit-title" className="page-title">
                 findit
-            </h1>
+            </Link>
             <div className="findit-container">
                 <div className="finditbar-container">
                     <FinditBar
