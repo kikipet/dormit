@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { get } from "../../utilities";
 
-import FinditBar from "../modules/FinditBar";
+import FinditBarSelect from "../modules/FinditBarSelect";
 import Dormspam from "../modules/Dormspam";
 import DormspamFocusPage from "./DormspamFocusPage";
 import PageControl from "../modules/PageControl";
@@ -49,8 +49,9 @@ function FinditPage(props) {
     }
 
     // tag control
-    const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
+    const tagOptions = ["advertisement", "club", "course", "event", "job", "survey", "other"];
     const [searchTagList, setTagList] = useState([]);
+    // these are the tags attached to dormspams
     let tagStatus = {
         club: false,
         course: false,
@@ -60,10 +61,24 @@ function FinditPage(props) {
         survey: false,
         other: false,
     };
-    function createTagList() {
+    // and these are the tags attached to the search bar
+    let searchTagStatus = {
+        club: true,
+        course: true,
+        event: true,
+        job: true,
+        advertisement: true,
+        survey: true,
+        other: true,
+    };
+    function toggleSearchTag(tag) {
+        searchTagStatus[tag] = !searchTagStatus[tag];
+    }
+
+    function createTagList(tagBooleans) {
         let searchTags = [];
         for (var t in tagOptions) {
-            if (tagStatus[tagOptions[t]]) {
+            if (tagBooleans[tagOptions[t]]) {
                 searchTags.push(tagOptions[t]);
             }
         }
@@ -79,13 +94,19 @@ function FinditPage(props) {
         updateTotPageCount("/api/dormspam-count");
     }
 
-    // search - tags
+    // search - single tag (via dormspam)
     function searchByTag(tag) {
         setFocusMode(false);
         for (var t in tagOptions) {
             tagStatus[tagOptions[t]] = tag === tagOptions[t];
         }
-        const searchTags = createTagList();
+        const searchTags = createTagList(tagStatus);
+        setTagList(searchTags);
+    }
+    // search - multiple tags (via search bar)
+    function searchByTags(tagList) {
+        setFocusMode(false);
+        const searchTags = createTagList(tagList);
         setTagList(searchTags);
     }
     useEffect(() => {
@@ -185,10 +206,14 @@ function FinditPage(props) {
             </Link>
             <div className="findit-container">
                 <div className="finditbar-container">
-                    <FinditBar
+                    <FinditBarSelect
                         updateSearch={setSearchText}
                         clearSearch={clearSearchItems}
                         updatePage={setPageNum}
+                        tagOptions={tagOptions}
+                        tagStatus={searchTagStatus}
+                        toggleTag={toggleSearchTag}
+                        updateTags={searchByTag}
                     />
                 </div>
                 <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />

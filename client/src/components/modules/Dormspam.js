@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
-import { IoExpandOutline, IoCloseOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { IoCloseOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 import Tag from "./Tag";
 

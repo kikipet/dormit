@@ -66,3 +66,7 @@
     flex-wrap: wrap;
     gap: 8px;
 }
+
+.search-tag {
+    background-color: var(--butter);
+}
