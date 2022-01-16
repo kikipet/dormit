@@ -1,11 +1,11 @@
 ::-moz-selection {
     color: var(--gray-dark);
-    background: var(--canary);
+    background: var(--accent-select);
 }
 
 ::selection {
     color: var(--gray-dark);
-    background: var(--canary);
+    background: var(--accent-select);
 }
 
 a {
@@ -142,7 +142,7 @@ a {
 
 .multiple-value-text-input-item {
     color: var(--gray-dark);
-    background-color: var(--butter) !important;
+    background-color: var(--accent) !important;
     border-color: var(--gray-light) !important;
     padding: 1px 5px 1px 5px !important;
     font-weight: normal;

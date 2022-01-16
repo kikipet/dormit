@@ -48,6 +48,20 @@ router.get("/dormspam-search-tag-count", (req, res) => {
     });
 });
 
+router.get("/dormspam-search-advanced", (req, res) => {
+    const skip = req.query.skip;
+    const tagList = req.query.tags.split(",");
+    Dormspam.find(
+        { $text: { $search: req.query.query }, tag: { $in: tagList } },
+        { score: { $meta: "textScore" } },
+        { skip, limit: 24 }
+    )
+        .sort({ date: -1, score: { $meta: "textScore" } })
+        .then((results) => {
+            res.send(results);
+        });
+});
+
 router.get("/dormspam-search-tag", (req, res) => {
     const skip = req.query.skip;
     const tagList = req.query.tags.split(",");

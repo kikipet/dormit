@@ -37,6 +37,7 @@ function FinditPage(props) {
 
     // search bar business
     const [searchText, setSearchText] = useState("");
+    const [searchQuery, setSearchQuery] = useState({ skip: 0 });
     function clearSearchItems() {
         setSearchText("");
         setTagList([]);
@@ -61,7 +62,7 @@ function FinditPage(props) {
         survey: false,
         other: false,
     };
-    // and these are the tags attached to the search bar
+    // and these are the tags attached to the (advanced) search bar
     let searchTagStatus = {
         club: true,
         course: true,
@@ -102,35 +103,37 @@ function FinditPage(props) {
         }
         const searchTags = createTagList(tagStatus);
         setTagList(searchTags);
+        // the actual search part
+        navigate("/findit/search", { replace: true });
+        setPageNum(1);
+        const query = {
+            tags: searchTags,
+            skip: 0,
+        };
+        setSearchQuery(query);
+        updateTotPageCount("/api/dormspam-search-tag-count", query);
+        getDormspams("/api/dormspam-search-tag", query);
     }
-    // search - multiple tags (via search bar)
-    function searchByTags(tagList) {
+
+    // search - text
+    function searchByText(search) {
+        setSearchText(search);
+
+        setFocusMode(false);
+        navigate("/findit/search", { replace: true });
+        setPageNum(1);
+        const query = { query: search, skip: 0 };
+        setSearchQuery(query);
+        updateTotPageCount("/api/dormspam-search-count", query);
+        getDormspams("/api/dormspam-search", query);
+    }
+
+    // search - advanced search
+    function searchAdvanced(tagList) {
         setFocusMode(false);
         const searchTags = createTagList(tagList);
         setTagList(searchTags);
     }
-    useEffect(() => {
-        if (searchTagList.length > 0) {
-            navigate("/findit/search", { replace: true });
-            setPageNum(1);
-            updateTotPageCount("/api/dormspam-search-tag-count", { tags: searchTagList });
-            getDormspams("/api/dormspam-search-tag", {
-                tags: searchTagList,
-                skip: 0,
-            });
-        }
-    }, [searchTagList]);
-
-    // search - text
-    useEffect(() => {
-        if (searchText !== "") {
-            setFocusMode(false);
-            navigate("/findit/search", { replace: true });
-            setPageNum(1);
-            updateTotPageCount("/api/dormspam-search-count", { query: searchText });
-            getDormspams("/api/dormspam-search", { query: searchText, skip: 0 });
-        }
-    }, [searchText]);
 
     // get dormspams
     useEffect(() => {
@@ -199,8 +202,6 @@ function FinditPage(props) {
                 toggleFocusMode={() => {
                     setFocusMode(!focusMode);
                 }}
-                updateSearch={setSearchText}
-                clearSearch={clearSearchItems}
             />
         );
     }
@@ -213,7 +214,7 @@ function FinditPage(props) {
             <div className="findit-container">
                 <div className="finditbar-container">
                     <FinditBarSelect
-                        updateSearch={setSearchText}
+                        updateSearch={searchByText}
                         clearSearch={clearSearchItems}
                         updatePage={setPageNum}
                         tagOptions={tagOptions}

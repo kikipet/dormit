@@ -11,11 +11,16 @@ function FinditBar(props) {
         props.updatePage(pageInput);
         event.preventDefault();
     }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+    }
+
     if (props.simple) {
         return (
             <div className="finditbar">
                 <div className="finditbar-section search-nav">
-                    <SearchBar updateSearch={props.updateSearch} />
+                    <SearchBar updateSearch={props.updateSearch} simple={true} />
                     <form className="page-input" onSubmit={handlePageChange}>
                         go to page:{" "}
                         <input
@@ -39,25 +44,15 @@ function FinditBar(props) {
     }
     return (
         <div className="finditbar">
-            <div className="finditbar-section search-nav">
-                <SearchBar updateSearch={props.updateSearch} />
-                <form className="page-input" onSubmit={handlePageChange}>
-                    go to page:{" "}
-                    <input
-                        className="form-input page-num"
-                        name="pageNum"
-                        type="text"
-                        value={pageInput}
-                        onChange={(e) => setPageInput(e.target.value)}
-                    />
-                </form>
-            </div>
-            <TagDropdown
-                tagStatus={props.tagStatus}
-                tagOptions={props.tagOptions}
-                toggleTag={props.toggleTag}
-                updateTags={props.updateTags}
-            />
+            <form onSubmit={handleSubmit}>
+                <SearchBar updateSearch={props.updateSearch} simple={false} />
+                <TagDropdown
+                    tagStatus={props.tagStatus}
+                    tagOptions={props.tagOptions}
+                    toggleTag={props.toggleTag}
+                    updateTags={props.updateTags}
+                />
+            </form>
             <Link
                 className="action-button finditbar-clear"
                 to="/findit"
@@ -65,6 +60,16 @@ function FinditBar(props) {
             >
                 clear search
             </Link>
+            <form className="page-input" onSubmit={handlePageChange}>
+                go to page:{" "}
+                <input
+                    className="form-input page-num"
+                    name="pageNum"
+                    type="text"
+                    value={pageInput}
+                    onChange={(e) => setPageInput(e.target.value)}
+                />
+            </form>
         </div>
     );
 }

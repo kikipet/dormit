@@ -28,13 +28,13 @@
     font-size: 28px;
     border-style: none;
     padding: 10px;
-    background-color: var(--butter);
+    background-color: var(--accent);
     color: var(--gray-dark);
     transition: all 0.2s ease;
 }
 
 .search-button:hover {
-    background-color: var(--canary);
+    background-color: var(--accent-select);
 }
 
 .search-button:active {
@@ -65,8 +65,27 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    z-index: 2;
 }
 
 .search-tag {
-    background-color: var(--butter);
+    padding: 8px;
+}
+
+.search-tag-selected {
+    background-color: var(--accent);
+}
+
+.search-tag-unselected {
+    background-color: var(--primary-dim3);
+}
+
+.search-tag-selected button {
+    background-color: var(--accent);
+    border-style: none;
+}
+
+.search-tag-unselected button {
+    background-color: var(--primary-dim3);
+    border-style: none;
 }

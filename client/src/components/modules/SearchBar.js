@@ -11,6 +11,19 @@ function SearchBar(props) {
         event.preventDefault();
     }
 
+    if (!props.simple) {
+        return (
+            <input
+                className="form-input findit-searchbar"
+                name="search"
+                type="text"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="search"
+            />
+        );
+    }
+
     return (
         <form onSubmit={handleSubmit} className="findit-searchbar-container">
             <input

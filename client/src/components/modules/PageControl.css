@@ -6,7 +6,7 @@
 .page-arrow {
     font-size: 32px;
     background-color: var(--primary);
-    color: var(--butter);
+    color: var(--accent);
     border-style: none;
     width: 36px;
     height: 36px;
@@ -21,7 +21,7 @@
 
 .page-arrow:hover {
     cursor: pointer;
-    color: var(--canary);
+    color: var(--accent-select);
 }
 
 .page-arrow:disabled:hover {
