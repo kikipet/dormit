@@ -7,6 +7,15 @@
     align-items: center;
 }
 
+.findit-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    gap: var(--m);
+    align-items: center;
+}
+
 .dormspams-container {
     display: flex;
     flex-direction: row;

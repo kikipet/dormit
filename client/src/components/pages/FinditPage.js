@@ -5,7 +5,7 @@ import { get } from "../../utilities";
 
 import FinditBarSelect from "../modules/FinditBarSelect";
 import Dormspam from "../modules/Dormspam";
-import DormspamFocusPage from "./DormspamFocusPage";
+import DormspamFocus from "../modules/DormspamFocus";
 import PageControl from "../modules/PageControl";
 
 import "./FinditPage.css";
@@ -150,7 +150,7 @@ function FinditPage(props) {
     function onCardClick(e, id) {
         const isTextSelected = window.getSelection().toString();
         if (!isTextSelected) {
-            setFocusMode(!focusMode);
+            setFocusMode(true);
             navigate(`/findit/dormspam/${id}`);
         }
     }
@@ -182,12 +182,18 @@ function FinditPage(props) {
     }
 
     // return web content
-
+    let webContent = (
+        <div className="findit-content">
+            <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
+            <div className="dormspams-container">{dormspamsList}</div>
+            <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
+        </div>
+    );
     // focus mode - 1 dormspam
     if (focusMode) {
         const dormspamID = useParams()["id"];
-        return (
-            <DormspamFocusPage
+        webContent = (
+            <DormspamFocus
                 id={dormspamID}
                 searchByTag={searchByTag}
                 toggleFocusMode={() => {
@@ -216,9 +222,7 @@ function FinditPage(props) {
                         updateTags={searchByTag}
                     />
                 </div>
-                <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
-                <div className="dormspams-container">{dormspamsList}</div>
-                <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
+                {webContent}
             </div>
         </div>
     );
