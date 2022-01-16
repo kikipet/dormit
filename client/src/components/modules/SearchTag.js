@@ -8,17 +8,15 @@ function SearchTag(props) {
     }
 
     return (
-        <div className={`search-tag search-tag-${tagStatus ? "" : "un"}selected`}>
-            {props.text}
-            <button
-                onClick={(e) => {
-                    props.toggleTag(props.text);
-                    toggleTag();
-                }}
-            >
-                {tagStatus ? <IoCloseOutline /> : <IoAddOutline />}
-            </button>
-        </div>
+        <button
+            className={`search-tag search-tag-${tagStatus ? "" : "un"}selected`}
+            onClick={(e) => {
+                props.toggleTag(props.text);
+                toggleTag();
+            }}
+        >
+            {props.text} {tagStatus ? <IoCloseOutline /> : <IoAddOutline />}
+        </button>
     );
 }
 

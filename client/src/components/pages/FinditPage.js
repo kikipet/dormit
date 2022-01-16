@@ -29,6 +29,7 @@ function FinditPage(props) {
         defaultPage = 1;
     }
     const [pageNum, setPageNum] = useState(defaultPage);
+
     function updateTotPageCount(call, params = {}) {
         get(call, params).then((res) => {
             setTotalPages(Math.ceil(res.count / 24));
@@ -37,53 +38,22 @@ function FinditPage(props) {
 
     // search bar business
     const [searchText, setSearchText] = useState("");
-    const [searchQuery, setSearchQuery] = useState({ skip: 0 });
+    const [searchTagList, setTagList] = useState([]);
+    const [searchTimeStart, setTimeStart] = useState("1970-01-01");
+    const [searchTimeEnd, setTimeEnd] = useState(Date());
+    const [searchBC, setBCTalk] = useState("");
+    const [searchQuery, setSearchQuery] = useState({});
+
     function clearSearchItems() {
         setSearchText("");
         setTagList([]);
-        for (var t in tagOptions) {
-            tagStatus[tagOptions[t]] = false;
-        }
+        setTimeStart("1970-01-01");
+        setTimeEnd(Date());
+        setBCTalk("");
+        setSearchQuery({});
         setFocusMode(false);
         setPageNum(1);
         getDormspams("/api/dormspams", { skip: 0 });
-    }
-
-    // tag control
-    const tagOptions = ["advertisement", "club", "course", "event", "job", "survey", "other"];
-    const [searchTagList, setTagList] = useState([]);
-    // these are the tags attached to dormspams
-    let tagStatus = {
-        club: false,
-        course: false,
-        event: false,
-        job: false,
-        advertisement: false,
-        survey: false,
-        other: false,
-    };
-    // and these are the tags attached to the (advanced) search bar
-    let searchTagStatus = {
-        club: true,
-        course: true,
-        event: true,
-        job: true,
-        advertisement: true,
-        survey: true,
-        other: true,
-    };
-    function toggleSearchTag(tag) {
-        searchTagStatus[tag] = !searchTagStatus[tag];
-    }
-
-    function createTagList(tagBooleans) {
-        let searchTags = [];
-        for (var t in tagOptions) {
-            if (tagBooleans[tagOptions[t]]) {
-                searchTags.push(tagOptions[t]);
-            }
-        }
-        return searchTags;
     }
 
     // get initial page count
@@ -98,10 +68,7 @@ function FinditPage(props) {
     // search - single tag (via dormspam)
     function searchByTag(tag) {
         setFocusMode(false);
-        for (var t in tagOptions) {
-            tagStatus[tagOptions[t]] = tag === tagOptions[t];
-        }
-        const searchTags = createTagList(tagStatus);
+        const searchTags = [tag];
         setTagList(searchTags);
         // the actual search part
         navigate("/findit/search", { replace: true });
@@ -184,8 +151,8 @@ function FinditPage(props) {
         dormspamsList = <div style={{ color: "#fff" }}>loading...</div>;
     }
 
-    // return web content
-    let webContent = (
+    // return page content
+    let pageContent = (
         <div className="findit-content">
             <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
             <div className="dormspams-container">{dormspamsList}</div>
@@ -195,7 +162,7 @@ function FinditPage(props) {
     // focus mode - 1 dormspam
     if (focusMode) {
         const dormspamID = useParams()["id"];
-        webContent = (
+        pageContent = (
             <DormspamFocus
                 id={dormspamID}
                 searchByTag={searchByTag}
@@ -214,16 +181,12 @@ function FinditPage(props) {
             <div className="findit-container">
                 <div className="finditbar-container">
                     <FinditBarSelect
-                        updateSearch={searchByText}
-                        clearSearch={clearSearchItems}
                         updatePage={setPageNum}
-                        tagOptions={tagOptions}
-                        tagStatus={searchTagStatus}
-                        toggleTag={toggleSearchTag}
-                        updateTags={searchByTag}
+                        clearSearch={clearSearchItems}
+                        updateSearchSimple={searchByText}
                     />
                 </div>
-                {webContent}
+                {pageContent}
             </div>
         </div>
     );

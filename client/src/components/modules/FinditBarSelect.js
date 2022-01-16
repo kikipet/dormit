@@ -16,13 +16,9 @@ function FinditBarSelect(props) {
             </div>
             <FinditBar
                 simple={simple}
-                updateSearch={props.updateSearch}
+                updateSearchSimple={props.updateSearchSimple}
                 clearSearch={props.clearSearch}
                 updatePage={props.updatePage}
-                tagOptions={props.tagOptions}
-                tagStatus={props.tagStatus}
-                toggleTag={props.toggleTag}
-                updateTags={props.updateTags}
             />
         </div>
     );

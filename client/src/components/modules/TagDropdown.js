@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchTag from "./SearchTag";
 
 function TagDropdown(props) {
-    const [full, setMode] = useState(false);
+    const [full, setMode] = useState(true);
 
     function toggleMode() {
         setMode(!full);
@@ -22,8 +22,8 @@ function TagDropdown(props) {
     if (full) {
         return (
             <div className="finditbar-section finditbar-tags">
-                <button onClick={toggleMode}>hide tags</button>
-                <div>{tagCollection}</div>
+                {/* <button onClick={toggleMode}>hide tags</button> */}
+                {tagCollection}
             </div>
         );
     }

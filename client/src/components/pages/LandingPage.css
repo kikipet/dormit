@@ -81,7 +81,7 @@
 @media (min-width: 541px) and (max-width: 768px) {
     .landing-page-container {
         height: min(100vw * 9/16, 480px);
-        background-image: url("../../assets/dormit-plane-landing-small.svg");
+        background-image: url("../../../public/assets/dormit-plane-landing-small.svg");
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -98,7 +98,7 @@
 @media (min-width: 769px) and (max-width: 1200px) {
     .landing-page-container {
         height: min(100vw * 9/16, 480px);
-        background-image: url("../../assets/dormit-plane-landing-med.svg");
+        background-image: url("../../../public/assets/dormit-plane-landing-med.svg");
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -107,7 +107,7 @@
 @media (min-width: 1201px) {
     .landing-page-container {
         height: 480px;
-        background-image: url("../../assets/dormit-plane-landing-large.svg");
+        background-image: url("../../../public/assets/dormit-plane-landing-large.svg");
         background-repeat: no-repeat;
         background-size: 100vw;
     }
