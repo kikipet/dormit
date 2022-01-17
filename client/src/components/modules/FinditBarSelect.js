@@ -20,6 +20,8 @@ function FinditBarSelect(props) {
                 updateSearchAdvanced={props.updateSearchAdvanced}
                 clearSearch={props.clearSearch}
                 updatePage={props.updatePage}
+                prevDisabled={props.prevDisabled}
+                nextDisabled={props.nextDisabled}
             />
         </div>
     );
