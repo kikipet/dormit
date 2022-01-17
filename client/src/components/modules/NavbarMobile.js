@@ -32,6 +32,7 @@ function NavbarMobile(props) {
             </div>
             <NavbarDropdownMobile
                 show={showDropDown}
+                onClick={(e) => setDropDown(false)}
                 userId={props.userId}
                 handleLogout={props.handleLogout}
             />

@@ -9,6 +9,7 @@ function NavbarDropdownMobile(props) {
                     isActive ? "navbar-link navbar-link-active" : "navbar-link"
                 }
                 to="/signup"
+                onClick={props.onClick}
             >
                 sign up
             </NavLink>
@@ -21,6 +22,7 @@ function NavbarDropdownMobile(props) {
                     isActive ? "navbar-link navbar-link-active" : "navbar-link"
                 }
                 to="/login"
+                onClick={props.onClick}
             >
                 log in
             </NavLink>
@@ -34,6 +36,7 @@ function NavbarDropdownMobile(props) {
                         isActive ? "navbar-link navbar-link-active" : "navbar-link"
                     }
                     to={`/profile/${props.userId}`}
+                    onClick={props.onClick}
                 >
                     profile
                 </NavLink>
@@ -46,7 +49,10 @@ function NavbarDropdownMobile(props) {
                         isActive ? "navbar-link navbar-link-active" : "navbar-link"
                     }
                     to="/"
-                    onClick={props.handleLogout}
+                    onClick={(e) => {
+                        props.handleLogout();
+                        props.onClick(e);
+                    }}
                 >
                     log out
                 </NavLink>
@@ -62,6 +68,7 @@ function NavbarDropdownMobile(props) {
                             isActive ? "navbar-link navbar-link-active" : "navbar-link"
                         }
                         to="/"
+                        onClick={props.onClick}
                     >
                         home
                     </NavLink>
@@ -72,6 +79,7 @@ function NavbarDropdownMobile(props) {
                             isActive ? "navbar-link navbar-link-active" : "navbar-link"
                         }
                         to="/sendit"
+                        onClick={props.onClick}
                     >
                         sendit
                     </NavLink>
@@ -82,6 +90,7 @@ function NavbarDropdownMobile(props) {
                             isActive ? "navbar-link navbar-link-active" : "navbar-link"
                         }
                         to="/findit"
+                        onClick={props.onClick}
                     >
                         findit
                     </NavLink>
