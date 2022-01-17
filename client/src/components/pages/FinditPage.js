@@ -202,7 +202,6 @@ function FinditPage(props) {
             <div className="findit-container">
                 <div className="finditbar-container">
                     <FinditBarSelect
-                        updatePage={setPageNum}
                         clearSearch={clearSearchItems}
                         updateSearchSimple={searchByText}
                         updateSearchAdvanced={searchAdvanced}

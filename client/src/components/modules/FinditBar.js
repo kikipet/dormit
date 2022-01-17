@@ -7,12 +7,12 @@ import TagDropdown from "./TagDropdown";
 import "./FinditBar.css";
 
 function FinditBar(props) {
-    // page navigation
-    const [pageInput, setPageInput] = useState("");
-    function handlePageChange(event) {
-        props.updatePage(pageInput);
-        event.preventDefault();
-    }
+    // // page navigation
+    // const [pageInput, setPageInput] = useState("");
+    // function handlePageChange(event) {
+    //     props.updatePage(pageInput);
+    //     event.preventDefault();
+    // }
 
     // search fields
     const [searchText, setSearchText] = useState("");
@@ -53,6 +53,16 @@ function FinditBar(props) {
         const tagList = createTagList(tagStatus);
         props.updateSearchAdvanced(searchText, tagList, searchTimeStart, searchTimeEnd, searchBC);
         // reset variables within here as well
+        resetAll();
+        event.preventDefault();
+    }
+
+    function clearSearch() {
+        props.clearSearch();
+        resetAll();
+    }
+
+    function resetAll() {
         setSearchText("");
         setTimeStart("");
         setTimeEnd("");
@@ -60,22 +70,11 @@ function FinditBar(props) {
         for (var t in tagOptions) {
             tagStatus[tagOptions[t]] = true;
         }
-        event.preventDefault();
     }
 
     if (props.simple) {
         return (
-            <div className="finditbar">
-                <form className="page-input" onSubmit={handlePageChange}>
-                    go to page:{" "}
-                    <input
-                        className="form-input page-num"
-                        name="pageNum"
-                        type="text"
-                        value={pageInput}
-                        onChange={(e) => setPageInput(e.target.value)}
-                    />
-                </form>
+            <div className="finditbar-simple">
                 <SearchBar
                     searchText={searchText}
                     setSearchText={setSearchText}
@@ -87,64 +86,48 @@ function FinditBar(props) {
                     to="/findit"
                     onClick={props.clearSearch}
                 >
-                    clear search
+                    reset all
                 </Link>
             </div>
         );
     }
     // TagDropdown remains "dropdown" because I'll need to make this mobile-friendly at some point
     return (
-        <div className="finditbar">
-            <form onSubmit={handleSubmit}>
-                <SearchBar searchText={searchText} setSearchText={setSearchText} simple={false} />
-                <div className="finditbar-dates">
-                    <input
-                        type="date"
-                        className="form-input finditbar-date"
-                        name="start"
-                        value={searchTimeStart}
-                        onChange={(e) => setTimeStart(e.target.value)}
-                    ></input>
-                    {" - "}
-                    <input
-                        type="date"
-                        className="form-input finditbar-date"
-                        name="end"
-                        value={searchTimeEnd}
-                        onChange={(e) => setTimeEnd(e.target.value)}
-                    ></input>
-                </div>
-                <TagDropdown tagStatus={tagStatus} tagOptions={tagOptions} toggleTag={toggleTag} />
+        <form className="finditbar-advanced" onSubmit={handleSubmit}>
+            <div className="finditbar-date">
+                from:{" "}
                 <input
-                    type="text"
-                    className="form-input"
-                    name="bctalk"
-                    value={searchBC}
-                    onChange={(e) => setBCTalk(e.target.value)}
-                    placeholder="bc-talk color"
+                    type="date"
+                    className="form-input finditbar-date"
+                    name="start"
+                    value={searchTimeStart}
+                    onChange={(e) => setTimeStart(e.target.value)}
                 ></input>
-                <button className="action-button" type="submit">
-                    search
-                </button>
-            </form>
-            <Link
-                className="action-button finditbar-clear"
-                to="/findit"
-                onClick={props.clearSearch}
-            >
-                clear search
+            </div>
+            <SearchBar searchText={searchText} setSearchText={setSearchText} simple={false} />
+            <Link className="action-button finditbar-clear" to="/findit" onClick={clearSearch}>
+                reset all
             </Link>
-            <form className="page-input" onSubmit={handlePageChange}>
-                go to page:{" "}
+            <div className="finditbar-date">
+                to:{" "}
                 <input
-                    className="form-input page-num"
-                    name="pageNum"
-                    type="text"
-                    value={pageInput}
-                    onChange={(e) => setPageInput(e.target.value)}
-                />
-            </form>
-        </div>
+                    type="date"
+                    className="form-input finditbar-date"
+                    name="end"
+                    value={searchTimeEnd}
+                    onChange={(e) => setTimeEnd(e.target.value)}
+                ></input>
+            </div>
+            <TagDropdown tagStatus={tagStatus} tagOptions={tagOptions} toggleTag={toggleTag} />
+            <input
+                type="text"
+                className="form-input finditbar-bctalk"
+                name="bctalk"
+                value={searchBC}
+                onChange={(e) => setBCTalk(e.target.value)}
+                placeholder="bc-talk color"
+            ></input>
+        </form>
     );
 }
 

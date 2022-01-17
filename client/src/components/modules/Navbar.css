@@ -93,8 +93,14 @@
     font-size: 24px;
 }
 
-#dormit-logo-link-mobile {
+.dormit-logo-link-mobile {
     margin: auto;
     font-weight: bold;
     color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.navbar-logo {
+    height: 18px;
 }

@@ -22,12 +22,12 @@ function NavbarMobile(props) {
                     <IoMenu />
                 </button>
                 <NavLink
-                    id="dormit-logo-link-mobile"
-                    className={({ isActive }) => (isActive ? "navbar-link-active" : "navbar-link")}
+                    className={`dormit-logo-link-mobile ${({ isActive }) =>
+                        isActive ? "navbar-link-active" : "navbar-link"}`}
                     to="/"
                 >
-                    <img src={`url(${logo})`} />
-                    dormit
+                    dormit{"  "}
+                    <img className="navbar-logo" src={logo} />
                 </NavLink>
             </div>
             <NavbarDropdownMobile

@@ -7,11 +7,17 @@ function FinditBarSelect(props) {
     return (
         <div className="finditbar-select">
             <div className="finditbar-tabs">
-                <button className="finditbar-tab finditbar-simple" onClick={(e) => setMode(true)}>
-                    simple
+                <button
+                    className={`finditbar-tab ${simple ? "finditbar-tab-active" : ""}`}
+                    onClick={(e) => setMode(true)}
+                >
+                    simple search
                 </button>
-                <button className="finditbar-tab finditbar-simple" onClick={(e) => setMode(false)}>
-                    advanced
+                <button
+                    className={`finditbar-tab ${!simple ? "finditbar-tab-active" : ""}`}
+                    onClick={(e) => setMode(false)}
+                >
+                    advanced search
                 </button>
             </div>
             <FinditBar
@@ -19,9 +25,6 @@ function FinditBarSelect(props) {
                 updateSearchSimple={props.updateSearchSimple}
                 updateSearchAdvanced={props.updateSearchAdvanced}
                 clearSearch={props.clearSearch}
-                updatePage={props.updatePage}
-                prevDisabled={props.prevDisabled}
-                nextDisabled={props.nextDisabled}
             />
         </div>
     );

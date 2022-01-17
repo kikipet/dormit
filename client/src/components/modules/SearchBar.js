@@ -27,14 +27,19 @@ function SearchBar(props) {
     }
 
     return (
-        <input
-            className="form-input findit-searchbar"
-            name="search"
-            type="text"
-            value={props.searchText}
-            onChange={(e) => props.setSearchText(e.target.value)}
-            placeholder="search"
-        />
+        <div className="findit-searchbar-container">
+            <input
+                className="form-input findit-searchbar"
+                name="search"
+                type="text"
+                value={props.searchText}
+                onChange={(e) => props.setSearchText(e.target.value)}
+                placeholder="search"
+            />
+            <button type="submit" className="search-button">
+                <IoSearch />
+            </button>
+        </div>
     );
 }
 
