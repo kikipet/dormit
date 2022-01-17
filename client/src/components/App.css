@@ -79,7 +79,7 @@ a {
 /* FORMS */
 
 .form-container {
-    background-color: white;
+    background-color: var(--primary-dim4);
     color: var(--primary-text);
     border-radius: var(--rad);
     margin: auto;
@@ -114,14 +114,14 @@ a {
 }
 
 .form-input {
-    border-radius: 2px;
-    border-width: 1px;
+    /* border-width: 1px;
     border-color: var(--gray-light);
-    border-style: solid;
+    border-style: solid; */
+    border-style: none;
+    border-radius: 0px;
     margin-top: 5px;
     padding: var(--ms);
     font-size: 16px;
-    border-radius: 0px;
 }
 
 .form-radio {
@@ -157,7 +157,18 @@ a {
     padding-right: -8px !important;
 }
 
+.ql-toolbar {
+    background-color: var(--white-dim);
+    border-style: none !important;
+}
+
+.ql-container {
+    border-style: none !important;
+}
+
 .ql-editor {
     font-weight: normal;
     color: var(--gray-dark);
+    background-color: white;
+    border-style: none !important;
 }

@@ -1,6 +1,6 @@
 .finditbar {
     margin: auto;
-    background-color: var(--primary-dim3);
+    background-color: var(--primary-dim4);
     border-radius: 0 var(--rad) var(--rad) var(--rad);
     padding: 16px;
     width: calc(min(1000px, 90vw) - 32px);
@@ -30,20 +30,20 @@
     border-style: none;
     padding: 8px 24px;
     border-radius: var(--rad) var(--rad) 0px 0px;
-    background-color: var(--primary-dim);
+    background-color: var(--primary-dim2);
     color: white;
     font-size: 16px;
     transition: all 0.2s ease;
 }
 
 .finditbar-tab:hover {
-    background-color: var(--primary-dim3);
+    background-color: var(--primary-dim4);
     cursor: pointer;
 }
 
 .finditbar-tab-active {
     color: var(--gray-dark);
-    background-color: var(--primary-dim3);
+    background-color: var(--primary-dim4);
 }
 
 /* search bar */
@@ -113,7 +113,7 @@
 }
 
 .search-tag-unselected {
-    background-color: var(--primary-dim3);
+    background-color: var(--primary-dim4);
 }
 
 .search-tag-unselected:hover {
@@ -150,7 +150,7 @@
     color: white;
     border-color: var(--primary-text);
     text-decoration: none;
-    box-shadow: 0px var(--primary-dim3);
+    box-shadow: 0px var(--primary-dim4);
     height: 20px;
     text-align: center;
 }
@@ -195,7 +195,7 @@
     background-color: var(--primary-text);
     color: white;
     border-style: none;
-    box-shadow: 0px var(--primary-dim3);
+    box-shadow: 0px var(--primary-dim4);
 }
 
 .finditbar-tag-button:hover {

@@ -26,29 +26,27 @@
 
 .sendit-clear {
     padding: 8px;
-    color: var(--primary);
-    background-color: white;
+    color: var(--primary-emph);
+    background-color: var(--primary-dim4);
     border-style: none;
     box-shadow: 0px 0px 0px;
 }
 
 .sendit-clear:hover {
-    color: var(--primary-dim);
+    background-color: var(--white-dim);
 }
 
 .sendit-savedraft {
     padding: 8px 10px;
-    color: var(--primary);
-    background-color: white;
+    color: var(--primary-emph);
+    background-color: var(--primary-dim4);
     border-width: 2px;
-    border-color: var(--primary);
+    border-color: var(--primary-emph);
     box-shadow: 0px 0px 0px;
 }
 
 .sendit-savedraft:hover {
-    /* what color(s) to make this? */
-    color: var(--primary-dim);
-    border-color: var(--primary-dim);
+    background-color: var(--white-dim);
 }
 
 .sendit-submit {

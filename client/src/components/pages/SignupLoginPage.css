@@ -17,7 +17,7 @@
 }
 
 .signup-login-redirect a {
-    color: var(--primary-text);
+    color: var(--primary-emph);
     text-decoration: none;
 }
 
