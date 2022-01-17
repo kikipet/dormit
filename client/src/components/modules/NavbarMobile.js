@@ -3,7 +3,9 @@ import { NavLink } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 
 import NavbarDropdownMobile from "./NavbarDropdownMobile";
+
 import "./Navbar.css";
+import logo from "../../assets/dormit-plane.png";
 
 function NavbarMobile(props) {
     const [showDropDown, setDropDown] = useState(props.showDropDown);
@@ -24,7 +26,7 @@ function NavbarMobile(props) {
                     className={({ isActive }) => (isActive ? "navbar-link-active" : "navbar-link")}
                     to="/"
                 >
-                    <img src={"../assets/dormit-plane.png"} />
+                    <img src={`url(${logo})`} />
                     dormit
                 </NavLink>
             </div>

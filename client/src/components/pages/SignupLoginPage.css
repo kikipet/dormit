@@ -1,7 +1,6 @@
 .signup-login {
     /* get different bkg images for different sizes of screen 
         i.e. wide screens, medium screens, mobile */
-    background-image: url("../../../public/assets/dormit-plane-signup.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
