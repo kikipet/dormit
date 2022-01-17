@@ -16,6 +16,13 @@ const User = require("./models/user");
 const auth = require("./auth");
 const mail = require("./mail");
 
+function isEmpty(obj) {
+    for (var i in obj) {
+        return false;
+    }
+    return true;
+}
+
 // api endpoints: all these paths will be prefixed with "/api/"
 const router = express.Router();
 
@@ -36,35 +43,91 @@ router.get("/dormspam-count", (req, res) => {
 });
 
 router.get("/dormspam-search-count", (req, res) => {
-    Dormspam.countDocuments({ $text: { $search: req.query.query } }).then((count) => {
+    Dormspam.countDocuments({ $text: { $search: req.query.text } }).then((count) => {
         res.send({ count: count });
     });
 });
 
 router.get("/dormspam-search-tag-count", (req, res) => {
-    const tagList = req.query.tags.split(",");
+    const tagList = req.query.tagList.split(",");
     Dormspam.countDocuments({ tag: { $in: tagList } }).then((count) => {
+        res.send({ count: count });
+    });
+});
+
+router.get("/dormspam-search-advanced-count", (req, res) => {
+    // construct query?
+    const tagList = req.query.tagList.split(",");
+    let query = {};
+    if (req.query.text !== "") {
+        query.$text = { $search: req.query.text };
+    }
+    if (tagList.length !== 0 && tagList.length !== 7 && tagList[0] !== "") {
+        query.tag = { $in: tagList };
+    }
+    let timeQuery = {};
+    if (req.query.timeStart !== "") {
+        timeQuery.$gte = req.query.timeStart;
+    }
+    if (req.query.timeEnd !== "") {
+        timeQuery.$lte = req.query.timeEnd;
+    }
+    if (!isEmpty(timeQuery)) {
+        query.date = timeQuery;
+    }
+    if (req.query.bctalk !== "") {
+        query.bctalk = req.query.bctalk;
+    }
+    // send query
+    Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
     });
 });
 
 router.get("/dormspam-search-advanced", (req, res) => {
     const skip = req.query.skip;
-    const tagList = req.query.tags.split(",");
-    Dormspam.find(
-        { $text: { $search: req.query.query }, tag: { $in: tagList } },
-        { score: { $meta: "textScore" } },
-        { skip, limit: 24 }
-    )
-        .sort({ date: -1, score: { $meta: "textScore" } })
-        .then((results) => {
-            res.send(results);
-        });
+    // construct query?
+    const tagList = req.query.tagList.split(",");
+    let query = {};
+    if (req.query.text !== "") {
+        query.$text = { $search: req.query.text };
+    }
+    if (tagList.length !== 0 && tagList.length !== 7 && tagList[0] !== "") {
+        query.tag = { $in: tagList };
+    }
+    let timeQuery = {};
+    if (req.query.timeStart !== "") {
+        timeQuery.$gte = req.query.timeStart;
+    }
+    if (req.query.timeEnd !== "") {
+        timeQuery.$lte = req.query.timeEnd;
+    }
+    if (!isEmpty(timeQuery)) {
+        query.date = timeQuery;
+    }
+    if (req.query.bctalk !== "") {
+        query.bctalk = req.query.bctalk;
+    }
+    console.log(query);
+    // send query
+    if (req.query.text !== "") {
+        Dormspam.find(query, { score: { $meta: "textScore" } }, { skip, limit: 24 })
+            .sort({ date: -1, score: { $meta: "textScore" } })
+            .then((results) => {
+                res.send(results);
+            });
+    } else {
+        Dormspam.find(query, undefined, { skip, limit: 24 })
+            .sort({ date: -1 })
+            .then((results) => {
+                res.send(results);
+            });
+    }
 });
 
 router.get("/dormspam-search-tag", (req, res) => {
     const skip = req.query.skip;
-    const tagList = req.query.tags.split(",");
+    const tagList = req.query.tagList.split(",");
     Dormspam.find({ tag: { $in: tagList } }, undefined, { skip, limit: 24 })
         .sort({ date: -1 })
         .then((results) => {
@@ -75,7 +138,7 @@ router.get("/dormspam-search-tag", (req, res) => {
 router.get("/dormspam-search", (req, res) => {
     const skip = req.query.skip;
     Dormspam.find(
-        { $text: { $search: req.query.query } },
+        { $text: { $search: req.query.text } },
         { score: { $meta: "textScore" } },
         { skip, limit: 24 }
     )

@@ -17,6 +17,7 @@ function FinditBarSelect(props) {
             <FinditBar
                 simple={simple}
                 updateSearchSimple={props.updateSearchSimple}
+                updateSearchAdvanced={props.updateSearchAdvanced}
                 clearSearch={props.clearSearch}
                 updatePage={props.updatePage}
             />

@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoAddOutline, IoCloseOutline } from "react-icons/io5";
 
 function SearchTag(props) {
-    const [tagStatus, setStatus] = useState(props.tagStatus);
-    function toggleTag() {
-        setStatus(!tagStatus);
-    }
-
     return (
         <button
-            className={`search-tag search-tag-${tagStatus ? "" : "un"}selected`}
+            type="button"
+            className={`search-tag search-tag-${props.tagStatus ? "" : "un"}selected`}
             onClick={(e) => {
                 props.toggleTag(props.text);
-                toggleTag();
             }}
         >
-            {props.text} {tagStatus ? <IoCloseOutline /> : <IoAddOutline />}
+            {props.text} {props.tagStatus ? <IoCloseOutline /> : <IoAddOutline />}
         </button>
     );
 }

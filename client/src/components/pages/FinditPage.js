@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { get } from "../../utilities";
+import { get, isEmpty } from "../../utilities";
 
 import FinditBarSelect from "../modules/FinditBarSelect";
 import Dormspam from "../modules/Dormspam";
@@ -39,17 +39,11 @@ function FinditPage(props) {
     // search bar business
     const [searchText, setSearchText] = useState("");
     const [searchTagList, setTagList] = useState([]);
-    const [searchTimeStart, setTimeStart] = useState("1970-01-01");
-    const [searchTimeEnd, setTimeEnd] = useState(Date());
-    const [searchBC, setBCTalk] = useState("");
     const [searchQuery, setSearchQuery] = useState({});
 
     function clearSearchItems() {
         setSearchText("");
         setTagList([]);
-        setTimeStart("1970-01-01");
-        setTimeEnd(Date());
-        setBCTalk("");
         setSearchQuery({});
         setFocusMode(false);
         setPageNum(1);
@@ -57,10 +51,12 @@ function FinditPage(props) {
     }
 
     // get initial page count
-    if (searchText !== "") {
-        updateTotPageCount("/api/dormspam-search-count", { query: searchText });
+    if (!isEmpty(searchQuery)) {
+        updateTotPageCount("/api/dormspam-search-advanced-count", searchQuery);
+    } else if (searchText !== "") {
+        updateTotPageCount("/api/dormspam-search-count", { text: searchText });
     } else if (searchTagList.length > 0) {
-        updateTotPageCount("/api/dormspam-search-tag-count", { tags: searchTagList });
+        updateTotPageCount("/api/dormspam-search-tag-count", { tagList: searchTagList });
     } else {
         updateTotPageCount("/api/dormspam-count");
     }
@@ -73,38 +69,63 @@ function FinditPage(props) {
         // the actual search part
         navigate("/findit/search", { replace: true });
         setPageNum(1);
-        const query = {
-            tags: searchTags,
-            skip: 0,
+        let query = {
+            tagList: searchTags,
+            text: "",
+            timeStart: "",
+            timeEnd: "",
+            bctalk: "",
         };
-        setSearchQuery(query);
+        query.skip = 0;
         updateTotPageCount("/api/dormspam-search-tag-count", query);
         getDormspams("/api/dormspam-search-tag", query);
     }
 
-    // search - text
+    // search - text (simple search)
     function searchByText(search) {
         setSearchText(search);
 
         setFocusMode(false);
         navigate("/findit/search", { replace: true });
         setPageNum(1);
-        const query = { query: search, skip: 0 };
-        setSearchQuery(query);
+        let query = {
+            text: search,
+            tagList: [],
+            timeStart: "",
+            timeEnd: "",
+            bctalk: "",
+        };
+        query.skip = 0;
         updateTotPageCount("/api/dormspam-search-count", query);
         getDormspams("/api/dormspam-search", query);
     }
 
     // search - advanced search
-    function searchAdvanced(tagList) {
+    function searchAdvanced(text, tagList, timeStart, timeEnd, bctalk) {
         setFocusMode(false);
-        const searchTags = createTagList(tagList);
-        setTagList(searchTags);
+        setTagList(tagList);
+
+        navigate("/findit/search", { replace: true });
+        setPageNum(1);
+        let query = {
+            text: text,
+            tagList: tagList,
+            timeStart: timeStart,
+            timeEnd: timeEnd,
+            bctalk: bctalk,
+        };
+        setSearchQuery(query);
+        query.skip = 0;
+        updateTotPageCount("/api/dormspam-search-advanced-count", query);
+        getDormspams("/api/dormspam-search-advanced", query);
     }
 
     // get dormspams
     useEffect(() => {
-        if (searchText !== "") {
+        if (!isEmpty(searchQuery)) {
+            let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
+            getDormspams("/api/dormspam-search-advanced", newQuery);
+        } else if (searchText !== "") {
             getDormspams("/api/dormspam-search", { query: searchText, skip: (pageNum - 1) * 24 });
         } else if (searchTagList.length !== 0) {
             getDormspams("/api/dormspam-search-tag", {
@@ -184,6 +205,7 @@ function FinditPage(props) {
                         updatePage={setPageNum}
                         clearSearch={clearSearchItems}
                         updateSearchSimple={searchByText}
+                        updateSearchAdvanced={searchAdvanced}
                     />
                 </div>
                 {pageContent}
