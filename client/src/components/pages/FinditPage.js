@@ -29,6 +29,7 @@ function FinditPage(props) {
         defaultPage = 1;
     }
     const [pageNum, setPageNum] = useState(defaultPage);
+    const [pageInput, setPageInput] = useState(defaultPage);
 
     function updateTotPageCount(call, params = {}) {
         get(call, params).then((res) => {
@@ -47,6 +48,7 @@ function FinditPage(props) {
         setSearchQuery({});
         setFocusMode(false);
         setPageNum(1);
+        setPageInput(1);
         getDormspams("/api/dormspams", { skip: 0 });
     }
 
@@ -175,9 +177,21 @@ function FinditPage(props) {
     // return page content
     let pageContent = (
         <div className="findit-content">
-            <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
+            <PageControl
+                pageNum={pageNum}
+                pageInput={pageInput}
+                totalPages={totalPages}
+                pageUpdate={setPageNum}
+                setPageInput={setPageInput}
+            />
             <div className="dormspams-container">{dormspamsList}</div>
-            <PageControl pageNum={pageNum} totalPages={totalPages} pageUpdate={setPageNum} />
+            <PageControl
+                pageNum={pageNum}
+                pageInput={pageInput}
+                totalPages={totalPages}
+                pageUpdate={setPageNum}
+                setPageInput={setPageInput}
+            />
         </div>
     );
     // focus mode - 1 dormspam

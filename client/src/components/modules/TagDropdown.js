@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchTag from "./SearchTag";
 
 function TagDropdown(props) {
-    const [full, setMode] = useState(true);
+    const [full, setMode] = useState(!props.useDropdown);
 
     function toggleMode() {
         setMode(!full);
@@ -20,16 +20,31 @@ function TagDropdown(props) {
     // props.updateTags is the multitag search function
 
     if (full) {
-        return (
-            <div className="finditbar-section finditbar-tags">
-                {/* <button onClick={toggleMode}>hide tags</button> */}
-                {tagCollection}
-            </div>
-        );
+        if (props.useDropdown) {
+            return (
+                <div className="finditbar-section finditbar-tags-expand">
+                    <button
+                        className="action-button finditbar-tag-button"
+                        type="button"
+                        onClick={toggleMode}
+                    >
+                        hide tags
+                    </button>
+                    <div className="finditbar-tags">{tagCollection}</div>
+                </div>
+            );
+        }
+        return <div className="finditbar-section finditbar-tags">{tagCollection}</div>;
     }
     return (
         <div className="finditbar-section finditbar-tags">
-            <button onClick={toggleMode}>search by tag</button>
+            <button
+                className="action-button finditbar-tag-button"
+                type="button"
+                onClick={toggleMode}
+            >
+                choose tags
+            </button>
         </div>
     );
 }

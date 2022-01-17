@@ -1,48 +1,44 @@
-.finditbar-simple {
+.finditbar {
     margin: auto;
     background-color: var(--primary-dim3);
-    border-radius: var(--rad);
-    padding: 12px 16px;
+    border-radius: 0 var(--rad) var(--rad) var(--rad);
+    padding: 16px;
     width: calc(min(1000px, 90vw) - 32px);
     display: grid;
-    grid-template-columns: 1fr auto;
     gap: var(--m);
 }
 
+.finditbar-simple {
+    grid-template-columns: 1fr auto;
+}
+
 .finditbar-advanced {
-    margin: auto;
-    background-color: var(--primary-dim3);
-    border-radius: var(--rad);
-    padding: 12px 16px;
-    width: calc(min(1000px, 90vw) - 32px);
-    display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: var(--m);
 }
 
 /* selector */
 .finditbar-select {
     display: flex;
     flex-direction: column;
-    gap: var(--s);
 }
 
 .finditbar-tabs {
     display: flex;
-    gap: var(--m);
 }
 
 .finditbar-tab {
     border-style: none;
     padding: 8px 24px;
-    border-radius: var(--rad);
+    border-radius: var(--rad) var(--rad) 0px 0px;
     background-color: var(--primary-dim);
     color: white;
     font-size: 16px;
+    transition: all 0.2s ease;
 }
 
 .finditbar-tab:hover {
     background-color: var(--primary-dim3);
+    cursor: pointer;
 }
 
 .finditbar-tab-active {
@@ -77,6 +73,7 @@
 
 .search-button:hover {
     background-color: var(--accent-select);
+    cursor: pointer;
 }
 
 .search-button:active {
@@ -96,6 +93,7 @@
     border-radius: var(--rad);
     transition: all 0.2s ease;
     font-size: 16px;
+    height: 26px;
 }
 
 .search-tag:hover {
@@ -123,18 +121,27 @@
 }
 
 /* dates */
-.finditbar-dates {
-    display: flex;
-    flex-direction: column;
-}
-
 .finditbar-date {
     margin: 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.finditbar-date input {
+    background-color: white;
+    font-family: "Mulish", sans-serif;
+    border-style: none;
+    height: 22px;
+    max-width: 132px;
+    padding-right: 0px;
 }
 
 /* bctalk */
 .finditbar-bctalk {
     margin: 0px;
+    max-width: 100px;
+    height: 22px;
+    border-style: none;
 }
 
 /* clear button */
@@ -143,7 +150,7 @@
     color: white;
     border-color: var(--primary-text);
     text-decoration: none;
-    box-shadow: 0px var(--white-dim);
+    box-shadow: 0px var(--primary-dim3);
     height: 20px;
     text-align: center;
 }
@@ -151,4 +158,52 @@
 .finditbar-clear:hover {
     background-color: var(--primary-dim);
     border-color: var(--primary-dim);
+}
+
+/* *** mobile *** */
+@media (max-width: 600px) {
+    .finditbar-advanced {
+        grid-template-columns: 1fr;
+    }
+    .finditbar-date {
+        display: flex;
+        flex-direction: column;
+        max-width: 100% !important;
+    }
+    .finditbar-bctalk {
+        max-width: 100%;
+        flex-shrink: 1;
+    }
+    .finditbar-clear {
+        padding-left: 6px;
+        padding-right: 6px;
+        max-width: 100%;
+    }
+    .search-tag {
+        padding: 4px 4px 4px 6px;
+        height: 32px;
+    }
+}
+
+.finditbar-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--m);
+}
+
+.finditbar-tag-button {
+    background-color: var(--primary-text);
+    color: white;
+    border-style: none;
+    box-shadow: 0px var(--primary-dim3);
+}
+
+.finditbar-tag-button:hover {
+    background-color: var(--primary-dim);
+    cursor: pointer;
+}
+
+.finditbar-tags-expand {
+    display: flex;
+    gap: var(--m);
 }

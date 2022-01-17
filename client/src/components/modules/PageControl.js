@@ -1,21 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoCaretBack, IoCaretForward } from "react-icons/io5";
 
 import "./PageControl.css";
 
 function PageControl(props) {
-    const [pageInput, setPageInput] = useState(props.pageNum);
-
     function pageFieldUpdate(newPage) {
         props.pageUpdate(newPage);
-        setPageInput(newPage);
+        props.setPageInput(newPage);
     }
 
     function handlePageJump(event) {
-        if (isNaN(pageInput) || pageInput > props.totalPages) {
-            setPageInput(props.pageNum);
+        if (isNaN(props.pageInput) || props.pageInput > props.totalPages) {
+            props.setPageInput(props.pageNum);
         } else {
-            props.pageUpdate(pageInput);
+            props.pageUpdate(props.pageInput);
         }
         event.preventDefault();
     }
@@ -37,8 +35,8 @@ function PageControl(props) {
                         className="form-input page-num"
                         name="pageNum"
                         type="text"
-                        value={pageInput}
-                        onChange={(e) => setPageInput(e.target.value)}
+                        value={props.pageInput}
+                        onChange={(e) => props.setPageInput(e.target.value)}
                     />
                 </form>
                 <p> of {props.totalPages}</p>

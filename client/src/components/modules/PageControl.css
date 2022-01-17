@@ -5,7 +5,7 @@
 
 .page-arrow {
     font-size: 32px;
-    background-color: var(--primary);
+    background: none;
     color: var(--accent);
     border-style: none;
     width: 36px;

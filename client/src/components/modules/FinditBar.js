@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { format } from "date-fns";
 
 import SearchBar from "./SearchBar";
 import TagDropdown from "./TagDropdown";
@@ -71,10 +70,9 @@ function FinditBar(props) {
             tagStatus[tagOptions[t]] = true;
         }
     }
-
     if (props.simple) {
         return (
-            <div className="finditbar-simple">
+            <div className="finditbar finditbar-simple">
                 <SearchBar
                     searchText={searchText}
                     setSearchText={setSearchText}
@@ -91,11 +89,62 @@ function FinditBar(props) {
             </div>
         );
     }
-    // TagDropdown remains "dropdown" because I'll need to make this mobile-friendly at some point
+    if (window.innerWidth <= 600) {
+        return (
+            <form className="finditbar finditbar-advanced" onSubmit={handleSubmit}>
+                <SearchBar searchText={searchText} setSearchText={setSearchText} simple={false} />
+                <div className="finditbar-row">
+                    <div className="finditbar-date">
+                        from
+                        <input
+                            type="date"
+                            className="form-input finditbar-date"
+                            name="start"
+                            value={searchTimeStart}
+                            onChange={(e) => setTimeStart(e.target.value)}
+                        ></input>
+                    </div>
+                    <div className="finditbar-date">
+                        to
+                        <input
+                            type="date"
+                            className="form-input finditbar-date"
+                            name="end"
+                            value={searchTimeEnd}
+                            onChange={(e) => setTimeEnd(e.target.value)}
+                        ></input>
+                    </div>
+                </div>
+                <TagDropdown
+                    useDropdown={false}
+                    tagStatus={tagStatus}
+                    tagOptions={tagOptions}
+                    toggleTag={toggleTag}
+                />
+                <div className="finditbar-row">
+                    <input
+                        type="text"
+                        className="form-input finditbar-bctalk"
+                        name="bctalk"
+                        value={searchBC}
+                        onChange={(e) => setBCTalk(e.target.value)}
+                        placeholder="bc-talk color"
+                    ></input>
+                    <Link
+                        className="action-button finditbar-clear"
+                        to="/findit"
+                        onClick={clearSearch}
+                    >
+                        reset all
+                    </Link>
+                </div>
+            </form>
+        );
+    }
     return (
-        <form className="finditbar-advanced" onSubmit={handleSubmit}>
+        <form className="finditbar finditbar-advanced" onSubmit={handleSubmit}>
             <div className="finditbar-date">
-                from:{" "}
+                from{" "}
                 <input
                     type="date"
                     className="form-input finditbar-date"
@@ -109,7 +158,7 @@ function FinditBar(props) {
                 reset all
             </Link>
             <div className="finditbar-date">
-                to:{" "}
+                to{" "}
                 <input
                     type="date"
                     className="form-input finditbar-date"
@@ -118,7 +167,12 @@ function FinditBar(props) {
                     onChange={(e) => setTimeEnd(e.target.value)}
                 ></input>
             </div>
-            <TagDropdown tagStatus={tagStatus} tagOptions={tagOptions} toggleTag={toggleTag} />
+            <TagDropdown
+                useDropdown={false}
+                tagStatus={tagStatus}
+                tagOptions={tagOptions}
+                toggleTag={toggleTag}
+            />
             <input
                 type="text"
                 className="form-input finditbar-bctalk"
