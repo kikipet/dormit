@@ -1,0 +1,20 @@
+.signup-feedback {
+    justify-content: center;
+}
+
+.signup-feedback-text {
+    text-align: center;
+    margin-top: 0px;
+}
+
+.signup-actions {
+    background-color: var(--primary-text);
+    color: var(--primary-dim4);
+    text-decoration: none;
+    border-style: none;
+    vertical-align: auto;
+}
+
+.signup-actions:hover {
+    background-color: var(--primary-dim);
+}

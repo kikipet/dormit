@@ -203,6 +203,43 @@ router.post("/createuser", (req, res) => {
 });
 
 // ***** Email stuff *****
+// if any of the draft functions get called with a null userId, an error should be raised
+router.get("/getdrafts", (req, res) => {
+    if (!req.user) {
+        res.status(404).send({ msg: "not logged in" });
+    } else {
+        res.send(req.user.drafts);
+    }
+});
+
+router.get("/getdraft", (req, res) => {
+    if (!req.user) {
+        res.status(404).send({ msg: "not logged in" });
+    } else {
+        res.send(req.user.drafts[req.query.draftNum]);
+    }
+});
+
+router.post("/createdraft", (req, res) => {
+    if (!req.user) {
+        res.status(404).send({ msg: "not logged in" });
+    }
+    User.findById(req.body.userId).then((user) => {
+        user.drafts.push(req.body.draft);
+        user.save().then((user) => res.send(user.drafts));
+    });
+});
+
+router.post("/savedraft", (req, res) => {
+    if (!req.user) {
+        res.status(404).send({ msg: "not logged in" });
+    }
+    User.findById(req.body.userId).then((user) => {
+        user.drafts[req.body.draftNum] = req.body.draft;
+        user.save().then((user) => res.send(user.drafts));
+    });
+});
+
 router.post("/sendemail", (req, res) => {
     mail.sendDormspam(req.body).then((resCode) => {
         res.send({ status: resCode });

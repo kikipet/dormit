@@ -6,13 +6,6 @@ import TagDropdown from "./TagDropdown";
 import "./FinditBar.css";
 
 function FinditBar(props) {
-    // // page navigation
-    // const [pageInput, setPageInput] = useState("");
-    // function handlePageChange(event) {
-    //     props.updatePage(pageInput);
-    //     event.preventDefault();
-    // }
-
     // search fields
     const [searchText, setSearchText] = useState("");
 
@@ -34,9 +27,9 @@ function FinditBar(props) {
     function createTagList(tagBooleans) {
         // to send to FinditPage's function(s)
         let searchTags = [];
-        for (var t in tagOptions) {
-            if (tagBooleans[tagOptions[t]]) {
-                searchTags.push(tagOptions[t]);
+        for (var tag of tagOptions) {
+            if (tagBooleans[tag]) {
+                searchTags.push(tag);
             }
         }
         return searchTags;
@@ -47,12 +40,23 @@ function FinditBar(props) {
 
     const [searchBC, setBCTalk] = useState("");
 
+    // handle submit
     function handleSubmit(event) {
-        // send stuff over to finditpage to set states
-        const tagList = createTagList(tagStatus);
-        props.updateSearchAdvanced(searchText, tagList, searchTimeStart, searchTimeEnd, searchBC);
-        // reset variables within here as well
-        resetAll();
+        if (searchTimeStart !== "" && searchTimeEnd !== "" && searchTimeStart > searchTimeEnd) {
+            console.log("Bad date range");
+        } else {
+            // send stuff over to finditpage to set states
+            const tagList = createTagList(tagStatus);
+            props.updateSearchAdvanced(
+                searchText,
+                tagList,
+                searchTimeStart,
+                searchTimeEnd,
+                searchBC
+            );
+            // reset variables within here as well
+            resetAll();
+        }
         event.preventDefault();
     }
 
@@ -66,8 +70,8 @@ function FinditBar(props) {
         setTimeStart("");
         setTimeEnd("");
         setBCTalk("");
-        for (var t in tagOptions) {
-            tagStatus[tagOptions[t]] = true;
+        for (var tag of tagOptions) {
+            tagStatus[tag] = true;
         }
     }
     if (props.simple) {

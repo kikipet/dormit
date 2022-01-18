@@ -7,11 +7,12 @@ import { post, isEmpty } from "../../utilities";
 function SignupForm(props) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [emailErr, setEmailErr] = useState(false);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passErr, setPassErr] = useState(false);
     const [signedUp, setSignUpStatus] = useState(false);
+    const [errMessages, setErrMessages] = useState([]);
+    const [errMessageDiv, setErrContent] = useState(<div className="signup-error-boxes"></div>);
 
     /*
      * offer different name options (first+last or just one) depending on whether the signup-er is a person or an organization?
@@ -19,11 +20,6 @@ function SignupForm(props) {
      * probably better for it to actually be a different page, like "/signup/success" or something
      * the validation code is disorganized but it works :<
      */
-
-    function handleEmailChange(value) {
-        setEmail(value);
-        setEmailErr(!validEmail.test(value) && value !== "");
-    }
 
     function handlePassword(value) {
         setPassword(value);
@@ -36,14 +32,26 @@ function SignupForm(props) {
     }
 
     function handleSubmit(event) {
-        // submit
-        post("/api/createuser", { name: name, email: email, password: password }).then((result) => {
-            if (isEmpty(result)) {
-                alert("Email already exists");
-            } else {
-                setSignUpStatus(true);
-            }
-        });
+        let newErrList = [];
+        if (!validEmail.test(email) || email === "") {
+            newErrList.push("invalid email");
+        }
+        if (confirmPassword !== password) {
+            newErrList.push("passwords don't match");
+        }
+        setErrMessages(newErrList);
+        if (newErrList.length === 0) {
+            // submit
+            post("/api/createuser", { name: name, email: email, password: password }).then(
+                (result) => {
+                    if (isEmpty(result)) {
+                        alert("Email already exists");
+                    } else {
+                        setSignUpStatus(true);
+                    }
+                }
+            );
+        }
 
         event.preventDefault();
     }
@@ -59,6 +67,19 @@ function SignupForm(props) {
             </div>
         );
     }
+
+    // render errors
+    if (errMessages.length > 0) {
+        setErrContent(
+            <div className="signup-error-boxes">
+                {errMessages.map((message) => (
+                    <p className="error-box">{message}</p>
+                ))}
+            </div>
+        );
+        setErrMessages([]);
+    }
+
     // still filling out form
     return (
         <div className="form-container signup-login-form-container">
@@ -67,6 +88,7 @@ function SignupForm(props) {
                     been here before? <Link to="/login">log in</Link>
                 </p>{" "}
             </div>
+            {errMessageDiv}
             <form onSubmit={handleSubmit}>
                 <div className="form-column">
                     <label className="form-field">
@@ -79,22 +101,15 @@ function SignupForm(props) {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </label>
-                    <label
-                        className={
-                            !validEmail.test(email) && email !== ""
-                                ? "form-field-error"
-                                : "form-field"
-                        }
-                    >
+                    <label className="form-field">
                         email
                         <input
                             className="form-input"
                             name="email"
                             type="text"
                             value={email}
-                            onChange={(e) => handleEmailChange(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
-                        {emailErr ? "invalid email" : ""}
                     </label>
                     <label className="form-field">
                         password

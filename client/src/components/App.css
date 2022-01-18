@@ -160,15 +160,34 @@ a {
 .ql-toolbar {
     background-color: var(--white-dim);
     border-style: none !important;
+    font-family: "Mulish", sans-serif;
 }
 
 .ql-container {
     border-style: none !important;
+    font-family: "Mulish", sans-serif !important;
 }
 
 .ql-editor {
     font-weight: normal;
+    font-family: "Mulish", sans-serif;
     color: var(--gray-dark);
     background-color: white;
     border-style: none !important;
+}
+
+.message-box {
+    color: var(--apple);
+    background-color: var(--apple-light);
+    padding: var(--s);
+    margin: 0;
+    font-weight: bold;
+}
+
+.error-box {
+    color: var(--scarlet);
+    background-color: var(--scarlet-light);
+    padding: var(--s);
+    margin: 0;
+    font-weight: bold;
 }

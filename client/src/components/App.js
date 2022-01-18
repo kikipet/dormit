@@ -11,6 +11,7 @@ import FinditPage from "./pages/FinditPage";
 import SenditPage from "./pages/SenditPage";
 import SenditSuccessPage from "./pages/SenditSuccessPage";
 import SignupLoginPage from "./pages/SignupLoginPage";
+import SignupSuccessPage from "./pages/SignupSuccessPage";
 import ProfilePage from "./pages/ProfilePage";
 
 import { get, post, isEmpty } from "../utilities";
@@ -66,9 +67,18 @@ function App() {
                         path="/login"
                         element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
                     />
+                    <Route path="/signup/success" element={<SignupSuccessPage />} />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
                     <Route path="/sendit/success" element={<SenditSuccessPage />} />
-                    <Route path="/sendit" element={<SenditPage userName={userName} />} />
+                    <Route
+                        path="/sendit/draft/:key"
+                        element={<SenditPage userId={userId} userName={userName} draft={true} />}
+                    />
+                    {/* ^ need to redirect to the normal sendit page if user isn't logged in */}
+                    <Route
+                        path="/sendit"
+                        element={<SenditPage userId={userId} userName={userName} draft={false} />}
+                    />
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MultipleValueTextInput from "react-multivalue-text-input";
-import { post } from "../../utilities";
+import { get, post } from "../../utilities";
+import { validEmail } from "./regex";
 
 import ColorPicker from "./ColorPicker";
 import EmailEditor from "./EmailEditor";
@@ -12,12 +13,37 @@ function SenditForm(props) {
     const [title, setTitle] = useState("");
     const [to, setTo] = useState([]);
     const [cc, setCC] = useState([]);
-    const [tag, setTag] = useState("other");
+    const [tagSelected, setTag] = useState("");
     const [bodyText, setBodyText] = useState("");
     const [bodyHTML, setBodyHTML] = useState("");
     const [bctalk, setBCTalk] = useState("");
     const [color, setColor] = useState("#000000");
+
+    const [draftFetched, setDraftFetched] = useState(false);
+    console.log(draftFetched);
+    if (props.draft && !draftFetched) {
+        get("/api/getdraft", { draftNum: props.draftNum }).then((res) => {
+            console.log(res);
+            setTitle(res.subject);
+            setTo(res.to);
+            setCC(res.cc);
+            setTag(res.tag);
+            setBodyText(res.text);
+            setBodyHTML(res.html);
+            setBCTalk(res.bctalk);
+            setColor(res.color);
+            setDraftFetched(true);
+        });
+    }
+
     const [button, setButton] = useState("none");
+
+    const [draftSaveDiv, setDraftSaveDiv] = useState(
+        <div className="sendit-draft-saved-message"></div>
+    );
+    const [errMessages, setErrMessages] = useState([]);
+    const [errMessageDiv, setErrContent] = useState(<div className="sendit-error-boxes"></div>);
+
     const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
     const navigate = useNavigate();
 
@@ -56,14 +82,39 @@ function SenditForm(props) {
         console.log(button);
         // submit
         if (button === "send") {
+            let newErrList = [];
             // title should exist
             if (title === "") {
-                alert("subject missing");
+                newErrList.push("subject missing");
             }
             // color name for bc-talk should exist
-            else if (bctalk === "") {
-                alert("bc-talk color missing");
-            } else {
+            if (bctalk === "") {
+                newErrList.push("bc-talk color missing");
+            }
+            // all email addresses should look valid
+            let emailErr = false;
+            if (to.length > 0) {
+                for (var email of to) {
+                    if (!validEmail.test(email)) {
+                        emailErr = true;
+                        break;
+                    }
+                }
+            }
+            if (cc.length > 0) {
+                for (var email of cc) {
+                    if (!validEmail.test(email)) {
+                        emailErr = true;
+                        break;
+                    }
+                }
+            }
+            if (emailErr) {
+                newErrList.push("invalid recipient email(s)");
+            }
+            setErrMessages(newErrList);
+            // send message
+            if (newErrList.length === 0) {
                 const emailObj = {
                     subject: title,
                     to: to,
@@ -73,30 +124,74 @@ function SenditForm(props) {
                     html: bodyHTML,
                     bctalk: bctalk,
                     color: color,
-                    tag: tag,
+                    tag: tagSelected,
                 };
                 post("/api/sendemail", emailObj).then(navigate("/sendit/success"));
             }
-        } else if (button === "clear") {
+        } else if (button === "savedraft") {
+            const emailObj = {
+                subject: title,
+                to: to,
+                senderName: props.userName,
+                cc: cc,
+                text: bodyText,
+                html: bodyHTML,
+                bctalk: bctalk,
+                color: color,
+                tag: tagSelected,
+            };
+            if (props.draft) {
+                const query = { userId: props.userId, draft: emailObj, draftNum: props.draftNum };
+                post("/api/savedraft", query).then((drafts) => {
+                    setDraftSaveDiv(
+                        <div className="message-box sendit-draft-saved-message">draft saved!</div>
+                    );
+                });
+            } else {
+                const query = { userId: props.userId, draft: emailObj };
+                post("/api/createdraft", query).then((drafts) => {
+                    setDraftSaveDiv(
+                        <div className="message-box sendit-draft-saved-message">draft saved!</div>
+                    );
+                    // navigate to draft editor
+                    navigate(`/sendit/draft/${drafts.length - 1}`);
+                });
+            }
+        } else {
             if (confirm("are you sure you want to clear?")) {
                 console.log("cleared");
                 setTitle("");
                 setTo([]);
                 setCC([]);
-                setTag([]);
                 setBodyText("");
                 setBodyHTML("");
                 setBCTalk("");
                 setColor("#000000");
                 setTag("other");
                 setButton("none");
+                setErrMessages([]);
+                setErrContent(<div></div>);
             }
         }
         event.preventDefault();
     }
 
+    // render errors
+    if (errMessages.length > 0) {
+        setErrContent(
+            <div className="sendit-error-boxes">
+                {errMessages.map((message) => (
+                    <p className="error-box">{message}</p>
+                ))}
+            </div>
+        );
+        setErrMessages([]);
+    }
+
     return (
         <div className="form-container">
+            {draftSaveDiv}
+            {errMessageDiv}
             <form onSubmit={handleSubmit}>
                 <div className="form-column-container sendit-column-container">
                     <div id="sendit-col1" className="form-column">
@@ -117,6 +212,7 @@ function SenditForm(props) {
                                 onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
                                 onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
                                 name="to"
+                                values={to}
                                 charCodes={[32]}
                                 placeholder="separate emails with SPACE"
                             />
@@ -129,6 +225,7 @@ function SenditForm(props) {
                                 onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
                                 onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
                                 name="cc"
+                                values={cc}
                                 charCodes={[32]}
                                 placeholder="separate emails with SPACE"
                             />
@@ -146,7 +243,7 @@ function SenditForm(props) {
                                             name="tag"
                                             type="radio"
                                             value={tag}
-                                            checked={tag === tag}
+                                            checked={tag === tagSelected}
                                             onChange={(e) => setTag(e.target.value)}
                                         />
                                         {tag}
@@ -204,18 +301,22 @@ function SenditForm(props) {
                         className="action-button sendit-clear"
                         name="clear"
                         type="submit"
-                        onClick={() => setButton("clear")}
+                        onClick={(e) => setButton("clear")}
                     >
                         clear
                     </button>
-                    <button
-                        className="action-button sendit-savedraft"
-                        name="savedraft"
-                        type="submit"
-                        onClick={(e) => setButton("savedraft")}
-                    >
-                        save draft
-                    </button>
+                    {props.userId !== null ? (
+                        <button
+                            className="action-button sendit-savedraft"
+                            name="savedraft"
+                            type="submit"
+                            onClick={(e) => setButton("savedraft")}
+                        >
+                            save draft
+                        </button>
+                    ) : (
+                        <div style={{ margin: -8 }}></div>
+                    )}
                     <button
                         className="action-button sendit-submit"
                         name="send"
