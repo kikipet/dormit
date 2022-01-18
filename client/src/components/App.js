@@ -14,6 +14,7 @@ import SignupLoginPage from "./pages/SignupLoginPage";
 import SignupSuccessPage from "./pages/SignupSuccessPage";
 import ProfilePage from "./pages/ProfilePage";
 import DraftsPage from "./pages/DraftsPage";
+import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 
 import { get, post, isEmpty } from "../utilities";
@@ -87,6 +88,7 @@ function App() {
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />
                     <Route path="/drafts" element={<DraftsPage userId={userId} />} />
+                    <Route path="/about" element={<AboutPage />} />
                     <Route path="/" element={<LandingPage userId={userId} />} />
                     <Route path="/*" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />

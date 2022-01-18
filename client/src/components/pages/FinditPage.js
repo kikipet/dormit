@@ -18,7 +18,11 @@ function FinditPage(props) {
     const [dormspams, setDormspams] = useState([]);
     function getDormspams(call, params = {}) {
         get(call, params).then((dormspamObjs) => {
-            setDormspams(dormspamObjs);
+            if (dormspamObjs.length === 0) {
+                setDormspams(["no dormspams"]);
+            } else {
+                setDormspams(dormspamObjs);
+            }
         });
     }
 
@@ -152,24 +156,28 @@ function FinditPage(props) {
     let dormspamsList = null;
     const hasDormspams = dormspams.length !== 0;
     if (hasDormspams) {
-        dormspamsList = dormspams.map((dormspamObj) => (
-            <Dormspam
-                key={dormspamObj._id}
-                id={dormspamObj._id}
-                date={Date.parse(dormspamObj.date)}
-                title={dormspamObj.title}
-                author={dormspamObj.author}
-                body={dormspamObj.body}
-                bctalk={dormspamObj.bctalk}
-                tag={dormspamObj.tag}
-                focused={false}
-                updateTags={searchByTag}
-                toggleFocusMode={() => {
-                    setFocusMode(!focusMode);
-                }}
-                handleCardClick={onCardClick}
-            />
-        ));
+        if (dormspams[0] === "no dormspams") {
+            dormspamsList = <div style={{ color: "#fff" }}>no results found</div>;
+        } else {
+            dormspamsList = dormspams.map((dormspamObj) => (
+                <Dormspam
+                    key={dormspamObj._id}
+                    id={dormspamObj._id}
+                    date={Date.parse(dormspamObj.date)}
+                    title={dormspamObj.title}
+                    author={dormspamObj.author}
+                    body={dormspamObj.body}
+                    bctalk={dormspamObj.bctalk}
+                    tag={dormspamObj.tag}
+                    focused={false}
+                    updateTags={searchByTag}
+                    toggleFocusMode={() => {
+                        setFocusMode(!focusMode);
+                    }}
+                    handleCardClick={onCardClick}
+                />
+            ));
+        }
     } else {
         dormspamsList = <div style={{ color: "#fff" }}>loading...</div>;
     }
