@@ -13,6 +13,8 @@ import SenditSuccessPage from "./pages/SenditSuccessPage";
 import SignupLoginPage from "./pages/SignupLoginPage";
 import SignupSuccessPage from "./pages/SignupSuccessPage";
 import ProfilePage from "./pages/ProfilePage";
+import DraftsPage from "./pages/DraftsPage";
+import NotFound from "./pages/NotFound";
 
 import { get, post, isEmpty } from "../utilities";
 
@@ -62,7 +64,10 @@ function App() {
             <Router>
                 <NavbarSelect userId={userId} handleLogout={handleLogout} />
                 <Routes>
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route
+                        path="/profile"
+                        element={<ProfilePage userId={userId} userName={userName} />}
+                    />
                     <Route
                         path="/login"
                         element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
@@ -74,7 +79,6 @@ function App() {
                         path="/sendit/draft/:key"
                         element={<SenditPage userId={userId} userName={userName} draft={true} />}
                     />
-                    {/* ^ need to redirect to the normal sendit page if user isn't logged in */}
                     <Route
                         path="/sendit"
                         element={<SenditPage userId={userId} userName={userName} draft={false} />}
@@ -82,11 +86,10 @@ function App() {
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />
-                    <Route
-                        path="/profile/:id"
-                        element={<ProfilePage userId={userId} userName={userName} />}
-                    />
-                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/drafts" element={<DraftsPage userId={userId} />} />
+                    <Route path="/" element={<LandingPage userId={userId} />} />
+                    <Route path="/*" element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
                 <Footer />
             </Router>

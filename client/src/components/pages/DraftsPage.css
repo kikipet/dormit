@@ -1,0 +1,9 @@
+.draft-link {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.draft-link:hover {
+    text-decoration: underline;
+}

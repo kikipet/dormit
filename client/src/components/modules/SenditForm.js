@@ -357,7 +357,7 @@ function SenditForm(props) {
                         type="submit"
                         onClick={(e) => setButton("clear")}
                     >
-                        clear
+                        clear form
                     </button>
                     {props.userId !== null ? (
                         <button

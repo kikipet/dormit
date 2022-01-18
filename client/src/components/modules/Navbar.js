@@ -36,9 +36,19 @@ function Navbar(props) {
                         className={({ isActive }) =>
                             isActive ? "navbar-link navbar-link-active" : "navbar-link"
                         }
-                        to={`/profile/${props.userId}`}
+                        to="/profile"
                     >
                         profile
+                    </NavLink>
+                </div>
+                <div className="navbar-link-container">
+                    <NavLink
+                        className={({ isActive }) =>
+                            isActive ? "navbar-link navbar-link-active" : "navbar-link"
+                        }
+                        to={`/drafts`}
+                    >
+                        drafts
                     </NavLink>
                 </div>
                 <div className="navbar-link-container">

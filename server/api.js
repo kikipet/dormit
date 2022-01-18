@@ -206,7 +206,7 @@ router.post("/createuser", (req, res) => {
 // if any of the draft functions get called with a null userId, an error should be raised
 router.get("/getdrafts", (req, res) => {
     if (!req.user) {
-        res.status(404).send({ msg: "not logged in" });
+        res.status(401).send({ msg: "not logged in" });
     } else {
         res.send(req.user.drafts);
     }
@@ -214,7 +214,7 @@ router.get("/getdrafts", (req, res) => {
 
 router.get("/getdraft", (req, res) => {
     if (!req.user) {
-        res.status(404).send({ msg: "not logged in" });
+        res.status(401).send({ msg: "not logged in" });
     } else {
         res.send(req.user.drafts[req.query.draftNum]);
     }
@@ -222,7 +222,7 @@ router.get("/getdraft", (req, res) => {
 
 router.post("/createdraft", (req, res) => {
     if (!req.user) {
-        res.status(404).send({ msg: "not logged in" });
+        res.status(401).send({ msg: "not logged in" });
     }
     req.user.drafts.push(req.body.draft);
     res.send(req.user.drafts);
@@ -230,7 +230,7 @@ router.post("/createdraft", (req, res) => {
 
 router.post("/savedraft", (req, res) => {
     if (!req.user) {
-        res.status(404).send({ msg: "not logged in" });
+        res.status(401).send({ msg: "not logged in" });
     }
     req.user.drafts[req.body.draftNum] = req.body.draft;
     res.send(req.user.drafts);
@@ -238,7 +238,7 @@ router.post("/savedraft", (req, res) => {
 
 router.post("/deletedraft", (req, res) => {
     if (!req.user) {
-        res.status(404).send({ msg: "not logged in" });
+        res.status(401).send({ msg: "not logged in" });
     }
     if (req.draft) {
         req.user.drafts.splice(req.body.draftNum, 1);

@@ -31,7 +31,7 @@ function LoginForm(props) {
                 } else if (status === 2) {
                     newErrList.push("incorrect login");
                 } else {
-                    navigate(`/profile/${status}`);
+                    navigate("/profile");
                 }
                 setErrMessages(newErrList);
             });

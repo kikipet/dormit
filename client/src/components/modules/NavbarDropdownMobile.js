@@ -35,7 +35,7 @@ function NavbarDropdownMobile(props) {
                     className={({ isActive }) =>
                         isActive ? "navbar-link navbar-link-active" : "navbar-link"
                     }
-                    to={`/profile/${props.userId}`}
+                    to="/profile"
                     onClick={props.onClick}
                 >
                     profile

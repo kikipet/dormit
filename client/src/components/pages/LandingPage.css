@@ -40,13 +40,17 @@
     font-size: var(--l);
 }
 
-.landing-signup-button {
+.landing-signup-button,
+.landing-findit-button,
+.landing-sendit-button {
     color: var(--primary-emph);
     background-color: white;
     border-style: none;
 }
 
-.landing-signup-button:hover {
+.landing-signup-button:hover,
+.landing-findit-button:hover,
+.landing-sendit-button:hover {
     color: var(--primary);
 }
 

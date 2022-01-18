@@ -1,37 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { get } from "../../utilities";
 
 function ProfilePage(props) {
-    const [draftsDiv, setDraftsDiv] = useState(<div className="profile-drafts"></div>);
-
-    useEffect(() => {
-        get("/api/getdrafts").then((res) => {
-            let ids = [];
-            for (var i in res) {
-                ids.push(i);
-            }
-            setDraftsDiv(
-                <div className="profile-drafts">
-                    {ids.map((key) => (
-                        <Link key={key} className="profile-draft" to={`/sendit/draft/${key}`}>
-                            draft {key}
-                        </Link>
-                    ))}
+    if (props.userId === null) {
+        return (
+            <div id="profile" className="page-container">
+                <Link to="/profile" id="profile-title" className="page-title">
+                    profile
+                </Link>
+                <div className="page-body">
+                    <p>
+                        You are not logged in. <Link to="/login">Log in</Link>
+                    </p>
                 </div>
-            );
-        });
-    });
-
+            </div>
+        );
+    }
     return (
         <div id="profile" className="page-container">
-            <Link to={`/profile/${props.userId}`} id="profile-title" className="page-title">
+            <Link to="/profile" id="profile-title" className="page-title">
                 profile
             </Link>
             <div className="page-body">
-                <h2>Hi, {props.userName}!</h2>
-                <h3>Drafts</h3>
-                {draftsDiv}
+                <h1>Hi, {props.userName}!</h1>
             </div>
         </div>
     );
