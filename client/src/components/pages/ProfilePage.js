@@ -30,6 +30,7 @@ function ProfilePage(props) {
             </Link>
             <div className="page-body">
                 <h2>Hi, {props.userName}!</h2>
+                <h3>Drafts</h3>
                 {draftsDiv}
             </div>
         </div>

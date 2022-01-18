@@ -236,8 +236,25 @@ router.post("/savedraft", (req, res) => {
     res.send(req.user.drafts);
 });
 
+router.post("/deletedraft", (req, res) => {
+    if (!req.user) {
+        res.status(404).send({ msg: "not logged in" });
+    }
+    if (req.draft) {
+        req.user.drafts.splice(req.body.draftNum, 1);
+        console.log(`removed draft ${req.body.draftNum} from database`);
+    }
+    res.send(req.body.draftNum);
+});
+
 router.post("/sendemail", (req, res) => {
+    // send emails
     mail.sendDormspam(req.body).then((resCode) => {
+        if (req.user && req.body.draft) {
+            // if this was a draft, remove from user's draft list
+            req.user.drafts.splice(req.body.draftNum, 1);
+            console.log(`removed draft ${req.body.draftNum} from database`);
+        }
         res.send({ status: resCode });
     });
 });

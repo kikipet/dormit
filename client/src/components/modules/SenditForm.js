@@ -19,13 +19,41 @@ function SenditForm(props) {
     const [bctalk, setBCTalk] = useState("");
     const [color, setColor] = useState("#000000");
 
+    const [toInput, setToInput] = useState(
+        <label className="form-field">
+            to
+            <MultipleValueTextInput
+                className="form-input"
+                onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
+                onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
+                name="to"
+                charCodes={[32, 13]}
+                placeholder="separate emails with SPACE"
+            />
+        </label>
+    );
+    const [ccInput, setCCInput] = useState(
+        <label className="form-field">
+            cc
+            <MultipleValueTextInput
+                className="form-input"
+                onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
+                onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
+                name="cc"
+                charCodes={[32, 13]}
+                placeholder="separate emails with SPACE"
+            />
+        </label>
+    );
+
     const [draft, setDraft] = useState(props.draft);
     const [draftNum, setDraftNum] = useState(props.draftNum);
     const [draftFetched, setDraftFetched] = useState(false);
+
     console.log(draftFetched);
     if (draft && !draftFetched) {
         get("/api/getdraft", { draftNum: draftNum }).then((res) => {
-            console.log(res);
+            // console.log(res);
             setTitle(res.subject);
             setTo(res.to);
             setCC(res.cc);
@@ -35,27 +63,48 @@ function SenditForm(props) {
             setBCTalk(res.bctalk);
             setColor(res.color);
             setDraftFetched(true);
+            setToInput(
+                <label className="form-field">
+                    to
+                    <MultipleValueTextInput
+                        className="form-input"
+                        onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
+                        onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
+                        name="to"
+                        values={[...res.to]}
+                        charCodes={[32, 13]}
+                        placeholder="separate emails with SPACE"
+                    />
+                </label>
+            );
+            setCCInput(
+                <label className="form-field">
+                    cc
+                    <MultipleValueTextInput
+                        className="form-input"
+                        onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
+                        onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
+                        name="cc"
+                        values={[...res.cc]}
+                        charCodes={[32, 13]}
+                        placeholder="separate emails with SPACE"
+                    />
+                </label>
+            );
         });
     }
 
     const [button, setButton] = useState("none");
 
-    const [draftSaveDiv, setDraftSaveDiv] = useState(
-        <div className="sendit-draft-saved-message"></div>
+    const [draftMessageDiv, setdraftMessageDiv] = useState(
+        <div className="sendit-draft-message"></div>
     );
     const [errMessages, setErrMessages] = useState([]);
     const [errMessageDiv, setErrContent] = useState(<div className="sendit-error-boxes"></div>);
 
     const tagOptions = ["club", "course", "event", "job", "advertisement", "survey", "other"];
-    const navigate = useNavigate();
 
-    /*
-    current dummy mailing lists:
-     * dormit-devtest-next (I'm a member)
-     * dormit-devtest-sponge
-     * dormit-devtest-maseeh -- send separately
-     * dormit-sender
-    */
+    const navigate = useNavigate();
 
     function handleToAdd(newEmail, allItems) {
         // email validation, required fields, etc.
@@ -80,6 +129,20 @@ function SenditForm(props) {
         setBodyText(html);
     }
 
+    function clearAll() {
+        setTitle("");
+        setTo([]);
+        setCC([]);
+        setBodyText("");
+        setBodyHTML("");
+        setBCTalk("");
+        setColor("#000000");
+        setTag("other");
+        setButton("none");
+        setErrMessages([]);
+        setErrContent(<div></div>);
+    }
+
     function handleSubmit(event) {
         console.log(button);
         // submit
@@ -92,6 +155,10 @@ function SenditForm(props) {
             // color name for bc-talk should exist
             if (bctalk === "") {
                 newErrList.push("bc-talk color missing");
+            }
+            // tag should exist (for my sanity lol)
+            if (tagSelected === "") {
+                newErrList.push("no tag selected");
             }
             // all email addresses should look valid
             let emailErr = false;
@@ -127,6 +194,8 @@ function SenditForm(props) {
                     bctalk: bctalk,
                     color: color,
                     tag: tagSelected,
+                    draft: draft,
+                    draftNum: draftNum,
                 };
                 post("/api/sendemail", emailObj).then(navigate("/sendit/success"));
             }
@@ -143,17 +212,17 @@ function SenditForm(props) {
                 tag: tagSelected,
             };
             if (draft) {
-                const query = { userId: props.userId, draft: emailObj, draftNum: draftNum };
+                const query = { draft: emailObj, draftNum: draftNum };
                 post("/api/savedraft", query).then((drafts) => {
-                    setDraftSaveDiv(
-                        <div className="message-box sendit-draft-saved-message">draft saved!</div>
+                    setdraftMessageDiv(
+                        <div className="message-box sendit-draft-message">draft saved!</div>
                     );
                 });
             } else {
-                const query = { userId: props.userId, draft: emailObj };
+                const query = { draft: emailObj };
                 post("/api/createdraft", query).then((drafts) => {
-                    setDraftSaveDiv(
-                        <div className="message-box sendit-draft-saved-message">draft saved!</div>
+                    setdraftMessageDiv(
+                        <div className="message-box sendit-draft-message">draft saved!</div>
                     );
                     // navigate to draft editor
                     setDraftFetched(true);
@@ -162,20 +231,20 @@ function SenditForm(props) {
                     navigate(`/sendit/draft/${drafts.length - 1}`, { replace: true });
                 });
             }
+        } else if (button === "deletedraft") {
+            if (confirm("are you sure you want to delete this draft?")) {
+                post("/api/deletedraft", { draft: draft, draftNum: draftNum }).then((draftNum) => {
+                    console.log(`deleted ${draftNum}`);
+                    clearAll();
+                    setdraftMessageDiv(
+                        <div className="message-box sendit-draft-message">draft deleted</div>
+                    );
+                });
+            }
         } else {
             if (confirm("are you sure you want to clear?")) {
                 console.log("cleared");
-                setTitle("");
-                setTo([]);
-                setCC([]);
-                setBodyText("");
-                setBodyHTML("");
-                setBCTalk("");
-                setColor("#000000");
-                setTag("other");
-                setButton("none");
-                setErrMessages([]);
-                setErrContent(<div></div>);
+                clearAll();
             }
         }
         event.preventDefault();
@@ -193,9 +262,11 @@ function SenditForm(props) {
         setErrMessages([]);
     }
 
+    console.log(toInput);
+
     return (
         <div className="form-container">
-            {draftSaveDiv}
+            {draftMessageDiv}
             {errMessageDiv}
             <form onSubmit={handleSubmit}>
                 <div className="form-column-container sendit-column-container">
@@ -210,31 +281,8 @@ function SenditForm(props) {
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </label>
-                        <label className="form-field">
-                            to
-                            <MultipleValueTextInput
-                                className="form-input"
-                                onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
-                                onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
-                                name="to"
-                                values={to}
-                                charCodes={[32]}
-                                placeholder="separate emails with SPACE"
-                            />
-                        </label>
-
-                        <label className="form-field">
-                            cc
-                            <MultipleValueTextInput
-                                className="form-input"
-                                onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
-                                onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
-                                name="cc"
-                                values={cc}
-                                charCodes={[32]}
-                                placeholder="separate emails with SPACE"
-                            />
-                        </label>
+                        {toInput}
+                        {ccInput}
                     </div>
                     <div id="sendit-col2" className="form-column">
                         <label className="form-field">
@@ -298,6 +346,7 @@ function SenditForm(props) {
                         <EmailEditor
                             className="sendit-body-editor"
                             onChange={(html) => handleBodyChange(html)}
+                            value={bodyHTML}
                         />
                     </label>
                 </div>
@@ -310,6 +359,18 @@ function SenditForm(props) {
                     >
                         clear
                     </button>
+                    {props.userId !== null ? (
+                        <button
+                            className="action-button sendit-deletedraft"
+                            name="deletedraft"
+                            type="submit"
+                            onClick={(e) => setButton("deletedraft")}
+                        >
+                            delete draft
+                        </button>
+                    ) : (
+                        <div style={{ margin: -8 }}></div>
+                    )}
                     {props.userId !== null ? (
                         <button
                             className="action-button sendit-savedraft"
