@@ -19,10 +19,12 @@ function SenditForm(props) {
     const [bctalk, setBCTalk] = useState("");
     const [color, setColor] = useState("#000000");
 
+    const [draft, setDraft] = useState(props.draft);
+    const [draftNum, setDraftNum] = useState(props.draftNum);
     const [draftFetched, setDraftFetched] = useState(false);
     console.log(draftFetched);
-    if (props.draft && !draftFetched) {
-        get("/api/getdraft", { draftNum: props.draftNum }).then((res) => {
+    if (draft && !draftFetched) {
+        get("/api/getdraft", { draftNum: draftNum }).then((res) => {
             console.log(res);
             setTitle(res.subject);
             setTo(res.to);
@@ -140,8 +142,8 @@ function SenditForm(props) {
                 color: color,
                 tag: tagSelected,
             };
-            if (props.draft) {
-                const query = { userId: props.userId, draft: emailObj, draftNum: props.draftNum };
+            if (draft) {
+                const query = { userId: props.userId, draft: emailObj, draftNum: draftNum };
                 post("/api/savedraft", query).then((drafts) => {
                     setDraftSaveDiv(
                         <div className="message-box sendit-draft-saved-message">draft saved!</div>
@@ -154,7 +156,10 @@ function SenditForm(props) {
                         <div className="message-box sendit-draft-saved-message">draft saved!</div>
                     );
                     // navigate to draft editor
-                    navigate(`/sendit/draft/${drafts.length - 1}`);
+                    setDraftFetched(true);
+                    setDraft(true);
+                    setDraftNum(drafts.length - 1);
+                    navigate(`/sendit/draft/${drafts.length - 1}`, { replace: true });
                 });
             }
         } else {

@@ -224,20 +224,16 @@ router.post("/createdraft", (req, res) => {
     if (!req.user) {
         res.status(404).send({ msg: "not logged in" });
     }
-    User.findById(req.body.userId).then((user) => {
-        user.drafts.push(req.body.draft);
-        user.save().then((user) => res.send(user.drafts));
-    });
+    req.user.drafts.push(req.body.draft);
+    res.send(req.user.drafts);
 });
 
 router.post("/savedraft", (req, res) => {
     if (!req.user) {
         res.status(404).send({ msg: "not logged in" });
     }
-    User.findById(req.body.userId).then((user) => {
-        user.drafts[req.body.draftNum] = req.body.draft;
-        user.save().then((user) => res.send(user.drafts));
-    });
+    req.user.drafts[req.body.draftNum] = req.body.draft;
+    res.send(req.user.drafts);
 });
 
 router.post("/sendemail", (req, res) => {
