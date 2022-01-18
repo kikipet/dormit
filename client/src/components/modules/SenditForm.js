@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MultipleValueTextInput from "react-multivalue-text-input";
 import { get, post } from "../../utilities";
@@ -19,41 +19,12 @@ function SenditForm(props) {
     const [bctalk, setBCTalk] = useState("");
     const [color, setColor] = useState("#000000");
 
-    const [toInput, setToInput] = useState(
-        <label className="form-field">
-            to
-            <MultipleValueTextInput
-                className="form-input"
-                onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
-                onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
-                name="to"
-                charCodes={[32, 13]}
-                placeholder="separate emails with SPACE"
-            />
-        </label>
-    );
-    const [ccInput, setCCInput] = useState(
-        <label className="form-field">
-            cc
-            <MultipleValueTextInput
-                className="form-input"
-                onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
-                onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
-                name="cc"
-                charCodes={[32, 13]}
-                placeholder="separate emails with SPACE"
-            />
-        </label>
-    );
-
     const [draft, setDraft] = useState(props.draft);
     const [draftNum, setDraftNum] = useState(props.draftNum);
     const [draftFetched, setDraftFetched] = useState(false);
 
-    console.log(draftFetched);
     if (draft && !draftFetched) {
         get("/api/getdraft", { draftNum: draftNum }).then((res) => {
-            // console.log(res);
             setTitle(res.subject);
             setTo(res.to);
             setCC(res.cc);
@@ -63,35 +34,8 @@ function SenditForm(props) {
             setBCTalk(res.bctalk);
             setColor(res.color);
             setDraftFetched(true);
-            setToInput(
-                <label className="form-field">
-                    to
-                    <MultipleValueTextInput
-                        className="form-input"
-                        onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
-                        onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
-                        name="to"
-                        values={[...res.to]}
-                        charCodes={[32, 13]}
-                        placeholder="separate emails with SPACE"
-                    />
-                </label>
-            );
-            setCCInput(
-                <label className="form-field">
-                    cc
-                    <MultipleValueTextInput
-                        className="form-input"
-                        onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
-                        onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
-                        name="cc"
-                        values={[...res.cc]}
-                        charCodes={[32, 13]}
-                        placeholder="separate emails with SPACE"
-                    />
-                </label>
-            );
         });
+        // setDraftFetched(true);
     }
 
     const [button, setButton] = useState("none");
@@ -144,7 +88,6 @@ function SenditForm(props) {
     }
 
     function handleSubmit(event) {
-        console.log(button);
         // submit
         if (button === "send") {
             let newErrList = [];
@@ -239,6 +182,7 @@ function SenditForm(props) {
                     setdraftMessageDiv(
                         <div className="message-box sendit-draft-message">draft deleted</div>
                     );
+                    navigate("/sendit", { replace: true });
                 });
             }
         } else {
@@ -262,8 +206,6 @@ function SenditForm(props) {
         setErrMessages([]);
     }
 
-    console.log(toInput);
-
     return (
         <div className="form-container">
             {draftMessageDiv}
@@ -281,8 +223,30 @@ function SenditForm(props) {
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </label>
-                        {toInput}
-                        {ccInput}
+                        <label className="form-field">
+                            to
+                            <MultipleValueTextInput
+                                className="form-input"
+                                onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
+                                onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
+                                name="to"
+                                values={[...to]}
+                                charCodes={[32, 13]}
+                                placeholder="separate emails with SPACE"
+                            />
+                        </label>
+                        <label className="form-field">
+                            cc
+                            <MultipleValueTextInput
+                                className="form-input"
+                                onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
+                                onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
+                                name="cc"
+                                values={[...cc]}
+                                charCodes={[32, 13]}
+                                placeholder="separate emails with SPACE"
+                            />
+                        </label>
                     </div>
                     <div id="sendit-col2" className="form-column">
                         <label className="form-field">

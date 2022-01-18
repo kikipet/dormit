@@ -225,26 +225,33 @@ router.post("/createdraft", (req, res) => {
         res.status(401).send({ msg: "not logged in" });
     }
     req.user.drafts.push(req.body.draft);
-    res.send(req.user.drafts);
+    User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
+        res.send(req.user.drafts);
+    });
 });
 
 router.post("/savedraft", (req, res) => {
     if (!req.user) {
         res.status(401).send({ msg: "not logged in" });
     }
+    console.log(req.body.draftNum);
     req.user.drafts[req.body.draftNum] = req.body.draft;
-    res.send(req.user.drafts);
+    User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
+        res.send(req.user.drafts);
+    });
 });
 
 router.post("/deletedraft", (req, res) => {
     if (!req.user) {
         res.status(401).send({ msg: "not logged in" });
     }
-    if (req.draft) {
+    if (req.body.draft) {
         req.user.drafts.splice(req.body.draftNum, 1);
         console.log(`removed draft ${req.body.draftNum} from database`);
+        User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
+            res.send(req.body.draftNum);
+        });
     }
-    res.send(req.body.draftNum);
 });
 
 router.post("/sendemail", (req, res) => {
@@ -255,7 +262,9 @@ router.post("/sendemail", (req, res) => {
             req.user.drafts.splice(req.body.draftNum, 1);
             console.log(`removed draft ${req.body.draftNum} from database`);
         }
-        res.send({ status: resCode });
+        User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
+            res.send({ status: resCode });
+        });
     });
 });
 

@@ -26,9 +26,23 @@ function DraftsPage(props) {
         });
     });
 
+    if (props.userId === null) {
+        return (
+            <div id="drafts" className="page-container">
+                <Link to="/drafts" id="drafts-title" className="page-title">
+                    drafts
+                </Link>
+                <div className="page-body">
+                    <p>
+                        You are not logged in. <Link to="/login">Log in</Link>
+                    </p>
+                </div>
+            </div>
+        );
+    }
     return (
         <div id="drafts" className="page-container">
-            <Link to={`/profile/${props.userId}`} id="drafts-title" className="page-title">
+            <Link to="/drafts" id="drafts-title" className="page-title">
                 drafts
             </Link>
             <div className="page-body">{draftsDiv}</div>

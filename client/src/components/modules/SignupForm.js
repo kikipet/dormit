@@ -45,7 +45,8 @@ function SignupForm(props) {
             post("/api/createuser", { name: name, email: email, password: password }).then(
                 (result) => {
                     if (isEmpty(result)) {
-                        alert("Email already exists");
+                        newErrList.push("Email already exists");
+                        setErrMessages(newErrList);
                     } else {
                         setSignUpStatus(true);
                     }
