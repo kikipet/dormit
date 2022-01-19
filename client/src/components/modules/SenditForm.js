@@ -101,7 +101,7 @@ function SenditForm(props) {
             }
             // tag should exist (for my sanity lol)
             if (tagSelected === "") {
-                newErrList.push("no tag selected");
+                newErrList.push("type of dormspam not selected");
             }
             // all email addresses should look valid
             let emailErr = false;

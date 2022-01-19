@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { validEmail } from "./regex";
-import { post, isEmpty } from "../../utilities";
+import { get, post, isEmpty } from "../../utilities";
 
 function SignupForm(props) {
     const [name, setName] = useState("");
@@ -16,8 +16,6 @@ function SignupForm(props) {
 
     /*
      * offer different name options (first+last or just one) depending on whether the signup-er is a person or an organization?
-     * after signing up, go to a "redirect to login" page
-     * probably better for it to actually be a different page, like "/signup/success" or something
      * the validation code is disorganized but it works :<
      */
 
@@ -42,16 +40,20 @@ function SignupForm(props) {
         setErrMessages(newErrList);
         if (newErrList.length === 0) {
             // submit
-            post("/api/createuser", { name: name, email: email, password: password }).then(
-                (result) => {
-                    if (isEmpty(result)) {
-                        newErrList.push("Email already exists");
-                        setErrMessages(newErrList);
-                    } else {
-                        setSignUpStatus(true);
-                    }
+            get("/api/userbyemail", { email: email }).then((result) => {
+                if (isEmpty(result)) {
+                    post("/api/createuser", { name: name, email: email, password: password }).then(
+                        (res) => {
+                            if (isEmpty(res)) {
+                                setSignUpStatus(true);
+                            }
+                        }
+                    );
+                } else {
+                    newErrList.push("Email already exists");
+                    setErrMessages(newErrList);
                 }
-            );
+            });
         }
 
         event.preventDefault();

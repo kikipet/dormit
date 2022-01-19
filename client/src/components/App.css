@@ -182,8 +182,8 @@ a {
     padding: var(--s);
     margin: 0;
     font-weight: bold;
-    animation: hideAnimation 0s ease-in 5s;
-    animation-fill-mode: forwards;
+    /* animation: hideAnimation 0s ease-in 5s;
+    animation-fill-mode: forwards; */
 }
 
 .error-box {
@@ -192,8 +192,8 @@ a {
     padding: var(--s);
     margin: 0;
     font-weight: bold;
-    animation: hideAnimation 0s ease-in 5s;
-    animation-fill-mode: forwards;
+    /* animation: hideAnimation 0s ease-in 5s;
+    animation-fill-mode: forwards; */
 }
 
 @keyframes hideAnimation {

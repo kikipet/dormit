@@ -56,6 +56,19 @@ app.use(
     })
 );
 
+// post size limit
+const bodyParser = require("body-parser");
+app.use(
+    bodyParser.json({
+        limit: "50mb",
+    })
+);
+app.use(
+    bodyParser.urlencoded({
+        limit: "50mb",
+    })
+);
+
 // this checks if the user is logged in, and populates "req.user"
 app.use(auth.populateCurrentUser);
 
