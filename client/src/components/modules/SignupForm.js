@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { validEmail } from "./regex";
 import { get, post, isEmpty } from "../../utilities";
@@ -13,6 +13,7 @@ function SignupForm(props) {
     const [signedUp, setSignUpStatus] = useState(false);
     const [errMessages, setErrMessages] = useState([]);
     const [errMessageDiv, setErrContent] = useState(<div className="signup-error-boxes"></div>);
+    const navigate = useNavigate();
 
     /*
      * offer different name options (first+last or just one) depending on whether the signup-er is a person or an organization?
@@ -45,7 +46,7 @@ function SignupForm(props) {
                     post("/api/createuser", { name: name, email: email, password: password }).then(
                         (res) => {
                             if (isEmpty(res)) {
-                                setSignUpStatus(true);
+                                navigate("/signup/success");
                             }
                         }
                     );
@@ -57,18 +58,6 @@ function SignupForm(props) {
         }
 
         event.preventDefault();
-    }
-
-    // signed up successfully
-    if (signedUp) {
-        return (
-            <div className="form-container signup-login-form-container">
-                <p id="signup-success">Success!</p>
-                <Link className="action-button signup-to-login-button" to="/login">
-                    log in
-                </Link>
-            </div>
-        );
     }
 
     // render errors

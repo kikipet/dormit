@@ -11,11 +11,6 @@ function LoginForm(props) {
 
     const navigate = useNavigate();
 
-    function handleEmailChange(value) {
-        setEmail(value);
-        setEmailErr(!validEmail.test(value) && value !== "");
-    }
-
     function handleSubmit(event) {
         let newErrList = [];
         if (!validEmail.test(email) || email === "") {
@@ -25,7 +20,6 @@ function LoginForm(props) {
         if (newErrList.length === 0) {
             const result = props.handleLogin(email, password);
             result.then((status) => {
-                console.log(status);
                 if (status === 1) {
                     newErrList.push("user doesn't exist");
                 } else if (status === 2) {

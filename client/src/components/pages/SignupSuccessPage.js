@@ -10,12 +10,9 @@ function SignupSuccessPage(props) {
                 sign up
             </Link>
             <div className="formpage-body signup-feedback">
-                <p className="signup-feedback-text">Success!</p>
-                <div className="button-container">
-                    <Link className="action-button signup-actions" to="/login">
-                        log in
-                    </Link>
-                </div>
+                <p className="signup-feedback-text">
+                    Success! You should receive a confirmation email at the address you provided.
+                </p>
             </div>
         </div>
     );

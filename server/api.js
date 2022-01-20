@@ -15,6 +15,7 @@ const Dormspam = require("./models/dormspam");
 const User = require("./models/user");
 const auth = require("./auth");
 const mail = require("./mail");
+const confirm = require("./confirm");
 
 function isEmpty(obj) {
     for (var i in obj) {
@@ -189,16 +190,43 @@ router.post("/createuser", (req, res) => {
     // check that email isn't already taken
     User.findOne({ email: req.body.email }).then((user) => {
         if (user !== null) {
-            res.send({});
+            res.send(user);
         }
-        auth.hashPass(req.body.password).then((hash) => {
+        auth.hashPass(req.body.password).then((passHash) => {
+            const token = confirm.confirmToken();
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
-                password: hash,
+                confirmToken: token,
+                password: passHash,
+                confirmed: false,
             });
-            newUser.save().then((user) => res.send(user));
+            newUser.save().then((user2) => {
+                confirm
+                    .sendConfirmEmail({ email: req.body.email, confirmToken: token })
+                    .then((resCode) => {
+                        res.send({});
+                    });
+            });
         });
+    });
+});
+
+router.get("/confirmuser", (req, res) => {
+    User.findOne({ confirmToken: req.query.confirmToken }).then((user) => {
+        if (user === null) {
+            console.log("User not found");
+            res.send({});
+        } else if (user.confirmed) {
+            console.log("User already confirmed");
+            res.send({ result: "dupe" });
+        } else {
+            user.confirmed = true;
+            User.updateOne({ _id: user._id }, user).then((res2) => {
+                console.log("user confirmed");
+                res.send({ ...user, result: "success" });
+            });
+        }
     });
 });
 

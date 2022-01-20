@@ -12,6 +12,7 @@ import SenditPage from "./pages/SenditPage";
 import SenditSuccessPage from "./pages/SenditSuccessPage";
 import SignupLoginPage from "./pages/SignupLoginPage";
 import SignupSuccessPage from "./pages/SignupSuccessPage";
+import ConfirmSuccessPage from "./pages/ConfirmSuccessPage";
 import ProfilePage from "./pages/ProfilePage";
 import DraftsPage from "./pages/DraftsPage";
 import AboutPage from "./pages/AboutPage";
@@ -75,6 +76,7 @@ function App() {
                     />
                     <Route path="/signup/success" element={<SignupSuccessPage />} />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
+                    <Route path="/confirm/:confirmtoken" element={<ConfirmSuccessPage />} />
                     <Route path="/sendit/success" element={<SenditSuccessPage />} />
                     <Route
                         path="/sendit/draft/:key"
