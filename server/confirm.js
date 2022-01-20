@@ -20,20 +20,12 @@ function sendConfirmEmail(emailContent) {
         Best,\n\
         dormit-admin`;
     let emailHTML = `<div style="font-family: Mulish, sans-serif; color: #3e394e;">\
-            <p>\
-                Hi, thanks for signing up at dormit! Click the button below to confirm your account:\
-            </p>\
-            <p>\
-                <a\
-                    href="localhost:5000/confirm/${emailContent.emailHashed}"\
-                    style="background-color: #7a94fc; color: white; padding: 12px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-family: Mulish, sans-serif;"\
-                >\
-                    Confirm Account\
-                </a>\
-            </p>\
+            <p>Hi, thanks for signing up at dormit! Click the button below to confirm your account:</p>\
+            <p><a href='${process.env.HOME_URL}/confirm/${emailContent.confirmToken}' style='background-color: #7a94fc; color: white; padding: 12px 16px; border-radius: 6px; text-decoration: none; font-weight: bold; font-family: Mulish, sans-serif;'>Confirm Account</a></p>
             <p>Best,</p>\
             <p>dormit-admin</p>\
         </div>`;
+    console.log(emailHTML);
 
     // construct message
     const message = {

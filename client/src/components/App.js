@@ -24,12 +24,14 @@ function App() {
     // where is this stuff supposed to go?
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState("");
+    const [userConfirmed, setUserConfirmed] = useState(false);
 
     useEffect(() => {
         get("/api/whoami").then((user) => {
             if (user._id) {
                 setUserId(user._id);
                 setUserName(user.name);
+                setUserConfirmed(user.confirmed);
             }
         });
     });
@@ -48,7 +50,8 @@ function App() {
                 // successful login
                 setUserId(res._id);
                 setUserName(res.name);
-                console.log("Logged in!");
+                setUserConfirmed(res.confirmed);
+                console.log("Logged in successfully!");
                 return res._id;
             });
         });
@@ -80,7 +83,14 @@ function App() {
                     <Route path="/sendit/success" element={<SenditSuccessPage />} />
                     <Route
                         path="/sendit/draft/:key"
-                        element={<SenditPage userId={userId} userName={userName} draft={true} />}
+                        element={
+                            <SenditPage
+                                userId={userId}
+                                userName={userName}
+                                draft={true}
+                                confirmed={userConfirmed}
+                            />
+                        }
                     />
                     <Route
                         path="/sendit"

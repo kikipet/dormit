@@ -1,0 +1,8 @@
+.sendit-login-link {
+    text-decoration: none;
+}
+
+.sendit-login-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
