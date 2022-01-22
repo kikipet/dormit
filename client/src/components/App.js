@@ -80,6 +80,7 @@ function App() {
                     <Route path="/signup/success" element={<SignupSuccessPage />} />
                     <Route path="/signup" element={<SignupLoginPage type="signup" />} />
                     <Route path="/confirm/:confirmtoken" element={<ConfirmSuccessPage />} />
+                    <Route path="/confirm" element={<ConfirmSuccessPage />} />
                     <Route path="/sendit/success" element={<SenditSuccessPage />} />
                     <Route
                         path="/sendit/draft/:key"
@@ -94,7 +95,14 @@ function App() {
                     />
                     <Route
                         path="/sendit"
-                        element={<SenditPage userId={userId} userName={userName} draft={false} />}
+                        element={
+                            <SenditPage
+                                userId={userId}
+                                userName={userName}
+                                draft={false}
+                                confirmed={userConfirmed}
+                            />
+                        }
                     />
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />

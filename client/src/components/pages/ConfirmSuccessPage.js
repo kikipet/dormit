@@ -27,9 +27,11 @@ function ConfirmSuccessPage(props) {
                         <p className="signup-feedback-text">
                             Your confirmation link is invalid. Sign up for an account below:
                         </p>
-                        <Link className="action-button signup-actions" to="/signup">
-                            sign up
-                        </Link>
+                        <div className="button-container">
+                            <Link className="action-button signup-actions" to="/signup">
+                                sign up
+                            </Link>
+                        </div>
                     </div>
                 );
             } else if (res.result === "dupe") {
@@ -38,18 +40,22 @@ function ConfirmSuccessPage(props) {
                         <p className="signup-feedback-text">
                             Your account has already been confirmed.
                         </p>
-                        <Link className="action-button signup-actions" to="/login">
-                            log in
-                        </Link>
+                        <div className="button-container">
+                            <Link className="action-button signup-actions" to="/login">
+                                log in
+                            </Link>
+                        </div>
                     </div>
                 );
             } else {
                 setPageText(
                     <div className="formpage-body signup-feedback">
                         <p className="signup-feedback-text">Your account has been confirmed!</p>
-                        <Link className="action-button signup-actions" to="/login">
-                            log in
-                        </Link>
+                        <div className="button-container">
+                            <Link className="action-button signup-actions" to="/login">
+                                log in
+                            </Link>
+                        </div>
                     </div>
                 );
             }
