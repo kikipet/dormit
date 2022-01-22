@@ -15,9 +15,21 @@ function FinditPage(props) {
     const [focusMode, setFocusMode] = useState(props.focusMode);
     const navigate = useNavigate();
 
-    // is the current page focused? a jank (but effective??) fix
+    // is the current page focused? what's the current page number? a jank (but effective??) fix
     useEffect(() => {
-        setFocusMode(window.location.pathname.indexOf("dormspam") !== -1);
+        var isDormspam = window.location.pathname.indexOf("dormspam") !== -1;
+        setFocusMode(isDormspam);
+        if (!isDormspam) {
+            var split = window.location.pathname.split("/");
+            var last = split[split.length - 1];
+            if (!isNaN(last)) {
+                setPageNum(parseInt(last));
+                setPageInput(parseInt(last));
+            } else {
+                setPageNum(1);
+                setPageInput(1);
+            }
+        }
     }, [window.location.pathname]);
 
     // dormspam grabbing
@@ -34,13 +46,13 @@ function FinditPage(props) {
 
     // pagination control
     const [totalPages, setTotalPages] = useState(0);
-    var paramPageNum = useParams()["pagenum"];
-    let defaultPage = paramPageNum;
+    let defaultPage = useParams()["pagenum"];
     if (isNaN(defaultPage)) {
         defaultPage = 1;
     } else {
         defaultPage = parseInt(defaultPage);
     }
+
     const [pageNum, setPageNum] = useState(defaultPage);
     const [pageInput, setPageInput] = useState(defaultPage);
 
@@ -141,20 +153,20 @@ function FinditPage(props) {
     // get dormspams
     useEffect(() => {
         if (!isEmpty(searchQuery)) {
-            navigate(`/findit/search/${pageNum}`);
+            navigate(`/findit/search/${pageNum}`, { replace: true });
             let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
             getDormspams("/api/dormspam-search-advanced", newQuery);
         } else if (searchText !== "") {
-            navigate(`/findit/search/${pageNum}`);
+            navigate(`/findit/search/${pageNum}`, { replace: true });
             getDormspams("/api/dormspam-search", { text: searchText, skip: (pageNum - 1) * 24 });
         } else if (searchTagList.length !== 0) {
-            navigate(`/findit/search/${pageNum}`);
+            navigate(`/findit/search/${pageNum}`, { replace: true });
             getDormspams("/api/dormspam-search-tag", {
                 tagList: searchTagList,
                 skip: (pageNum - 1) * 24,
             });
         } else {
-            navigate(`/findit/${pageNum}`);
+            navigate(`/findit/${pageNum}`, { replace: true });
             getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
         }
     }, [pageNum]);
