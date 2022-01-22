@@ -13,7 +13,7 @@ function PageControl(props) {
         if (isNaN(props.pageInput) || props.pageInput > props.totalPages) {
             props.setPageInput(props.pageNum);
         } else {
-            props.pageUpdate(props.pageInput);
+            props.pageUpdate(parseInt(props.pageInput));
         }
         event.preventDefault();
     }

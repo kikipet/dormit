@@ -11,8 +11,14 @@ import PageControl from "../modules/PageControl";
 import "./FinditPage.css";
 
 function FinditPage(props) {
+    // focus mode (one dormspam) or browsing mode (all dormspams)
     const [focusMode, setFocusMode] = useState(props.focusMode);
     const navigate = useNavigate();
+
+    // is the current page focused? a jank (but effective??) fix
+    useEffect(() => {
+        setFocusMode(window.location.pathname.indexOf("dormspam") !== -1);
+    }, [window.location.pathname]);
 
     // dormspam grabbing
     const [dormspams, setDormspams] = useState([]);
@@ -28,9 +34,12 @@ function FinditPage(props) {
 
     // pagination control
     const [totalPages, setTotalPages] = useState(0);
-    let defaultPage = useParams()["pnum"];
-    if (typeof defaultPage !== typeof 3) {
+    var paramPageNum = useParams()["pagenum"];
+    let defaultPage = paramPageNum;
+    if (isNaN(defaultPage)) {
         defaultPage = 1;
+    } else {
+        defaultPage = parseInt(defaultPage);
     }
     const [pageNum, setPageNum] = useState(defaultPage);
     const [pageInput, setPageInput] = useState(defaultPage);
@@ -73,8 +82,9 @@ function FinditPage(props) {
         const searchTags = [tag];
         setTagList(searchTags);
         // the actual search part
-        navigate("/findit/search", { replace: true });
+        navigate("/findit/search");
         setPageNum(1);
+        setPageInput(1);
         let query = {
             tagList: searchTags,
             text: "",
@@ -92,8 +102,9 @@ function FinditPage(props) {
         setSearchText(search);
 
         setFocusMode(false);
-        navigate("/findit/search", { replace: true });
+        navigate("/findit/search");
         setPageNum(1);
+        setPageInput(1);
         let query = {
             text: search,
             tagList: [],
@@ -111,8 +122,9 @@ function FinditPage(props) {
         setFocusMode(false);
         setTagList(tagList);
 
-        navigate("/findit/search", { replace: true });
+        navigate("/findit/search");
         setPageNum(1);
+        setPageInput(1);
         let query = {
             text: text,
             tagList: tagList,
@@ -129,16 +141,20 @@ function FinditPage(props) {
     // get dormspams
     useEffect(() => {
         if (!isEmpty(searchQuery)) {
+            navigate(`/findit/search/${pageNum}`);
             let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
             getDormspams("/api/dormspam-search-advanced", newQuery);
         } else if (searchText !== "") {
-            getDormspams("/api/dormspam-search", { query: searchText, skip: (pageNum - 1) * 24 });
+            navigate(`/findit/search/${pageNum}`);
+            getDormspams("/api/dormspam-search", { text: searchText, skip: (pageNum - 1) * 24 });
         } else if (searchTagList.length !== 0) {
+            navigate(`/findit/search/${pageNum}`);
             getDormspams("/api/dormspam-search-tag", {
-                tags: searchTagList,
+                tagList: searchTagList,
                 skip: (pageNum - 1) * 24,
             });
         } else {
+            navigate(`/findit/${pageNum}`);
             getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
         }
     }, [pageNum]);

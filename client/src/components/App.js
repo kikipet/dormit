@@ -105,7 +105,12 @@ function App() {
                         }
                     />
                     <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
+                    <Route
+                        path="/findit/search/:pagenum"
+                        element={<FinditPage focusMode={false} />}
+                    />
                     <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
+                    <Route path="/findit/:pagenum" element={<FinditPage focusMode={false} />} />
                     <Route path="/findit" element={<FinditPage focusMode={false} />} />
                     <Route path="/drafts" element={<DraftsPage userId={userId} />} />
                     <Route path="/about" element={<AboutPage />} />
