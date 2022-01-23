@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import SenditForm from "../modules/SenditForm";
+import SenditFormDraft from "../modules/SenditFormDraft";
 import "./SenditPage.css";
 
 function SenditPage(props) {
@@ -33,18 +34,26 @@ function SenditPage(props) {
                 </div>
             </div>
         );
+    } else if (props.draft) {
+        return (
+            <div id="sendit" className="page-container">
+                <Link to="/sendit" id="sendit-title" className="page-title">
+                    sendit
+                </Link>
+                <SenditFormDraft
+                    userId={props.userId}
+                    userName={props.userName}
+                    draftNum={draftNum}
+                />
+            </div>
+        );
     }
     return (
         <div id="sendit" className="page-container">
             <Link to="/sendit" id="sendit-title" className="page-title">
                 sendit
             </Link>
-            <SenditForm
-                userId={props.userId}
-                userName={props.userName}
-                draft={props.draft}
-                draftNum={draftNum}
-            />
+            <SenditForm userId={props.userId} userName={props.userName} />
         </div>
     );
 }

@@ -9,7 +9,7 @@ import EmailEditor from "./EmailEditor";
 
 import "./SenditForm.css";
 
-function SenditForm(props) {
+function SenditDraftForm(props) {
     const [title, setTitle] = useState("");
     const [to, setTo] = useState([]);
     const [cc, setCC] = useState([]);
@@ -18,6 +18,48 @@ function SenditForm(props) {
     const [bodyHTML, setBodyHTML] = useState("");
     const [bctalk, setBCTalk] = useState("");
     const [color, setColor] = useState("#000000");
+
+    const [toInput, setToInput] = useState("");
+    const [ccInput, setCCInput] = useState("");
+
+    const [draftNum, setDraftNum] = useState(props.draftNum);
+    const [draftFetched, setDraftFetched] = useState(false);
+
+    if (!draftFetched) {
+        get("/api/getdraft", { draftNum: draftNum }).then((res) => {
+            setTitle(res.subject);
+            setTo(res.to);
+            setCC(res.cc);
+            setTag(res.tag);
+            setBodyText(res.text);
+            setBodyHTML(res.html);
+            setBCTalk(res.bctalk);
+            setColor(res.color);
+            setDraftFetched(true);
+            setToInput(
+                <MultipleValueTextInput
+                    className="form-input"
+                    onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
+                    onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
+                    name="to"
+                    values={[...res.to]}
+                    charCodes={[32, 13]}
+                    placeholder="separate emails with SPACE"
+                />
+            );
+            setCCInput(
+                <MultipleValueTextInput
+                    className="form-input"
+                    onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
+                    onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
+                    name="cc"
+                    values={[...res.cc]}
+                    charCodes={[32, 13]}
+                    placeholder="separate emails with SPACE"
+                />
+            );
+        });
+    }
 
     const [button, setButton] = useState("none");
 
@@ -118,8 +160,8 @@ function SenditForm(props) {
                     bctalk: bctalk,
                     color: color,
                     tag: tagSelected,
-                    draft: false,
-                    draftNum: -1,
+                    draft: true,
+                    draftNum: draftNum,
                 };
                 post("/api/sendemail", emailObj).then(navigate("/sendit/success"));
             }
@@ -135,14 +177,23 @@ function SenditForm(props) {
                 color: color,
                 tag: tagSelected,
             };
-            const query = { draft: emailObj };
-            post("/api/createdraft", query).then((drafts) => {
+            const query = { draft: emailObj, draftNum: draftNum };
+            post("/api/savedraft", query).then((drafts) => {
                 setdraftMessageDiv(
                     <div className="message-box sendit-draft-message">draft saved!</div>
                 );
-                // navigate to draft editor
-                navigate(`/sendit/draft/${drafts.length - 1}`, { replace: true });
             });
+        } else if (button === "deletedraft") {
+            if (confirm("are you sure you want to delete this draft?")) {
+                post("/api/deletedraft", { draft: true, draftNum: draftNum }).then((draftNum) => {
+                    console.log(`deleted ${draftNum}`);
+                    clearAll();
+                    setdraftMessageDiv(
+                        <div className="message-box sendit-draft-message">draft deleted</div>
+                    );
+                    navigate("/sendit", { replace: true });
+                });
+            }
         } else {
             if (confirm("are you sure you want to clear?")) {
                 console.log("cleared");
@@ -183,25 +234,11 @@ function SenditForm(props) {
                         </label>
                         <label className="form-field">
                             to
-                            <MultipleValueTextInput
-                                className="form-input"
-                                onItemAdded={(item, allItems) => handleToAdd(item, allItems)}
-                                onItemDeleted={(item, allItems) => handleToDel(item, allItems)}
-                                name="to"
-                                charCodes={[32, 13]}
-                                placeholder="separate emails with SPACE"
-                            />
+                            {toInput}
                         </label>
                         <label className="form-field">
                             cc
-                            <MultipleValueTextInput
-                                className="form-input"
-                                onItemAdded={(item, allItems) => handleCCAdd(item, allItems)}
-                                onItemDeleted={(item, allItems) => handleCCDel(item, allItems)}
-                                name="cc"
-                                charCodes={[32, 13]}
-                                placeholder="separate emails with SPACE"
-                            />
+                            {ccInput}
                         </label>
                     </div>
                     <div id="sendit-col2" className="form-column">
@@ -280,6 +317,14 @@ function SenditForm(props) {
                         clear form
                     </button>
                     <button
+                        className="action-button sendit-deletedraft"
+                        name="deletedraft"
+                        type="submit"
+                        onClick={(e) => setButton("deletedraft")}
+                    >
+                        delete draft
+                    </button>
+                    <button
                         className="action-button sendit-savedraft"
                         name="savedraft"
                         type="submit"
@@ -301,4 +346,4 @@ function SenditForm(props) {
     );
 }
 
-export default SenditForm;
+export default SenditDraftForm;
