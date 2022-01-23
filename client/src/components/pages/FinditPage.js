@@ -155,12 +155,6 @@ function FinditPage(props) {
     // dormspam stars
     const [stars, setStars] = useState(props.stars);
 
-    useEffect(() => {
-        if (props.userId !== null) {
-            get("/api/stars").then((res) => setStars(res.stars));
-        }
-    });
-
     // get dormspams
     useEffect(() => {
         if (!focusMode) {
@@ -220,6 +214,8 @@ function FinditPage(props) {
                     }}
                     handleCardClick={onCardClick}
                     star={stars.includes(dormspamObj._id)}
+                    parentStars={stars}
+                    parentSetStars={setStars}
                 />
             ));
         }
@@ -257,6 +253,9 @@ function FinditPage(props) {
                 toggleFocusMode={() => {
                     setFocusMode(!focusMode);
                 }}
+                star={stars.includes(dormspamID)}
+                parentStars={stars}
+                parentSetStars={setStars}
             />
         );
     }

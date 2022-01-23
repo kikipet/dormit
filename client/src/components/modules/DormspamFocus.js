@@ -27,6 +27,9 @@ function DormspamFocusPage(props) {
                 focused={true}
                 updateTags={props.searchByTag}
                 toggleFocusMode={props.toggleFocusMode}
+                star={props.star}
+                parentStars={props.parentStars}
+                parentSetStars={props.parentSetStars}
             />
         </div>
     );

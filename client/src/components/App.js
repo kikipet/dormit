@@ -64,6 +64,8 @@ function App() {
         console.log("Logged out successfully!");
         setUserId(null);
         setUserName("");
+        setUserConfirmed(false);
+        setUserStars([]);
         post("/api/logout");
     }
 

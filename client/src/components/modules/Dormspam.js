@@ -12,6 +12,15 @@ function Dormspam(props) {
     const [star, setStar] = useState(props.star);
     function toggleStar() {
         post("/api/toggle-star", { star: star, dormspam: props.id }).then((res) => {
+            if (!star && !props.parentStars.includes(props.id)) {
+                var starsTemp = [...props.parentStars];
+                starsTemp.push(props.id);
+                props.parentSetStars(starsTemp);
+            } else if (star && props.parentStars.includes(props.id)) {
+                var starsTemp = [...props.parentStars];
+                starsTemp.splice(starsTemp.indexOf(props.id), 1);
+                props.parentSetStars(starsTemp);
+            }
             setStar(!star);
         });
     }
