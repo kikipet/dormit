@@ -109,23 +109,23 @@ function App() {
                     />
                     <Route
                         path="/findit/dormspam/:id"
-                        element={<FinditPage focusMode={true} stars={userStars} />}
+                        element={<FinditPage focusMode={true} userId={userId} stars={userStars} />}
                     />
                     <Route
                         path="/findit/search/:pagenum"
-                        element={<FinditPage focusMode={false} stars={userStars} />}
+                        element={<FinditPage focusMode={false} userId={userId} stars={userStars} />}
                     />
                     <Route
                         path="/findit/search"
-                        element={<FinditPage focusMode={false} stars={userStars} />}
+                        element={<FinditPage focusMode={false} userId={userId} stars={userStars} />}
                     />
                     <Route
                         path="/findit/:pagenum"
-                        element={<FinditPage focusMode={false} stars={userStars} />}
+                        element={<FinditPage focusMode={false} userId={userId} stars={userStars} />}
                     />
                     <Route
                         path="/findit"
-                        element={<FinditPage focusMode={false} stars={userStars} />}
+                        element={<FinditPage focusMode={false} userId={userId} stars={userStars} />}
                     />
                     <Route path="/drafts" element={<DraftsPage userId={userId} />} />
                     <Route path="/about" element={<AboutPage />} />

@@ -156,6 +156,13 @@ router.get("/dormspam", (req, res) => {
     });
 });
 
+router.get("/stars", (req, res) => {
+    if (!req.user) {
+        res.status(401).send({ msg: "not logged in" });
+    }
+    res.send({ stars: req.user.stars });
+});
+
 router.post("/toggle-star", (req, res) => {
     if (!req.user) {
         res.status(401).send({ msg: "not logged in" });

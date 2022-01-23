@@ -29,7 +29,23 @@ function Dormspam(props) {
                         <IoCloseOutline className="dormspam-icon" />
                     </Link>
                 </div>
-                <h2 className="dormspam-title dormspam-title-focus">{props.title}</h2>
+                <div className="dormspam-row2-focus">
+                    <h2 className="dormspam-title dormspam-title-focus">{props.title}</h2>
+                    <button
+                        className="dormspam-fave-button"
+                        onClick={(e) => {
+                            toggleStar();
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }}
+                    >
+                        {star ? (
+                            <IoStar className="dormspam-icon dormspam-fave" />
+                        ) : (
+                            <IoStarOutline className="dormspam-icon dormspam-nofave" />
+                        )}
+                    </button>
+                </div>
                 <div
                     className="dormspam-body-focus"
                     dangerouslySetInnerHTML={{ __html: props.body }}

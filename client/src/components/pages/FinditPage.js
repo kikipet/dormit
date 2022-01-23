@@ -12,7 +12,9 @@ import "./FinditPage.css";
 
 function FinditPage(props) {
     // focus mode (one dormspam) or browsing mode (all dormspams)
-    const [focusMode, setFocusMode] = useState(props.focusMode);
+    const [focusMode, setFocusMode] = useState(
+        props.focusMode || window.location.pathname.indexOf("dormspam") !== -1
+    );
     const navigate = useNavigate();
 
     // is the current page focused? what's the current page number? a jank (but effective??) fix
@@ -150,24 +152,38 @@ function FinditPage(props) {
         getDormspams("/api/dormspam-search-advanced", query);
     }
 
+    // dormspam stars
+    const [stars, setStars] = useState(props.stars);
+
+    useEffect(() => {
+        if (props.userId !== null) {
+            get("/api/stars").then((res) => setStars(res.stars));
+        }
+    });
+
     // get dormspams
     useEffect(() => {
-        if (!isEmpty(searchQuery)) {
-            navigate(`/findit/search/${pageNum}`, { replace: true });
-            let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
-            getDormspams("/api/dormspam-search-advanced", newQuery);
-        } else if (searchText !== "") {
-            navigate(`/findit/search/${pageNum}`, { replace: true });
-            getDormspams("/api/dormspam-search", { text: searchText, skip: (pageNum - 1) * 24 });
-        } else if (searchTagList.length !== 0) {
-            navigate(`/findit/search/${pageNum}`, { replace: true });
-            getDormspams("/api/dormspam-search-tag", {
-                tagList: searchTagList,
-                skip: (pageNum - 1) * 24,
-            });
-        } else {
-            navigate(`/findit/${pageNum}`, { replace: true });
-            getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
+        if (!focusMode) {
+            if (!isEmpty(searchQuery)) {
+                navigate(`/findit/search/${pageNum}`, { replace: true });
+                let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
+                getDormspams("/api/dormspam-search-advanced", newQuery);
+            } else if (searchText !== "") {
+                navigate(`/findit/search/${pageNum}`, { replace: true });
+                getDormspams("/api/dormspam-search", {
+                    text: searchText,
+                    skip: (pageNum - 1) * 24,
+                });
+            } else if (searchTagList.length !== 0) {
+                navigate(`/findit/search/${pageNum}`, { replace: true });
+                getDormspams("/api/dormspam-search-tag", {
+                    tagList: searchTagList,
+                    skip: (pageNum - 1) * 24,
+                });
+            } else {
+                navigate(`/findit/${pageNum}`, { replace: true });
+                getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
+            }
         }
     }, [pageNum]);
 
@@ -203,7 +219,7 @@ function FinditPage(props) {
                         setFocusMode(!focusMode);
                     }}
                     handleCardClick={onCardClick}
-                    star={props.stars.includes(dormspamObj._id)}
+                    star={stars.includes(dormspamObj._id)}
                 />
             ));
         }

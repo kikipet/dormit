@@ -106,6 +106,13 @@
     gap: var(--s);
 }
 
+.dormspam-row2-focus {
+    display: grid;
+    grid-template-columns: auto 32px;
+    margin-right: -12px;
+    gap: var(--s);
+}
+
 .dormspam-title-focus {
     margin-left: 12px;
 }
