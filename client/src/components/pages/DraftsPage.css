@@ -13,3 +13,10 @@
 .draft-link:hover {
     text-decoration: underline;
 }
+
+.draft-action {
+    border-style: none;
+    text-decoration: none;
+    color: white;
+    background-color: var(--primary-text);
+}

@@ -161,15 +161,17 @@ function FinditBar(props) {
             <Link className="action-button finditbar-clear" to="/findit" onClick={clearSearch}>
                 reset all
             </Link>
-            <div className="finditbar-date">
-                to{" "}
-                <input
-                    type="date"
-                    className="form-input finditbar-date"
-                    name="end"
-                    value={searchTimeEnd}
-                    onChange={(e) => setTimeEnd(e.target.value)}
-                ></input>
+            <div className="finditbar-date-to">
+                <div className="finditbar-date">
+                    to{" "}
+                    <input
+                        type="date"
+                        className="form-input finditbar-date"
+                        name="end"
+                        value={searchTimeEnd}
+                        onChange={(e) => setTimeEnd(e.target.value)}
+                    ></input>
+                </div>
             </div>
             <TagDropdown
                 useDropdown={false}

@@ -10,7 +10,8 @@ function SearchTag(props) {
                 props.toggleTag(props.text);
             }}
         >
-            {props.text} {props.tagStatus ? <IoCloseOutline /> : <IoAddOutline />}
+            <div className="search-tag-text">{props.text} </div>
+            {props.tagStatus ? <IoCloseOutline className="search-tag-icon" /> : <IoAddOutline />}
         </button>
     );
 }

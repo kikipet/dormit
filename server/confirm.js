@@ -26,7 +26,6 @@ function sendConfirmEmail(emailContent) {
             <p>Best,</p>\
             <p>dormit-admin</p>\
         </div>`;
-    console.log(emailHTML);
 
     // construct message
     const message = {
@@ -38,7 +37,7 @@ function sendConfirmEmail(emailContent) {
     };
 
     // send!
-    return transporter.sendMail(message).then(() => {
+    return transporter.sendMail(message).then((resCode) => {
         console.log("Confirmation email sent successfully");
     });
 }

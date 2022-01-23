@@ -13,16 +13,27 @@ function DraftsPage(props) {
             for (var i in res) {
                 ids.push(i);
             }
-            setDraftsDiv(
-                <div className="drafts-container">
-                    {ids.map((key) => (
-                        <Link key={key} className="draft-link" to={`/sendit/draft/${key}`}>
-                            draft {key}:{" "}
-                            {res[key].subject === "" ? "[no subject]" : res[key].subject}
-                        </Link>
-                    ))}
-                </div>
-            );
+            if (ids.length === 0) {
+                setDraftsDiv(
+                    <div className="drafts-container">
+                        no drafts yet!
+                        <div className="button-container">
+                            <button className="action-button draft-action">create dormspam</button>
+                        </div>
+                    </div>
+                );
+            } else {
+                setDraftsDiv(
+                    <div className="drafts-container">
+                        {ids.map((key) => (
+                            <Link key={key} className="draft-link" to={`/sendit/draft/${key}`}>
+                                draft {key}:{" "}
+                                {res[key].subject === "" ? "[no subject]" : res[key].subject}
+                            </Link>
+                        ))}
+                    </div>
+                );
+            }
         });
     });
 
@@ -34,7 +45,12 @@ function DraftsPage(props) {
                 </Link>
                 <div className="page-body">
                     <p>
-                        You are not logged in. <Link to="/login">Log in</Link>
+                        You are not logged in.
+                        <div className="button-container">
+                            <Link className="action-button draft-action" to="/login">
+                                log in
+                            </Link>
+                        </div>
                     </p>
                 </div>
             </div>

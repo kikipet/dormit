@@ -130,5 +130,7 @@
 }
 
 .dormspam-icon {
-    color: var(--gray-dark);
+    color: var(--primary-emph);
+    width: 20px;
+    height: 20px;
 }

@@ -205,6 +205,7 @@ router.post("/createuser", (req, res) => {
                 confirm
                     .sendConfirmEmail({ email: req.body.email, confirmToken: token })
                     .then((resCode) => {
+                        console.log(resCode);
                         res.send({});
                     });
             });

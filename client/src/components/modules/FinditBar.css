@@ -69,6 +69,8 @@
     background-color: var(--accent);
     color: var(--gray-dark);
     transition: all 0.2s ease;
+    display: flex;
+    align-content: center;
 }
 
 .search-button:hover {
@@ -94,6 +96,9 @@
     transition: all 0.2s ease;
     font-size: 16px;
     height: 26px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .search-tag:hover {
@@ -125,6 +130,8 @@
     margin: 0px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 4px;
 }
 
 .finditbar-date input {
