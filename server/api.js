@@ -109,7 +109,6 @@ router.get("/dormspam-search-advanced", (req, res) => {
     if (req.query.bctalk !== "") {
         query.bctalk = req.query.bctalk;
     }
-    console.log(query);
     // send query
     if (req.query.text !== "") {
         Dormspam.find(query, { score: { $meta: "textScore" } }, { skip, limit: 24 })
@@ -169,10 +168,8 @@ router.post("/toggle-star", (req, res) => {
     }
     if (req.body.star) {
         req.user.stars.splice(req.user.stars.indexOf(req.body.dormspam), 1);
-        console.log(`${req.body.dormspam} is unstarred`);
     } else {
         req.user.stars.push(req.body.dormspam);
-        console.log(`${req.body.dormspam} is starred`);
     }
     User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
         res.send({ id: req.body.dormspam });
@@ -183,7 +180,6 @@ router.post("/toggle-star", (req, res) => {
 router.get("/userbyemail", (req, res) => {
     User.findOne({ email: req.query.email }).then((user) => {
         if (user === null) {
-            console.log("User not found");
             res.send({});
         } else {
             res.send(user);
@@ -228,7 +224,6 @@ router.post("/createuser", (req, res) => {
                 confirm
                     .sendConfirmEmail({ email: req.body.email, confirmToken: token })
                     .then((resCode) => {
-                        console.log(resCode);
                         res.send({});
                     });
             });
@@ -239,15 +234,12 @@ router.post("/createuser", (req, res) => {
 router.get("/confirmuser", (req, res) => {
     User.findOne({ confirmToken: req.query.confirmToken }).then((user) => {
         if (user === null) {
-            console.log("User not found");
             res.send({});
         } else if (user.confirmed) {
-            console.log("User already confirmed");
             res.send({ result: "dupe" });
         } else {
             user.confirmed = true;
             User.updateOne({ _id: user._id }, user).then((res2) => {
-                console.log("user confirmed");
                 res.send({ ...user, result: "success" });
             });
         }
@@ -286,7 +278,6 @@ router.post("/savedraft", (req, res) => {
     if (!req.user) {
         res.status(401).send({ msg: "not logged in" });
     }
-    console.log(req.body.draftNum);
     req.user.drafts[req.body.draftNum] = req.body.draft;
     User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
         res.send(req.user.drafts);
@@ -299,7 +290,6 @@ router.post("/deletedraft", (req, res) => {
     }
     if (req.body.draft) {
         req.user.drafts.splice(req.body.draftNum, 1);
-        console.log(`removed draft ${req.body.draftNum} from database`);
         User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
             res.send(req.body.draftNum);
         });
@@ -312,7 +302,6 @@ router.post("/sendemail", (req, res) => {
         if (req.user && req.body.draft) {
             // if this was a draft, remove from user's draft list
             req.user.drafts.splice(req.body.draftNum, 1);
-            console.log(`removed draft ${req.body.draftNum} from database`);
         }
         User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
             res.send({ status: resCode });
@@ -323,7 +312,6 @@ router.post("/sendemail", (req, res) => {
 // ***** Everything else (i.e. error) *****
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
-    console.log(`API route not found: ${req.method} ${req.url}`);
     res.status(404).send({ msg: "API route not found" });
 });
 

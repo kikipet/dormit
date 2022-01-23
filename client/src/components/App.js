@@ -16,6 +16,7 @@ import ConfirmSuccessPage from "./pages/ConfirmSuccessPage";
 import ProfilePage from "./pages/ProfilePage";
 import DraftsPage from "./pages/DraftsPage";
 import AboutPage from "./pages/AboutPage";
+import LogoutPage from "./pages/LogoutPage";
 import NotFound from "./pages/NotFound";
 
 import { get, post, isEmpty } from "../utilities";
@@ -54,19 +55,17 @@ function App() {
                 setUserName(res.name);
                 setUserConfirmed(res.confirmed);
                 setUserStars(res.stars);
-                console.log("Logged in successfully!");
                 return res._id;
             });
         });
     }
 
     function handleLogout() {
-        console.log("Logged out successfully!");
-        setUserId(null);
         setUserName("");
         setUserConfirmed(false);
+        setUserId(null);
         setUserStars([]);
-        post("/api/logout");
+        post("/api/logout").then((res) => window.location.reload());
     }
 
     return (
@@ -131,6 +130,7 @@ function App() {
                     />
                     <Route path="/drafts" element={<DraftsPage userId={userId} />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/logout" element={<LogoutPage />} />
                     <Route path="/" element={<LandingPage userId={userId} />} />
                     <Route path="/*" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />

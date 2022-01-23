@@ -4,6 +4,9 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar(props) {
+    // function handleLogout() {
+    //     props.handleLogout().then((res) => navigate("/", { replace: true }));
+    // }
     let rightBar = (
         <div id="navbar-right" className="navbar-section">
             <div className="navbar-link-container">
@@ -56,7 +59,7 @@ function Navbar(props) {
                         className={({ isActive }) =>
                             isActive ? "navbar-link navbar-link-active" : "navbar-link"
                         }
-                        to="/"
+                        to="/logout"
                         onClick={props.handleLogout}
                     >
                         log out
