@@ -203,6 +203,7 @@ function FinditPage(props) {
                         setFocusMode(!focusMode);
                     }}
                     handleCardClick={onCardClick}
+                    star={props.stars.includes(dormspamObj._id)}
                 />
             ));
         }

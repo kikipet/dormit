@@ -134,3 +134,12 @@
     width: 20px;
     height: 20px;
 }
+
+.dormspam-fave-button {
+    background: none;
+    border-style: none;
+}
+
+.dormspam-fave {
+    color: var(--accent);
+}

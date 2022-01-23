@@ -156,6 +156,22 @@ router.get("/dormspam", (req, res) => {
     });
 });
 
+router.post("/toggle-star", (req, res) => {
+    if (!req.user) {
+        res.status(401).send({ msg: "not logged in" });
+    }
+    if (req.body.star) {
+        req.user.stars.splice(req.user.stars.indexOf(req.body.dormspam), 1);
+        console.log(`${req.body.dormspam} is unstarred`);
+    } else {
+        req.user.stars.push(req.body.dormspam);
+        console.log(`${req.body.dormspam} is starred`);
+    }
+    User.updateOne({ _id: req.user._id }, req.user).then((res2) => {
+        res.send({ id: req.body.dormspam });
+    });
+});
+
 // ***** User stuff *****
 router.get("/userbyemail", (req, res) => {
     User.findOne({ email: req.query.email }).then((user) => {

@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { format } from "date-fns";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline, IoStarOutline, IoStar } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { post } from "../../utilities";
 
 import Tag from "./Tag";
 
 import "./Dormspam.css";
 
 function Dormspam(props) {
+    const [star, setStar] = useState(props.star);
+    function toggleStar() {
+        post("/api/toggle-star", { star: star, dormspam: props.id }).then((res) => {
+            setStar(!star);
+        });
+    }
     // focused
     if (props.focused) {
         return (
@@ -53,14 +60,20 @@ function Dormspam(props) {
         >
             <div className="dormspam-toprow-nofocus">
                 <p className="dormspam-date">{format(props.date, "MMM dd")}</p>
-                {/* instead of the expand button, maybe I can add a star/heart button */}
-                {/* <Link
-                    className="dormspam-expand-button"
-                    onClick={props.toggleFocusMode}
-                    to={`/findit/dormspam/${props.id}`}
+                <button
+                    className="dormspam-fave-button"
+                    onClick={(e) => {
+                        toggleStar();
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }}
                 >
-                    <IoExpandOutline className="dormspam-icon" />
-                </Link> */}
+                    {star ? (
+                        <IoStar className="dormspam-icon dormspam-fave" />
+                    ) : (
+                        <IoStarOutline className="dormspam-icon dormspam-nofave" />
+                    )}
+                </button>
             </div>
             <h2 className="dormspam-title">{props.title}</h2>
             <hr />

@@ -25,6 +25,7 @@ function App() {
     const [userId, setUserId] = useState(null);
     const [userName, setUserName] = useState("");
     const [userConfirmed, setUserConfirmed] = useState(false);
+    const [userStars, setUserStars] = useState([]);
 
     useEffect(() => {
         get("/api/whoami").then((user) => {
@@ -32,6 +33,7 @@ function App() {
                 setUserId(user._id);
                 setUserName(user.name);
                 setUserConfirmed(user.confirmed);
+                setUserStars(user.stars);
             }
         });
     });
@@ -51,6 +53,7 @@ function App() {
                 setUserId(res._id);
                 setUserName(res.name);
                 setUserConfirmed(res.confirmed);
+                setUserStars(res.stars);
                 console.log("Logged in successfully!");
                 return res._id;
             });
@@ -104,14 +107,26 @@ function App() {
                             />
                         }
                     />
-                    <Route path="/findit/dormspam/:id" element={<FinditPage focusMode={true} />} />
+                    <Route
+                        path="/findit/dormspam/:id"
+                        element={<FinditPage focusMode={true} stars={userStars} />}
+                    />
                     <Route
                         path="/findit/search/:pagenum"
-                        element={<FinditPage focusMode={false} />}
+                        element={<FinditPage focusMode={false} stars={userStars} />}
                     />
-                    <Route path="/findit/search" element={<FinditPage focusMode={false} />} />
-                    <Route path="/findit/:pagenum" element={<FinditPage focusMode={false} />} />
-                    <Route path="/findit" element={<FinditPage focusMode={false} />} />
+                    <Route
+                        path="/findit/search"
+                        element={<FinditPage focusMode={false} stars={userStars} />}
+                    />
+                    <Route
+                        path="/findit/:pagenum"
+                        element={<FinditPage focusMode={false} stars={userStars} />}
+                    />
+                    <Route
+                        path="/findit"
+                        element={<FinditPage focusMode={false} stars={userStars} />}
+                    />
                     <Route path="/drafts" element={<DraftsPage userId={userId} />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/" element={<LandingPage userId={userId} />} />
