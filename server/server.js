@@ -96,4 +96,8 @@ app.use((err, req, res, next) => {
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server running");
+    setInterval(() => {
+        const execSync = require("child_process").execSync;
+        const output = execSync("python3 dormspam-fetcher.py", { encoding: "utf-8" });
+    }, 1000 * 60 * 60);
 });
