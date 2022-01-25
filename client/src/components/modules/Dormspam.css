@@ -149,7 +149,9 @@
 
 @media (max-width: 480px) {
     .dormspam-toprow-nofocus {
-        margin-right: 0px;
+        margin-right: -4px;
+        position: relative;
+        z-index: 1;
     }
 }
 
