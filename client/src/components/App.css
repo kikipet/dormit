@@ -124,9 +124,6 @@ a {
 }
 
 .form-input {
-    /* border-width: 1px;
-    border-color: var(--gray-light);
-    border-style: solid; */
     border-style: none;
     border-radius: 0px;
     margin-top: 5px;
@@ -134,17 +131,34 @@ a {
     font-size: 16px;
 }
 
-.form-radio {
-    color: var(--primary);
-    margin-top: 5px;
+.form-input-radio {
+    display: none;
 }
 
-.form-radio input {
-    border-color: var(--primary-text);
+.radio-span {
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    margin-right: 6px;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    line-height: 33px;
 }
 
-.form-radio input:checked {
-    color: var(--turquoise);
+.radio-check {
+    opacity: 0;
+}
+
+.form-input-radio:checked + label span .radio-check {
+    opacity: 1;
+    color: white;
+    width: 20px;
+    height: 20px;
 }
 
 .multiple-value-text-input p {
@@ -183,7 +197,7 @@ a {
     font-family: "Mulish", sans-serif;
     color: var(--gray-dark);
     background-color: white;
-    border-style: none !important;
+    /* border-style: none !important; */
 }
 
 .message-box {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MultipleValueTextInput from "react-multivalue-text-input";
 import { get, post } from "../../utilities";
 import { validEmail } from "./regex";
+import { IoCheckmark } from "react-icons/io5";
 
 import ColorPicker from "./ColorPicker";
 import EmailEditor from "./EmailEditor";
@@ -248,7 +249,8 @@ function SenditDraftForm(props) {
                                 return (
                                     <div id={`sendit-tag-${tag}`} className="form-radio sendit-tag">
                                         <input
-                                            className="form-input"
+                                            id={`sendit-radio-${tag}`}
+                                            className="form-input-radio sendit-radio"
                                             key={tag}
                                             name="tag"
                                             type="radio"
@@ -256,6 +258,11 @@ function SenditDraftForm(props) {
                                             checked={tag === tagSelected}
                                             onChange={(e) => setTag(e.target.value)}
                                         />
+                                        <label className="radio-label" for={`sendit-radio-${tag}`}>
+                                            <span className="radio-span sendit-radio-span">
+                                                <IoCheckmark className="radio-check" />
+                                            </span>
+                                        </label>
                                         {tag}
                                     </div>
                                 );
