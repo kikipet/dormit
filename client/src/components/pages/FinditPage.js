@@ -149,7 +149,6 @@ function FinditPage(props) {
     function searchAdvanced(text, tagList, timeStart, timeEnd, bctalk) {
         setFocusMode(false);
         setTagList(tagList);
-
         navigate("/findit/search");
         setPageNum(1);
         setPageInput(1);
@@ -177,7 +176,7 @@ function FinditPage(props) {
         if (!focusMode) {
             if (!isEmpty(searchQuery)) {
                 navigate(`/findit/search/${pageNum}`, { replace: true });
-                let newQuery = { ...searchQuery, skip: (pageNum - 1) * 24 };
+                let newQuery = { ...searchQuery, star: star, skip: (pageNum - 1) * 24 };
                 getDormspams("/api/dormspam-search-advanced", newQuery);
             } else if (searchText !== "") {
                 navigate(`/findit/search/${pageNum}`, { replace: true });
