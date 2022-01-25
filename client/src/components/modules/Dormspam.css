@@ -148,8 +148,8 @@
 }
 
 @media (max-width: 480px) {
-    .dormspam-fave-button {
-        margin-right: 4px;
+    .dormspam-toprow-nofocus {
+        margin-right: 0px;
     }
 }
 
