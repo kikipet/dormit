@@ -147,6 +147,12 @@
     border-style: none;
 }
 
+@media (max-width: 480px) {
+    .dormspam-fave-button {
+        margin-right: 4px;
+    }
+}
+
 .dormspam-fave {
     color: var(--accent);
 }
