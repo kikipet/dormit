@@ -31,8 +31,17 @@ const router = express.Router();
 router.get("/dormspams", (req, res) => {
     let query = {};
     let sortQuery = {};
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0 && stars[0] !== "") {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     if (req.query.sort === "date") {
         sortQuery = { date: -1 };
@@ -47,8 +56,17 @@ router.get("/dormspams", (req, res) => {
 
 router.get("/dormspam-count", (req, res) => {
     let query = {};
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true" && stars[0] !== "") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0) {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
@@ -57,8 +75,17 @@ router.get("/dormspam-count", (req, res) => {
 
 router.get("/dormspam-search-count", (req, res) => {
     let query = { $text: { $search: req.query.text } };
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true" && stars[0] !== "") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0) {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
@@ -68,8 +95,17 @@ router.get("/dormspam-search-count", (req, res) => {
 router.get("/dormspam-search-tag-count", (req, res) => {
     const tagList = req.query.tagList.split(",");
     let query = { tag: { $in: tagList } };
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true" && stars[0] !== "") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0) {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
@@ -80,6 +116,7 @@ router.get("/dormspam-search-advanced-count", (req, res) => {
     // construct query?
     const tagList = req.query.tagList.split(",");
     let query = {};
+    let stars = [];
     if (req.query.text !== "") {
         query.$text = { $search: req.query.text };
     }
@@ -99,8 +136,16 @@ router.get("/dormspam-search-advanced-count", (req, res) => {
     if (req.query.bctalk !== "") {
         query.bctalk = req.query.bctalk;
     }
-    if (req.query.star) {
-        query.star = true;
+    if (req.query.star === "true" && stars[0] !== "") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0) {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     // send query
     Dormspam.countDocuments(query).then((count) => {
@@ -115,6 +160,7 @@ router.get("/dormspam-search-advanced", (req, res) => {
     let query = {};
     let timeQuery = {};
     let sortQuery = {};
+    let stars = [];
     if (req.query.text !== "") {
         query.$text = { $search: req.query.text };
     }
@@ -136,8 +182,16 @@ router.get("/dormspam-search-advanced", (req, res) => {
     if (req.query.sort === "date") {
         sortQuery = { date: -1 };
     }
-    if (req.query.star) {
-        query.star = true;
+    if (req.query.star === "true" && stars[0] !== "") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0) {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     // send query
     if (req.query.text !== "") {
@@ -160,8 +214,17 @@ router.get("/dormspam-search-tag", (req, res) => {
     const tagList = req.query.tagList.split(",");
     let query = { tag: { $in: tagList } };
     let sortQuery = {};
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0 && stars[0] !== "") {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     sortQuery = { date: -1 };
     Dormspam.find(query, undefined, { skip, limit: 24 })
@@ -175,8 +238,17 @@ router.get("/dormspam-search", (req, res) => {
     const skip = req.query.skip;
     let query = { $text: { $search: req.query.text } };
     let sortQuery = {};
-    if (req.query.star) {
-        query.star = true;
+    let stars = [];
+    if (req.query.star === "true") {
+        stars = req.query.stars.split(",");
+        if (stars.length !== 0 && stars[0] !== "") {
+            for (var s in stars) {
+                stars[s] = mongoose.Types.ObjectId(stars[s]);
+            }
+        } else {
+            stars = [];
+        }
+        query._id = { $in: stars };
     }
     if (req.query.sort === "date") {
         sortQuery = { date: -1, score: { $meta: "textScore" } };

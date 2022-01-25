@@ -115,6 +115,7 @@ function FinditPage(props) {
             bctalk: "",
             sort: sort,
             star: star,
+            stars: stars,
         };
         query.skip = 0;
         updateTotPageCount("/api/dormspam-search-tag-count", query);
@@ -137,6 +138,7 @@ function FinditPage(props) {
             bctalk: "",
             sort: sort,
             star: star,
+            stars: stars,
         };
         query.skip = 0;
         updateTotPageCount("/api/dormspam-search-count", query);
@@ -159,6 +161,7 @@ function FinditPage(props) {
             bctalk: bctalk,
             sort: sort,
             star: star,
+            stars: stars,
         };
         setSearchQuery(query);
         query.skip = 0;
@@ -183,6 +186,7 @@ function FinditPage(props) {
                     skip: (pageNum - 1) * 24,
                     sort: sort,
                     star: star,
+                    stars: stars,
                 });
             } else if (searchTagList.length !== 0) {
                 navigate(`/findit/search/${pageNum}`, { replace: true });
@@ -191,6 +195,7 @@ function FinditPage(props) {
                     skip: (pageNum - 1) * 24,
                     sort: sort,
                     star: star,
+                    stars: stars,
                 });
             } else {
                 navigate(`/findit/${pageNum}`, { replace: true });
@@ -198,6 +203,7 @@ function FinditPage(props) {
                     skip: (pageNum - 1) * 24,
                     sort: sort,
                     star: star,
+                    stars: stars,
                 });
             }
         }
@@ -251,7 +257,7 @@ function FinditPage(props) {
             {window.innerWidth < 540 ? (
                 <div className="findit-control-container">
                     <div className="toggle-starred-container">
-                        {/* <p>starred only:</p>
+                        <p>starred only:</p>
                         <input
                             type="checkbox"
                             name="star"
@@ -267,7 +273,7 @@ function FinditPage(props) {
                             <span className="toggle-label-background toggle-star">
                                 <IoStar className="star-on" />
                             </span>
-                        </label> */}
+                        </label>
                     </div>
                     <PageControl
                         pageNum={pageNum}
@@ -288,7 +294,7 @@ function FinditPage(props) {
                         setPageInput={setPageInput}
                     />
                     <div className="toggle-starred-container">
-                        {/* <p>starred only:</p>
+                        <p>starred only:</p>
                         <input
                             type="checkbox"
                             name="star"
@@ -304,7 +310,7 @@ function FinditPage(props) {
                             <span className="toggle-label-background toggle-star">
                                 <IoStar className="star-on" />
                             </span>
-                        </label> */}
+                        </label>
                     </div>
                 </div>
             )}
