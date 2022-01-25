@@ -204,3 +204,70 @@ a {
         padding: 0;
     }
 }
+
+/* toggle */
+.toggle-checkbox {
+    display: none;
+}
+.toggle-checkbox:checked + .toggle-label:before {
+    border: 2px solid;
+    animation-name: switch;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+}
+.toggle-checkbox:checked + .toggle-label:after {
+    transition-delay: 0.2s;
+    opacity: 1;
+}
+.toggle-label {
+    width: 52px;
+    height: 26px;
+    border-style: 2px solid;
+    border-radius: 26px;
+    display: flex;
+    position: relative;
+    transition: all 0.2s ease-in;
+}
+.toggle-label:before {
+    animation-name: reverse;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    transition: all 0.2s ease-in;
+    content: "";
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    border-radius: 22px;
+    border: 2px solid;
+    z-index: 1;
+}
+.toggle-label:after {
+    transition-delay: 0s;
+    transition: all 0.2s ease-in;
+    position: absolute;
+    content: "";
+    left: 26px;
+    width: 22px;
+    height: 22px;
+    border-radius: 22px;
+    opacity: 0;
+    z-index: 1;
+}
+@keyframes switch {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: 26px;
+        width: 22px;
+    }
+}
+@keyframes reverse {
+    0% {
+        left: 26px;
+        width: 22px;
+    }
+    100% {
+        left: 0px;
+    }
+}

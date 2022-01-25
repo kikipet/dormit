@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { IoStar } from "react-icons/io5";
 
 import { get, isEmpty } from "../../utilities";
 
@@ -64,6 +65,13 @@ function FinditPage(props) {
         });
     }
 
+    // dormspam filtration
+    const [star, setStar] = useState(false);
+    const [sort, setSort] = useState("date");
+    function toggleStar() {
+        setStar(!star);
+    }
+
     // search bar business
     const [searchText, setSearchText] = useState("");
     const [searchTagList, setTagList] = useState([]);
@@ -105,6 +113,8 @@ function FinditPage(props) {
             timeStart: "",
             timeEnd: "",
             bctalk: "",
+            sort: sort,
+            star: star,
         };
         query.skip = 0;
         updateTotPageCount("/api/dormspam-search-tag-count", query);
@@ -125,6 +135,8 @@ function FinditPage(props) {
             timeStart: "",
             timeEnd: "",
             bctalk: "",
+            sort: sort,
+            star: star,
         };
         query.skip = 0;
         updateTotPageCount("/api/dormspam-search-count", query);
@@ -145,6 +157,8 @@ function FinditPage(props) {
             timeStart: timeStart,
             timeEnd: timeEnd,
             bctalk: bctalk,
+            sort: sort,
+            star: star,
         };
         setSearchQuery(query);
         query.skip = 0;
@@ -167,19 +181,27 @@ function FinditPage(props) {
                 getDormspams("/api/dormspam-search", {
                     text: searchText,
                     skip: (pageNum - 1) * 24,
+                    sort: sort,
+                    star: star,
                 });
             } else if (searchTagList.length !== 0) {
                 navigate(`/findit/search/${pageNum}`, { replace: true });
                 getDormspams("/api/dormspam-search-tag", {
                     tagList: searchTagList,
                     skip: (pageNum - 1) * 24,
+                    sort: sort,
+                    star: star,
                 });
             } else {
                 navigate(`/findit/${pageNum}`, { replace: true });
-                getDormspams("/api/dormspams", { skip: (pageNum - 1) * 24 });
+                getDormspams("/api/dormspams", {
+                    skip: (pageNum - 1) * 24,
+                    sort: sort,
+                    star: star,
+                });
             }
         }
-    }, [pageNum]);
+    }, [pageNum, star]);
 
     // dormspam clickability
     function onCardClick(e, id) {
@@ -226,13 +248,66 @@ function FinditPage(props) {
     // return page content
     let pageContent = (
         <div className="findit-content">
-            <PageControl
-                pageNum={pageNum}
-                pageInput={pageInput}
-                totalPages={totalPages}
-                pageUpdate={setPageNum}
-                setPageInput={setPageInput}
-            />
+            {window.innerWidth < 540 ? (
+                <div className="findit-control-container">
+                    <div className="toggle-starred-container">
+                        {/* <p>starred only:</p>
+                        <input
+                            type="checkbox"
+                            name="star"
+                            value={star}
+                            id="toggle"
+                            className="toggle-checkbox toggle-star-checkbox"
+                        />
+                        <label
+                            for="toggle"
+                            className="toggle-label toggle-label-star"
+                            onClick={() => toggleStar()}
+                        >
+                            <span className="toggle-label-background toggle-star">
+                                <IoStar className="star-on" />
+                            </span>
+                        </label> */}
+                    </div>
+                    <PageControl
+                        pageNum={pageNum}
+                        pageInput={pageInput}
+                        totalPages={totalPages}
+                        pageUpdate={setPageNum}
+                        setPageInput={setPageInput}
+                    />
+                </div>
+            ) : (
+                <div className="findit-control-container">
+                    <div></div>
+                    <PageControl
+                        pageNum={pageNum}
+                        pageInput={pageInput}
+                        totalPages={totalPages}
+                        pageUpdate={setPageNum}
+                        setPageInput={setPageInput}
+                    />
+                    <div className="toggle-starred-container">
+                        {/* <p>starred only:</p>
+                        <input
+                            type="checkbox"
+                            name="star"
+                            value={star}
+                            id="toggle"
+                            className="toggle-checkbox toggle-star-checkbox"
+                        />
+                        <label
+                            for="toggle"
+                            className="toggle-label toggle-label-star"
+                            onClick={() => toggleStar()}
+                        >
+                            <span className="toggle-label-background toggle-star">
+                                <IoStar className="star-on" />
+                            </span>
+                        </label> */}
+                    </div>
+                </div>
+            )}
             <div className="dormspams-container">{dormspamsList}</div>
             <PageControl
                 pageNum={pageNum}

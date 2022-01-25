@@ -29,29 +29,49 @@ const router = express.Router();
 
 // ***** Dormspam stuff *****
 router.get("/dormspams", (req, res) => {
+    let query = {};
+    let sortQuery = {};
+    if (req.query.star) {
+        query.star = true;
+    }
+    if (req.query.sort === "date") {
+        sortQuery = { date: -1 };
+    }
     const skip = req.query.skip;
-    Dormspam.find({}, undefined, { skip, limit: 24 })
-        .sort({ date: -1 })
+    Dormspam.find(query, undefined, { skip, limit: 24 })
+        .sort(sortQuery)
         .then((dormspams) => {
             res.send(dormspams);
         });
 });
 
 router.get("/dormspam-count", (req, res) => {
-    Dormspam.countDocuments().then((count) => {
+    let query = {};
+    if (req.query.star) {
+        query.star = true;
+    }
+    Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
     });
 });
 
 router.get("/dormspam-search-count", (req, res) => {
-    Dormspam.countDocuments({ $text: { $search: req.query.text } }).then((count) => {
+    let query = { $text: { $search: req.query.text } };
+    if (req.query.star) {
+        query.star = true;
+    }
+    Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
     });
 });
 
 router.get("/dormspam-search-tag-count", (req, res) => {
     const tagList = req.query.tagList.split(",");
-    Dormspam.countDocuments({ tag: { $in: tagList } }).then((count) => {
+    let query = { tag: { $in: tagList } };
+    if (req.query.star) {
+        query.star = true;
+    }
+    Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
     });
 });
@@ -79,6 +99,9 @@ router.get("/dormspam-search-advanced-count", (req, res) => {
     if (req.query.bctalk !== "") {
         query.bctalk = req.query.bctalk;
     }
+    if (req.query.star) {
+        query.star = true;
+    }
     // send query
     Dormspam.countDocuments(query).then((count) => {
         res.send({ count: count });
@@ -90,13 +113,14 @@ router.get("/dormspam-search-advanced", (req, res) => {
     // construct query?
     const tagList = req.query.tagList.split(",");
     let query = {};
+    let timeQuery = {};
+    let sortQuery = {};
     if (req.query.text !== "") {
         query.$text = { $search: req.query.text };
     }
     if (tagList.length !== 0 && tagList.length !== 7 && tagList[0] !== "") {
         query.tag = { $in: tagList };
     }
-    let timeQuery = {};
     if (req.query.timeStart !== "") {
         timeQuery.$gte = req.query.timeStart;
     }
@@ -109,16 +133,22 @@ router.get("/dormspam-search-advanced", (req, res) => {
     if (req.query.bctalk !== "") {
         query.bctalk = req.query.bctalk;
     }
+    if (req.query.sort === "date") {
+        sortQuery = { date: -1 };
+    }
+    if (req.query.star) {
+        query.star = true;
+    }
     // send query
     if (req.query.text !== "") {
         Dormspam.find(query, { score: { $meta: "textScore" } }, { skip, limit: 24 })
-            .sort({ date: -1, score: { $meta: "textScore" } })
+            .sort({ ...sortQuery, score: { $meta: "textScore" } })
             .then((results) => {
                 res.send(results);
             });
     } else {
         Dormspam.find(query, undefined, { skip, limit: 24 })
-            .sort({ date: -1 })
+            .sort(sortQuery)
             .then((results) => {
                 res.send(results);
             });
@@ -128,8 +158,14 @@ router.get("/dormspam-search-advanced", (req, res) => {
 router.get("/dormspam-search-tag", (req, res) => {
     const skip = req.query.skip;
     const tagList = req.query.tagList.split(",");
-    Dormspam.find({ tag: { $in: tagList } }, undefined, { skip, limit: 24 })
-        .sort({ date: -1 })
+    let query = { tag: { $in: tagList } };
+    let sortQuery = {};
+    if (req.query.star) {
+        query.star = true;
+    }
+    sortQuery = { date: -1 };
+    Dormspam.find(query, undefined, { skip, limit: 24 })
+        .sort(sortQuery)
         .then((results) => {
             res.send(results);
         });
@@ -137,12 +173,18 @@ router.get("/dormspam-search-tag", (req, res) => {
 
 router.get("/dormspam-search", (req, res) => {
     const skip = req.query.skip;
-    Dormspam.find(
-        { $text: { $search: req.query.text } },
-        { score: { $meta: "textScore" } },
-        { skip, limit: 24 }
-    )
-        .sort({ date: -1, score: { $meta: "textScore" } })
+    let query = { $text: { $search: req.query.text } };
+    let sortQuery = {};
+    if (req.query.star) {
+        query.star = true;
+    }
+    if (req.query.sort === "date") {
+        sortQuery = { date: -1, score: { $meta: "textScore" } };
+    } else {
+        sortQuery = { score: { $meta: "textScore" }, date: -1 };
+    }
+    Dormspam.find(query, { score: { $meta: "textScore" } }, { skip, limit: 24 })
+        .sort(sortQuery)
         .then((results) => {
             res.send(results);
         });

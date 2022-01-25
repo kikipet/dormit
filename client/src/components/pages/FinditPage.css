@@ -39,3 +39,63 @@
     justify-content: center;
     align-items: center;
 }
+
+.findit-control-container {
+    display: grid;
+    width: calc(min(1000px, 90vw) - 32px);
+    grid-template-columns: 200px 1fr 200px;
+    align-items: center;
+    justify-items: center;
+}
+@media (max-width: 540px) {
+    .findit-control-container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s);
+    }
+}
+
+/* toggle - star */
+.toggle-starred-container {
+    display: flex;
+    gap: 6px;
+    color: white;
+}
+
+.toggle-starred-container p {
+    margin: 0px;
+}
+
+.toggle-star-checkbox:checked + .toggle-label-star {
+    border-color: white;
+    background: white;
+}
+.toggle-star-checkbox:checked + .toggle-label-star:before {
+    border-color: var(--accent);
+    background: var(--accent-select);
+}
+.toggle-label-star {
+    border-color: var(--primary-dim2);
+    background: var(--primary-dim2);
+    transition: all 150ms ease-in;
+}
+.toggle-label-star:before {
+    border-color: var(--primary-text);
+    background: var(--primary-dim4);
+}
+.toggle-label-star:after {
+    background: transparent;
+}
+.toggle-star {
+    font-size: 20px;
+    position: relative;
+    left: 3px;
+    top: 2px;
+}
+
+.star-on {
+    color: var(--accent);
+}
+.star-off {
+    color: var(--primary-emph);
+}
