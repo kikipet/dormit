@@ -25,7 +25,7 @@ function LoginForm(props) {
                 } else if (status === 2) {
                     newErrList.push("incorrect login");
                 } else {
-                    navigate("/profile");
+                    navigate(props.redirectPage);
                 }
                 setErrMessages(newErrList);
             });

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import SignupForm from "../modules/SignupForm";
 import LoginForm from "../modules/LoginForm";
@@ -21,6 +21,9 @@ function SignupLoginPage(props) {
             </div>
         );
     }
+    let redirectPage = window.location.pathname.includes("redirect=")
+        ? `/${useParams()["page"]}`
+        : "/profile";
     return (
         <div
             className="page-container signup-login"
@@ -29,7 +32,7 @@ function SignupLoginPage(props) {
             <Link to="/login" id="signup-title" className="page-title">
                 log in
             </Link>
-            <LoginForm handleLogin={props.handleLogin} />
+            <LoginForm handleLogin={props.handleLogin} redirectPage={redirectPage} />
         </div>
     );
 }

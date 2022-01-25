@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 
 import SenditForm from "../modules/SenditForm";
 import SenditFormDraft from "../modules/SenditFormDraft";
-import "./SenditPage.css";
 
 function SenditPage(props) {
     const [draftNum, setDraftNum] = useState(props.draft ? useParams()["key"] : -1);
@@ -16,7 +15,7 @@ function SenditPage(props) {
                 <div className="page-body">
                     <p>
                         You are not logged in.{" "}
-                        <Link to="/login" className="sendit-login-link">
+                        <Link to="/login/redirect=sendit" className="login-redirect-link">
                             Log in
                         </Link>
                     </p>

@@ -47,7 +47,7 @@ function DraftsPage(props) {
                     <p>
                         You are not logged in.
                         <div className="button-container">
-                            <Link className="action-button draft-action" to="/login">
+                            <Link className="login-redirect-link" to="/login/redirect=drafts">
                                 log in
                             </Link>
                         </div>

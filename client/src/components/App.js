@@ -78,6 +78,10 @@ function App() {
                         element={<ProfilePage userId={userId} userName={userName} />}
                     />
                     <Route
+                        path="/login/redirect=:page"
+                        element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
+                    />
+                    <Route
                         path="/login"
                         element={<SignupLoginPage type="login" handleLogin={handleLogin} />}
                     />

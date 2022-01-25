@@ -54,6 +54,16 @@ a {
     max-width: 540px;
 }
 
+/* LINKS */
+.login-redirect-link {
+    text-decoration: none;
+}
+
+.login-redirect-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
 /* BUTTONS */
 .button-container {
     display: flex;

@@ -10,7 +10,10 @@ function ProfilePage(props) {
                 </Link>
                 <div className="page-body">
                     <p>
-                        You are not logged in. <Link to="/login">Log in</Link>
+                        You are not logged in.{" "}
+                        <Link className="login-redirect-link" to="/login/redirect=profile">
+                            Log in
+                        </Link>
                     </p>
                 </div>
             </div>
