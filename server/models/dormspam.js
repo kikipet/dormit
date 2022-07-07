@@ -6,7 +6,10 @@ const DormspamSchema = new mongoose.Schema({
     address: String,
     date: { type: Date, default: Date.now },
     body: String,
-    bctalk: String,
+    bctalk: {
+        type: String,
+        analyzer: "lucene.simple",
+    },
     tag: String,
 });
 
